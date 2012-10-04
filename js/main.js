@@ -35,32 +35,32 @@ anti = {
 
 		LAYER_SET: {
 			layer5: {
-				selector: $('#layer5'),
+				el: $('#layer5'),
 				coords: [-2700, -200] // [left, bottom]
 			},
 			layer4: {
-				selector: $('#layer4'),
+				el: $('#layer4'),
 				coords: [-2500, -210] // [left, bottom]
 			},
 			layer3: {
-				selector: $('#layer3'),
+				el: $('#layer3'),
 				coords: [100, 0] 	// [left, top]
 			},
 			layer1: {
-				selector: $('#layer1'),
+				el: $('#layer1'),
 				coords: [-2300, -220] 	// [left, bottom]
 			},
 			bigClouds: {
-				selector: $('#big-clouds'),
-				coords: [] 	// [left, top]
-			},
-			smClouds: {
-				selector: $('#sm-clouds'),
-				coords: [] 	// [left, top]
+				el: $('#big-clouds'),
+				coords: [-1800, -1210] 	// [left, top]
 			},
 			medClouds: {
-				selector: $('#med-clouds'),
-				coords: [] 	// [left, top]
+				el: $('#med-clouds'),
+				coords: [-1800, -1210] 	// [left, top]
+			},
+			smClouds: {
+				el: $('#sm-clouds'),
+				coords: [-1800, -1210] 	// [left, top]
 			}
 		},
 		
@@ -120,13 +120,16 @@ anti = {
 			}
 		},
 		
-		X_ADJUST_1: 0.001,
+		X_ADJUST_1: 0.12,
 		Y_ADJUST_1: 0.14,
 
 		X_ADJUST_2: 0.1,
 		Y_ADJUST_2: 0.126,
-		
+
 		X_ADJUST_4: 0.1,
+		
+	    X_ADJUST_5: 1,
+	    Y_ADJUST_5: 1.15,
 
 		init: function() {
 			// These properties need to be in the init
@@ -138,6 +141,9 @@ anti = {
 			an.Y_ADJUST_2 = 1.26;
 			
 			an.X_ADJUST_4 = 1;
+			
+			X_ADJUST_5 = 1;
+        	Y_ADJUST_5 = 1.15;
 		},
 
 		// sets up handlers on nav elements and maps handlers, with target params
@@ -179,138 +185,85 @@ anti = {
 	    // method accepts string of target panel for which to apply position translation animations
 	    // TODO: BIG TIME - this whole method needs to be done more abstractly and better!!!
 	    moveAll: function(panelToLoad) {
-	        var an = anti.navigation;
+	        var an = anti.navigation,
+                layer3coords = an.TARGET_LAYER3[panelToLoad].coords;
 
-	        an.TARGET_LAYER3.prototype = an.TARGET_LAYER3;
-	        an.LAYER_SET.prototype = an.LAYER_SET;
-	        //console.log('prototype:', an.LAYER_SET.prototype);
+            // first calculate the position constants by which to translate other panel positions
+            var contentLayerW = an.CONTENT_LAYER.width(),
+                contentLayerExtraX = contentLayerW - (window.innerWidth / 2),
+                xPosConstant = (layer3coords[0] + 100) / contentLayerExtraX;
 
-	        var layer3 = an.TARGET_LAYER3.prototype[panelToLoad],
-	        	layer3W = $(layer3.url).width(),
-	        	layer3H = $(layer3.url).height(),
-				layer3x = (layer3.coords[0] * -1) + 100,
-				layer3y = layer3.coords[1] * -1;
+            var contentLayerH = an.CONTENT_LAYER.height(),
+                contentLayerExtraY = contentLayerH - (window.innerHeight / 2),
+                yPosConstant = layer3coords[1] / contentLayerExtraY;
 
-	        // First calculate the position constants by which to translate other panel positions
-	        var xPosConstant = (an.CONTENT_LAYER.width() - layer3W) / layer3x,
-	        	yPosConstant = (an.CONTENT_LAYER.height() - layer3H) / layer3y;
+            var layer1ExtraX = an.LAYER_SET.layer1.el.width() - (window.innerWidth / 2),
+                layer1x = layer1ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+                layer1y = window.innerHeight / an.LAYER_SET.layer1.el.height();
 
-	        /**
-	         * Get the position of the initial view
-	         * on click get the position of the view which to display
-	         * calculate the amount to move by dividing the waves width and height 
-	         * by the amount of left and top position to by moved
-	         * move the waves left position by that amount
-	         */
+            var layer4ExtraX = an.LAYER_SET.layer4.el.width() - (window.innerWidth / 2),
+                layer4x = layer4ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+                layer4y = window.innerHeight / an.LAYER_SET.layer4.el.height();
 
-	        // background wave layer X position
-	        var layer1 = an.LAYER_SET.prototype.layer1,
-	        	layer1x = ((layer1.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
-	        	layer1y = ((layer1.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1
+            var layer5ExtraX = an.LAYER_SET.layer5.el.width() - (window.innerWidth / 2),
+                layer5x = layer5ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+                layer5y = window.innerHeight / an.LAYER_SET.layer5.el.height();
+            
+            var bigCloudsExtraX = an.LAYER_SET.bigClouds.el.width() - (window.innerWidth / 2),
+                bigCloudsExtraY = an.LAYER_SET.bigClouds.el.height() - (window.innerHeight / 2),
+                bigCloudsX = bigCloudsExtraX * xPosConstant * -1 * an.X_ADJUST_2,
+                bigCloudsY = bigCloudsExtraY * yPosConstant * -1 * an.y_ADJUST_2;
 
-	        // middle wave layer X position
-	        var layer4 = an.LAYER_SET.prototype.layer4,
-	        	layer4x = ((layer4.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
-	        	layer4y = ((layer4.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1;
-	        
-	        // top wave layer X position
-	        var layer5 = an.LAYER_SET.prototype.layer5,
-	        	layer5x = ((layer5.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
-	        	layer5y = ((layer5.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1;
-	        
-	        // background clouds layer X position
-	        var bigClouds = an.LAYER_SET.prototype.bigClouds,
-	        	bigCloudsX = ((bigClouds.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
-	        	bigCloudsY = ((bigClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
-	        
-	        // middle clouds layer X position
-	        var medClouds = an.LAYER_SET.prototype.medClouds,
-	        	medCloudsX = ((medClouds.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
-	        	medCloudsY = ((medClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
-	        
-	        // top clouds layer X position
-	        var smClouds = an.LAYER_SET.prototype.smClouds,
-	        	smCloudsX = ((smClouds.selector.width() / layer3W) * xPosConstant) * -1,
-	        	smCloudsY = ((smClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
-	        
-	        //formula for y translation is (layerH/frontH)(frontY)([optional multiplier])
+            var medCloudsExtraX = an.LAYER_SET.medClouds.el.width() - (window.innerWidth / 2),
+                medCloudsExtraY = an.LAYER_SET.medClouds.el.height() - (window.innerHeight / 2),
+                medCloudsX = medCloudsExtraX * xPosConstant * -1 * an.X_ADJUST_2,
+                medCloudsY = medCloudsExtraY * yPosConstant * -1 * an.y_ADJUST_2;
 
+            var smCloudsExtraX = an.LAYER_SET.smClouds.el.width() - (window.innerWidth / 2),
+            	smCloudsExtraY = an.LAYER_SET.smClouds.el.height() - (window.innerHeight / 2),
+                smCloudsX = smCloudsExtraX * xPosConstant * -1 * an.X_ADJUST_2,
+                smCloudsY = smCloudsExtraY * yPosConstant * -1 * an.y_ADJUST_2;
 
-	        var layers = {
+            var layer3x = layer3coords[0] * -1 + 100,
+            	layer3y = layer3coords[1] * -1;
+
+            //formula for y translation is (layerH/frontH)(frontY)([optional multiplier])
+
+           var layers = {
 	        	layer1: [layer1x, layer1y],
 	            layer4: [layer4x, layer4y],
 	            layer5: [layer5x, layer5y],
-             	bClouds: [bigCloudsX, bigCloudsY],
-             	mClouds: [medCloudsX, medCloudsY],
-             	sClouds: [smCloudsX, smCloudsY],
-             	layer3: [layer3x,  layer3y]
+             	bigClouds: [bigCloudsX, bigCloudsY],
+             	medClouds: [medCloudsX, medCloudsY],
+             	smClouds: [smCloudsX, smCloudsY],
+             	layer3: [layer3x, layer3y]
 	        };
 
-	        //console.debug(layers);
-	        an.animateEm(layers)
+	        an.animateEm(layers);
 	    },
-
 	    animateEm: function(layers) {
-			var an = anti.navigation;
+            var an = anti.navigation;
 
-			an.LAYER_SET.prototype = an.LAYER_SET;
-			
-			var	layersProto = an.LAYER_SET.prototype;
+            console.log(layers);
+            
+            // check for travel distance to set animation duration based on how far to slide
+            var xDiff = Math.abs((Number(an.LAYER_SET.layer3.el.css('left').split('px')[0]) + 100000) - (layers.layer3[0] + 100000));
+            
+            // calculate the adjusted animation duration
+            var thisDuration = Math.round(xDiff / Number(an.LAYER_SET.layer3.el.width()) * (an.MAX_DURATION - an.BASE_DURATION) + an.BASE_DURATION);
 
-			console.log(layers);
-			console.log(layersProto);
+            // run the animations
 
+            an.LAYER_SET.layer1.el.stop().animate({ left: layers.layer1[0] +'px', bottom: layers.layer1[1] +'px' }, thisDuration, an.EASING_TYPE);
+            an.LAYER_SET.layer4.el.stop().animate({ left: layers.layer4[0] +'px', bottom: layers.layer4[1] +'px' }, thisDuration, an.EASING_TYPE);
+            an.LAYER_SET.layer5.el.stop().animate({ left: layers.layer5[0] +'px', bottom: layers.layer5[1] +'px' }, thisDuration, an.EASING_TYPE);
 
-	    	// check for travel distance to set animation duration based on how far to slide
-			var xDiff = Math.abs( (Number(layersProto.layer3.selector.css('left').split('px')[0]) + 100000) - (layers.layer3[0] + 100000) );
-
-	        // calculate the adjusted animation duration
-	        var thisDuration = Math.round( xDiff / Number(layersProto.layer3.selector.css('width').split('px')[0]) * (an.MAX_DURATION - an.BASE_DURATION) + an.BASE_DURATION );
-
-	        // run the animations
-
-	        // background wave
-	        layersProto.layer1.selector.stop().animate({
-	        	left: layers.layer1[1] +'px',
-	        	bottom: layers.layer1[0] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-/*
-	        // middle wave
-	        layersProto.layer4.selector.stop().animate({
-	        	left: layers.layer4[1] +'px',
-	        	bottom: layers.layer4[0] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-
-	        // top wave
-	        layersProto.layer5.selector.stop().animate({
-	        	left: layers.layer5[1] +'px',
-	        	bottom: layers.layer5[0] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-
-	        // background clouds
-	        layersProto.bigClouds.selector.stop().animate({
-	        	left: layers.bClouds[0] +'px',
-	        	top: layers.bClouds[1] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-
-	        // middle clouds
-	        layersProto.medClouds.selector.stop().animate({
-	        	left: layers.mClouds[0] +'px',
-	        	top: layers.mClouds[1] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-
-	        // top clouds
-	        layersProto.smClouds.selector.stop().animate({
-	        	left: layers.sClouds[0] +'px',
-	        	top: layers.sClouds[1] +'px'
-	        }, thisDuration, an.EASING_TYPE);
-*/
-	    	// CONTENT LAYER ANIMATING
-	    	layersProto.layer3.selector.stop().animate({
-	    		left: layers.layer3[0] +'px',
-	    		top: layers.layer3[1] +'px' 
-	    	}, thisDuration, an.EASING_TYPE);
-	    }
+            an.LAYER_SET.bigClouds.el.stop().animate({ left: layers.bigClouds[0] +'px', top: layers.bigClouds[1] +'px' }, thisDuration, an.EASING_TYPE);
+            an.LAYER_SET.medClouds.el.stop().animate({ left: layers.medClouds[0] +'px', top: layers.medClouds[1] +'px' }, thisDuration, an.EASING_TYPE);
+            an.LAYER_SET.smClouds.el.stop().animate({ left: layers.smClouds[0]   +'px', top: layers.smClouds[1]  +'px' }, thisDuration, an.EASING_TYPE);
+            
+            an.LAYER_SET.layer3.el.stop().animate({ left: layers.layer3[0] +'px', top: layers.layer3[1] +'px' }, thisDuration, an.EASING_TYPE);
+        }
 	},
 	
 	/**

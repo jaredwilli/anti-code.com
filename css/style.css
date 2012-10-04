@@ -205,58 +205,96 @@ footer p {
   width: 5826px;
   left: -2300px;
   bottom: -210px;
-  z-index: 0;
+  z-index: 4;
 }
 #layer3 { /* layer3 - CONTENT LAYER */
   width: 96%;
   height: 88%;
   left: 100px;
   top: 0;
-  z-index: 2; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
+  z-index: 3; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
 }
 #layer4 {
   background: url('../imgs/wave-4.png') repeat-x 0 bottom;
-  width: 6042px;
+  width: 8042px;
   left: -2500px;
   bottom: -228px;
-  z-index: 3;
+  z-index: 5;
 }
 #layer5 {
   background: url('../imgs/wave-5.png') repeat-x 0 bottom;
-  width: 6241px;
+  width: 10241px;
   left: -2700px;
-  bottom: -228px;
-  z-index: 4;
+  bottom: -225px;
+  z-index: 6;
 }
 
 
 /* CLOUDS PARALLAX */
 .clouds {
   position: absolute;
-  left: -1400px;
-  top: -1700px;
 }
 .clouds img {
   position: relative;
   display: inline-block;
+  display: none;
 }
 #big-clouds {
-  width: 4428px;
-  height: 3138px;
-  z-index: 1;
+  background: url('../imgs/clouds-b.png') repeat 0 0;
+  width: 20428px;
+  height: 13138px;
+  left: -1800px;
+  top: -1210px;
+  z-index: 0;
 }
 #med-clouds {
-  width: 4428px;
-  height: 3138px;
+  background: url('../imgs/clouds-m.png') repeat 0 0;
+  width: 20428px;
+  height: 13138px;
+  left: -1800px;
+  top: -1210px;
   z-index: 1;
 }
 #sm-clouds {
-  width: 4428px;
-  height: 3138px;
-  z-index: 1;
+  background: url('../imgs/clouds-s.png') repeat 0 0;
+  width: 20428px;
+  height: 13138px;
+  left: -1800px;
+  top: -1210px;
+  z-index: 2;
 }
 
+/* CLOUDS POSITIONING FOR EACH SIZE */
 
+#bcloud1 { left: -1650px; top: -700px; }
+#bcloud2 { left: 19000px; top: -1050px; }
+#bcloud3 { left: 2050px; top: 300px; }
+#bcloud4 { left: -500px; top: 1050px; }
+#bcloud5 { left: 17050px; top: 8000px; }
+#bcloud6 { left: 1070px; top: 200px; }
+
+#mcloud1 { left: 200px; top: -290px; }
+#mcloud2 { left: 1090px; top: 610px; }
+#mcloud3 { left: 150px; top: 550px; }
+#mcloud4 { left: -950px; top: -550px; }
+#mcloud5 { left: 19050px; top: -350px; }
+#mcloud6 { left: -1250px; top: 550px; }
+#mcloud7 { left: 9000px; top: 150px }
+#mcloud8 { left: -1650px; top: 850px; }
+#mcloud9 { left: -450px; top: -850px; }
+
+#scloud1 { left: -100px; top: 200px; }
+#scloud2 { left: 50px; top: 600px; }
+#scloud3 { left: 2150px; top: 400px; }
+#scloud4 { left: 250px; top: -1600px; }
+#scloud5 { left: -50px; top: 2050px; }
+#scloud6 { left: 50px; top: 50px; }
+#scloud7 { left: 50px; top: -200px; }
+#scloud8 { left: -150px; top: 50px; }
+#scloud9 { left: 950px; top: 1250px; }
+#scloud10 { left: 50px; top: -500px; }
+#scloud11 { left: -1460px; top: -210px; }
+#scloud12 { left: 50px; top: -1650px; }
 
 /* Main Content Layer with the Panels */
 
@@ -275,6 +313,8 @@ footer p {
   position: absolute;
   left: -1800px;
   top: -1210px;
+  width: 4659px;
+  height: 3362px;
 }
 
 #layer3 .panel {
