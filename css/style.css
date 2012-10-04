@@ -208,39 +208,67 @@ footer p {
 
 /* PARALLAX SCROLLING LAYERS */
 
-#layer1, #layer2, #layer4, #layer5 {
+/* WAVES PARALLAX */
+.waves {
   position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#layer1, #layer4, #layer5 {
+  position: absolute;
+  height: 4138px;
 }
 #layer1 {
-  width: 4428px;
-  height: 3138px;
+  background: url('../imgs/wave-1.png') repeat-x 0 bottom;
+  width: 5826px;
+  left: -2300px;
+  bottom: -210px;
   z-index: 0;
+}
+#layer3 { /* layer3 - CONTENT LAYER */
+  width: 96%;
+  height: 88%;
+  left: 100px;
+  top: 0;
+  z-index: 2; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
+}
+#layer4 {
+  background: url('../imgs/wave-4.png') repeat-x 0 bottom;
+  width: 6042px;
+  left: -2500px;
+  bottom: -228px;
+  z-index: 3;
+}
+#layer5 {
+  background: url('../imgs/wave-5.png') repeat-x 0 bottom;
+  width: 6241px;
+  left: -2700px;
+  bottom: -228px;
+  z-index: 4;
+}
+
+
+/* CLOUDS PARALLAX */
+.clouds {
+  position: absolute;
+  left: -1400px;
+  top: -1700px;
+}
+.clouds img {
+  position: relative;
+  display: inline-block;
 }
 #big-clouds {
   width: 4428px;
   height: 3138px;
   z-index: 1;
 }
-#layer3 { /* layer3 - CONTENT LAYER */
-  width: 96%;
-  height: 88%;
-
-  z-index: 2; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
-}
-#layer4 {
-  width: 4428px;
-  height: 3138px;
-  z-index: 3;
-}
 #med-clouds {
   width: 4428px;
   height: 3138px;
   z-index: 1;
-}
-#layer5 {
-  width: 4428px;
-  height: 3138px;
-  z-index: 4;
 }
 #sm-clouds {
   width: 4428px;
@@ -248,46 +276,13 @@ footer p {
   z-index: 1;
 }
 
-/* WAVES PARALLAX */
-
-.waves {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-}
-#layer1.wave-1 {
-  background: url('../imgs/wave-1.png') repeat-x 0 bottom;
-  width: 7034px;
-  left: -2100px;
-}
-#layer4.wave-4 {
-  background: url('../imgs/wave-4.png') repeat-x 0 bottom;
-  width: 6654px;
-  left: -2050px;
-  bottom: -228px;
-}
-#layer5.wave-5 {
-  background: url('../imgs/wave-5.png') repeat-x 0 bottom;
-  width: 6654px;
-  left: -2050px;
-  bottom: -228px;
-}
-
-/* CLOUDS LAYERS FOR PARALLAX */
-
-.clouds {
-  display: none;
-}
 
 
 /* Main Content Layer with the Panels */
 
 #layer3 {
   display: inline-block;
-  position: relative;
-  left: 100px;
-  top: 0;
+  position: absolute;
   margin: 0 auto;
 }
 
