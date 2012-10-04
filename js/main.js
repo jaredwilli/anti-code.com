@@ -24,11 +24,11 @@ anti = {
 	
 	navigation: {
 		// property to track the current section loaded
-		currentSection: '#panel5',
+		currentSection: $('#panel5'),
 
 		// Constants for nav functionality
 		BASE_DURATION: 	1000,
-		MAX_DURATION: 	2000,
+		MAX_DURATION: 	6000,
 		EASING_TYPE: 	'easeOutQuart',
 		MENU_SET: 		$('#main-nav').find('a'),
 		CONTENT_LAYER: 	$('#layer3'),
@@ -144,6 +144,8 @@ anti = {
 			
 			X_ADJUST_5 = 1;
         	Y_ADJUST_5 = 1.15;
+
+        	console.log(an.LAYER_SET);
 		},
 
 		// sets up handlers on nav elements and maps handlers, with target params
@@ -152,11 +154,11 @@ anti = {
 			var an = anti.navigation;
 
 			an.MENU_SET.on('click', function(e) {
-				var targetName = $(this).attr('href');
-				targetName = targetName.split('#');
-				//console.log(targetName[1]);
+				var panelToLoad = $(this).attr('href').split('#')[1];
 
-				an.navigateToSection(targetName[1]);
+				console.log('panelToLoad: ', an.TARGET_LAYER3[panelToLoad]);
+				an.navigateToSection(an.TARGET_LAYER3[panelToLoad]);
+
 				e.preventDefault();
 			});
 		},
@@ -164,16 +166,13 @@ anti = {
 		navigateToSection: function(panelToLoad) {
 			var an = anti.navigation;
 
-			//console.log('panelToLoad: ', an.TARGET_LAYER3[panelToLoad].url);
-
 			//window.history.pushState(panelToLoad, $('#'+ panelToLoad).find('h2').text(), '#'+ panelToLoad);
 			//window.location.hash = '#'+ panelToLoad;
-
 			$('#main-nav').find('.active').removeClass('active');
-			$('#main-nav').find('a[href='+ an.TARGET_LAYER3[panelToLoad].url +']').addClass('active');
+			$('#main-nav').find('a[href='+ panelToLoad.url +']').addClass('active');
 
 			// load target panel's content
-			//anti.panelNavigation.panelLoading.loadPanel(sectionToLoad);
+			//anti.panelLoading.getPanelData(panelToLoad, an.currentSection);
 
 			//set now to the section about to be loaded into view
 			an.currentSection = panelToLoad;
@@ -186,7 +185,7 @@ anti = {
 	    // TODO: BIG TIME - this whole method needs to be done more abstractly and better!!!
 	    moveAll: function(panelToLoad) {
 	        var an = anti.navigation,
-                layer3coords = an.TARGET_LAYER3[panelToLoad].coords;
+                layer3coords = panelToLoad.coords;
 
             // first calculate the position constants by which to translate other panel positions
             var contentLayerW = an.CONTENT_LAYER.width(),
@@ -197,8 +196,20 @@ anti = {
                 contentLayerExtraY = contentLayerH - (window.innerHeight / 2),
                 yPosConstant = layer3coords[1] / contentLayerExtraY;
 
+/**
+ * NEED TO DETERMINE HOW TO ADD TO THE PARALLAXED LAYERS FOR WAVES AND CLOUDS 
+ * WHAT IS SETTING THEM TO BE POSITIONED AT 0, 0 AFTER THE FIRST CLICK FOR NAVIGATING
+ * AND THEN SUBTRACT FROM THAT THE VALUE OF THE LAYER_SET.[layer].coords FROM IT SO IT 
+ * KEEPS THE CONTEXT SET TO THE PROPER POSITIONING OF THOSE LAYERS SO THEY WILL BE MOVING 
+ * TO THE RIGHT FRON THEIR DEFAULT LEFT/TOP POSITIONS, AND MOVING LEFT FROM THE NEW LEFT/TOP
+ * ACCORDINGLY IF THEY HAD MOVED TO THE RIGHT AT ALL. THE POSITION CHANGES IN EACH DIRECTION
+ * MUST BE RECORDED AND PERHAPS PUSHED TO AN ARRAY WHICH THEY CAN BE PULLED FROM IN ORDER TO 
+ * COMPENSATE FOR WHAT ADJUSTMENTS TO CURRENT CONTXT MAY HAVE OCCURRED WHEN NEEDING TO BE 
+ * REVERSED TO MOVE BACK TO THE OTHER LEFT OR MIDDLE COLUMS.
+ */
+
             var layer1ExtraX = an.LAYER_SET.layer1.el.width() - (window.innerWidth / 2),
-                layer1x = layer1ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+                layer1x = (layer1ExtraX * xPosConstant * -1 * an.X_ADJUST_1) + (an.LAYER_SET.layer1.coords[0] / 2),
                 layer1y = window.innerHeight / an.LAYER_SET.layer1.el.height();
 
             var layer4ExtraX = an.LAYER_SET.layer4.el.width() - (window.innerWidth / 2),
@@ -265,6 +276,61 @@ anti = {
             an.LAYER_SET.layer3.el.stop().animate({ left: layers.layer3[0] +'px', top: layers.layer3[1] +'px' }, thisDuration, an.EASING_TYPE);
         }
 	},
+	/* Loading and unloading of the panel content */
+    panelLoading: {
+    	loadPanel: function(panelToLoad, panelToUnload) {
+    		var an = anti.navigation,
+    			pl = anti.panelLoading;
+
+/*    		if (!an.TARGET_LAYER3[panelToLoad].el || !an.LAYER_SET.[panelToUnload]) {
+    			return;
+    		}
+*/
+    		console.log('load/unload: ', panelToLoad, panelToUnload);
+    		
+			/**
+    		 * Just as an example for now, I'm loading a hardcoded panel until i can come back to redo this
+    		 */
+    		 var panelId = panelToLoad.url,
+    		 	panelContainer = $(panelId),
+    		 	filePath = 'panels/'+ $(panelId).split('#')[1] +'/';
+
+    		$.when(pl.getPanelData(filePath), pl.showPanelData())
+    			.then(function(result) {
+			        console.log('Fires after the getPanelData() AJAX request AND showPanelData() BOTH succeed!');
+			        console.log(result);
+			        // 'result' is the server’s response
+			        panelContainer.append(result).fadeIn('500').parents('.panel').addClass('currentPanel');
+				})
+				.then(function() {
+					pl.unloadPanel(panelToUnload);
+				});
+    	},
+   		getPanelData: function(filePath) {
+    		return $.get(filePath).done(function(data) {
+    			console.log('Ajax request succeeded. Data:', data);
+    			return data;
+    		});
+    	},
+    	showPanelData: function() {
+    		var dfd = $.Deferred();
+
+    		dfd.done(function() {
+    			console.log('Fires after animation succeeds');
+    		});
+
+    		$(an.TARGET_LAYER3[panelToLoad].el).fadeIn(500, dfd.resolve);
+    		return dfd.promise();
+    	},
+    	unloadPanel: function(panelToUnload) {
+    		console.log(panelToUnload, an.TARGET_LAYER3[panelToUnload].el);
+
+    		if (panelToUnload.hasClass('currentPanel')) {
+				panelToUnload.parents('.panel').removeClass('currentPanel').find('.info').fadeOut(200).remove();
+    		}
+    	}
+    },
+
 	
 	/**
 	 * SLider initialization and control
