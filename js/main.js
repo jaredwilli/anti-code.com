@@ -194,35 +194,43 @@ anti = {
 	        // First calculate the position constants by which to translate other panel positions
 	        var xPosConstant = (an.CONTENT_LAYER.width() - layer3W) / layer3x,
 	        	yPosConstant = (an.CONTENT_LAYER.height() - layer3H) / layer3y;
-	        
+
+	        /**
+	         * Get the position of the initial view
+	         * on click get the position of the view which to display
+	         * calculate the amount to move by dividing the waves width and height 
+	         * by the amount of left and top position to by moved
+	         * move the waves left position by that amount
+	         */
+
 	        // background wave layer X position
 	        var layer1 = an.LAYER_SET.prototype.layer1,
-	        	layer1x = ((layer1.selector.width() - layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
+	        	layer1x = ((layer1.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
 	        	layer1y = ((layer1.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1
 
 	        // middle wave layer X position
 	        var layer4 = an.LAYER_SET.prototype.layer4,
-	        	layer4x = ((layer4.selector.width() - layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
+	        	layer4x = ((layer4.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
 	        	layer4y = ((layer4.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1;
 	        
 	        // top wave layer X position
 	        var layer5 = an.LAYER_SET.prototype.layer5,
-	        	layer5x = ((layer5.selector.width() - layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
+	        	layer5x = ((layer5.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
 	        	layer5y = ((layer5.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_1 * -1;
 	        
 	        // background clouds layer X position
 	        var bigClouds = an.LAYER_SET.prototype.bigClouds,
-	        	bigCloudsX = ((bigClouds.selector.width() - layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
+	        	bigCloudsX = ((bigClouds.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
 	        	bigCloudsY = ((bigClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
 	        
 	        // middle clouds layer X position
 	        var medClouds = an.LAYER_SET.prototype.medClouds,
-	        	medCloudsX = ((medClouds.selector.width() - layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
+	        	medCloudsX = ((medClouds.selector.width() / layer3W) * xPosConstant) * -1 * an.X_ADJUST_1,
 	        	medCloudsY = ((medClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
 	        
 	        // top clouds layer X position
 	        var smClouds = an.LAYER_SET.prototype.smClouds,
-	        	smCloudsX = ((smClouds.selector.width() - layer3W) * xPosConstant) * -1,
+	        	smCloudsX = ((smClouds.selector.width() / layer3W) * xPosConstant) * -1,
 	        	smCloudsY = ((smClouds.selector.height() / layer3H) * yPosConstant) * an.Y_ADJUST_2 * -1;
 	        
 	        //formula for y translation is (layerH/frontH)(frontY)([optional multiplier])
@@ -266,7 +274,7 @@ anti = {
 	        	left: layers.layer1[1] +'px',
 	        	bottom: layers.layer1[0] +'px'
 	        }, thisDuration, an.EASING_TYPE);
-
+/*
 	        // middle wave
 	        layersProto.layer4.selector.stop().animate({
 	        	left: layers.layer4[1] +'px',
@@ -296,7 +304,7 @@ anti = {
 	        	left: layers.sClouds[0] +'px',
 	        	top: layers.sClouds[1] +'px'
 	        }, thisDuration, an.EASING_TYPE);
-
+*/
 	    	// CONTENT LAYER ANIMATING
 	    	layersProto.layer3.selector.stop().animate({
 	    		left: layers.layer3[0] +'px',
