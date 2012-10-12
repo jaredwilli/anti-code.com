@@ -1,12 +1,6 @@
 /*  HTML5 ✰ Boilerplate  */
-
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline; }
+  margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
 blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
@@ -69,7 +63,7 @@ a:hover { color: #ffff00; }
 */
 
 body {
-  background: hsla(214, 33%, 60%, 0.7)/*url(../imgs/grid-ruler.png) no-repeat -1700px -1190px*/;
+  background: hsla(214, 33%, 60%, 0.7);
   width: 100%;
   height: 100%;
   position: relative;
@@ -79,7 +73,6 @@ body {
 }
 
 canvas {
-  background: #eee;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -212,14 +205,14 @@ footer p {
   height: 424px;
 }
 #layer1 {
-  /*background: url('../imgs/wave-1.png') repeat-x 50% bottom;*/
+  background: url('../imgs/wave-1.png') repeat-x 50% bottom;
   width: 10500px;
   left: -7000px;
   bottom: -220px;
   z-index: 4;
 }
 #layer4 {
-  /*background: url('../imgs/wave-4.png') repeat-x 50% bottom;*/
+  background: url('../imgs/wave-4.png') repeat-x 50% bottom;
   height: 15000px;
   width: 12000px;
   left: -4500px;
@@ -227,9 +220,8 @@ footer p {
   z-index: 5;
 }
 #layer5 {
-  /*background: url('../imgs/wave-5.png') repeat-x 50% bottom;*/
+  background: url('../imgs/wave-5.png') repeat-x 50% bottom;
   width: 1700px;
-  height: ;
   left: -2000px;
   bottom: -170px;
   z-index: 6;
@@ -244,6 +236,7 @@ footer p {
 }
 
 /* CLOUDS PARALLAX */
+/*
 .clouds {
   position: absolute;
 }
@@ -275,39 +268,7 @@ footer p {
   left: -1900px;
   top: -14000px;
   z-index: 2;
-}
-
-/* CLOUDS POSITIONING FOR EACH SIZE */
-
-#bcloud1 { left: -1650px; top: -700px; }
-#bcloud2 { left: 19000px; top: -1050px; }
-#bcloud3 { left: 2050px; top: 300px; }
-#bcloud4 { left: -500px; top: 1050px; }
-#bcloud5 { left: 17050px; top: 8000px; }
-#bcloud6 { left: 1070px; top: 200px; }
-
-#mcloud1 { left: 200px; top: -290px; }
-#mcloud2 { left: 1090px; top: 610px; }
-#mcloud3 { left: 150px; top: 550px; }
-#mcloud4 { left: -950px; top: -550px; }
-#mcloud5 { left: 19050px; top: -350px; }
-#mcloud6 { left: -1250px; top: 550px; }
-#mcloud7 { left: 9000px; top: 150px }
-#mcloud8 { left: -1650px; top: 850px; }
-#mcloud9 { left: -450px; top: -850px; }
-
-#scloud1 { left: -100px; top: 200px; }
-#scloud2 { left: 50px; top: 600px; }
-#scloud3 { left: 2150px; top: 400px; }
-#scloud4 { left: 250px; top: -1600px; }
-#scloud5 { left: -50px; top: 2050px; }
-#scloud6 { left: 50px; top: 50px; }
-#scloud7 { left: 50px; top: -200px; }
-#scloud8 { left: -150px; top: 50px; }
-#scloud9 { left: 950px; top: 1250px; }
-#scloud10 { left: 50px; top: -500px; }
-#scloud11 { left: -1460px; top: -210px; }
-#scloud12 { left: 50px; top: -1650px; }
+}*/
 
 /* Main Content Layer with the Panels */
 

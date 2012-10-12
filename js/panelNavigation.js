@@ -8,194 +8,188 @@ if (typeof anti === 'undefined') {
  */
 
 anti.panelNavigation = {
+	// property to track the current section loaded
+	currentSection: $('#panel5'),
+
 	// Constants for nav functionality
-	BASE_DURATION: 	500,
-	MAX_DURATION: 	2000,
-	EASING_TYPE: 	'easeOutQuart', //Quint/Bounce
+	BASE_DURATION: 	1000,
+	MAX_DURATION: 	6000,
+	EASING_TYPE: 	'easeOutQuart',
 	MENU_SET: 		$('#main-nav').find('a'),
 	CONTENT_LAYER: 	$('#layer3'),
 
 	LAYER_SET: {
-		layer3: $('#layer3'),
-		layer1: $('#layer1'),
-		layer4: $('#layer4'),
-		layer5: $('#layer5'),
-		bigClouds: $('#big-clouds'),
-		medClouds: $('#med-clouds'),
-		smClouds: $('#sm-clouds')
+		layer5: {
+			el: $('#layer5'),
+			coords: [-2700, -200] // [left, bottom]
+		},
+		layer4: {
+			el: $('#layer4'),
+			coords: [-2500, -210] // [left, bottom]
+		},
+		layer3: {
+			el: $('#layer3'),
+			coords: [100, 0] 	// [left, top]
+		},
+		layer1: {
+			el: $('#layer1'),
+			coords: [-2300, -220] 	// [left, bottom]
+		}
 	},
-	
-	// property to track the current section loaded
-	ACTIVE_PANEL: $('#panel5'),
-	
-	POS: {
-		cols: [-1700, 0, 1700],
-		rows: [-1200, 0, 1200, 2700]
+
+	// TODO: Abstract this out so that the panels coords and url can be dynamically assigned based on the panelToLoad ID
+	TARGET_LAYER3: {
+		panel1: {
+			url: '#panel1',
+			coords: [-1700, -1200] // [x, y] or [left, top]
+		},
+		panel2: {
+			url: '#panel2',
+			coords: [0, -1200]
+		},
+		panel3: {
+			url: '#panel3',
+			coords: [1700, -1200]
+		},
+		panel4: {
+			url: '#panel4',
+			coords: [-1700, 0]
+		},
+		panel5: {
+			url: '#panel5',
+			coords: [0, 0]
+		},
+		panel6: {
+			url: '#panel6',
+			coords: [1700, 0]
+		},
+		panel7: {
+			url: '#panel7',
+			coords: [-1700, 1200]
+		},
+		panel8: {
+			url: '#panel8',
+			coords: [0, 1200]
+		},
+		panel9: {
+			url: '#panel9',
+			coords: [1700, 1200]
+		},
+		panel10: {
+			url: '#panel10',
+			coords: [-1700, 2700]
+		},
+		panel10: {
+			url: '#panel10',
+			coords: [-1700, 2700]
+		},
+		panel11: {
+			url: '#panel11',
+			coords: [0, 2700]
+		},
+		panel12: {
+			url: '#panel12',
+			coords: [1700, 2700]
+		}
 	},
 
-/*
-	startPoints: function(an) {
-		var layerSet = an.LAYER_SET,
-			_ = this.__.startPoints;
+	X_ADJUST_1: 0.12,
+	Y_ADJUST_1: 0.14,
 
-		_ = {
-			_layer3: [
-				Number(layerSet.layer3.css('left').split('px')[0]), 
-				Number(layerSet.layer3.css('top').split('px')[0]), 
-				layerSet.layer3.width() * 3,
-				layerSet.layer3.height() * 3
-			],
-			_layer1: [
-				Number(layerSet.layer1.css('left').split('px')[0]), 
-				Number(layerSet.layer1.css('bottom').split('px')[0]), 
-				layerSet.layer1.width(), 
-				layerSet.layer1.height()
-			],
-			_layer4: [
-				Number(layerSet.layer4.css('left').split('px')[0]), 
-				Number(layerSet.layer4.css('bottom').split('px')[0]),
-				layerSet.layer4.width(), 
-				layerSet.layer4.height()
-			],
-			_layer5: [
-				Number(layerSet.layer5.css('left').split('px')[0]), 
-				Number(layerSet.layer5.css('bottom').split('px')[0]), 
-				layerSet.layer5.width(), 
-				layerSet.layer5.height()
-			],
-			cloudb3: [
-				Number(layerSet.bigClouds.css('left').split('px')[0]), 
-				Number(layerSet.bigClouds.css('top').split('px')[0]), 
-				layerSet.bigClouds.width(),
-				layerSet.bigClouds.height()
-			],
-			cloudm2: [
-				Number(layerSet.medClouds.css('left').split('px')[0]), 
-				Number(layerSet.medClouds.css('top').split('px')[0]),
-				layerSet.medClouds.width(), 
-				layerSet.medClouds.height()
-			],
-			clouds1: [
-				Number(layerSet.smClouds.css('left').split('px')[0]), 
-				Number(layerSet.smClouds.css('top').split('px')[0]), 
-				layerSet.smClouds.width(), 
-				layerSet.smClouds.height()
-			]
-		};
+	X_ADJUST_2: 0.1,
+	Y_ADJUST_2: 0.126,
 
-		this.__ = __;
-	},
-	
-	newPoints: function(an) {
-		var newPoints = an.__.newPoints = an.startPoints();
+	X_ADJUST_4: 0.1,
 
-		// xDiff3 = layer3 width - panelToLoad x coord + 100
-		var xDiff3 = an.__.startPoints._layer3[2] - an.PANEL_COORDS[an.__.panelToLoad][0] + 100;
-		// yDiff3 = layer3 height - panelToLoad y coord
-		var yDiff3 = an.__.startPoints._layer3[3] - an.PANEL_COORDS[an.__.panelToLoad][1];
-		
-		var quartConst = 0.025,
-			halfConst = 0.05,
-			quart3Const = 0.075;
+	X_ADJUST_5: 1,
+	Y_ADJUST_5: 1.15,
 
-		newPoints['_layer1'] = [
-			_.startPoints._layer1[0] + (_.startPoints._layer1[0] - xDiff3) * quartConst * -1,
-			0
-		];
-		newPoints['_layer4'] = [
-			_.startPoints._layer4[0] - (_.startPoints._layer4[0] - yDiff3) * quart3Const * -1,
-			0
-		];
-		newPoints._layer5 = [
-			_.startPoints._layer5[0] - (_.startPoints._layer5[0] - yDiff3) * halfConst * -1,
-			0
-		];
-		newPoints.cloudb3 = [
-	    	(_.startPoints.cloudb3[0] - (_.startPoints.cloudb3[0] + (_.startPoints.cloudb3[0] - xDiff3)) * quartConst) * -1,
-			(_.startPoints.cloudb3[1] - (_.startPoints.cloudb3[1] + (_.startPoints.cloudb3[1] - yDiff3)) * halfConst) * -1
-	    ];
-		newPoints.cloudm2 = [
-			(_.startPoints.cloudm2[0] - (_.startPoints.cloudm2[0] + (_.startPoints.cloudm2[0] - xDiff3)) * quart3Const) * -1,
-			(_.startPoints.cloudm2[1] - (_.startPoints.cloudm2[1] + (_.startPoints.cloudm2[1] - yDiff3)) * halfConst) * -1
-		];
-		newPoints.clouds1 = [
-			(_.startPoints.clouds1[0] - (_.startPoints.clouds1[0] + (_.startPoints.clouds1[0] - yDiff3)) * halfConst) * -1,
-			(_.startPoints.clouds1[1] - (_.startPoints.clouds1[1] + (_.startPoints.clouds1[1] - yDiff3)) * halfConst) * -1
-		];
-
-		newPoints._layer3 = [
-        	an.PANEL_COORDS[_.panelToLoad][0] * -1 + 100,
-        	an.PANEL_COORDS[_.panelToLoad][1] * -1
-        ];
-	
-		an.__.newPoints = newPoints;
-
-		console.log(newPoints, an);
-	},
-*/
-	setUp: function() {
-		console.log('navigation setup fired!');
+	init: function() {
+		console.log("panelNav init");
 		var an = anti.panelNavigation;
-		
-		//var gridObj = anti.constructors($('.layer'));
 
 		an.MENU_SET.on('click', function(e) {
-			e.preventDefault();
-			var href = $(this).attr('href').split('#')[1];
-			
-			an.__.panelToUnload = an.ACTIVE_PANEL.attr('id');
-			an.__.panelToLoad = href;
-			an.ACTIVE_PANEL = $('#'+ href);
-			
-			//console.log('before newPoints: ', an.__.newPoints);
-			//console.log('panelToLoad: ', an.__.panelToLoad);
+			var panelToLoad = $(this).attr('href').split('#')[1];
 
-			an.navigateToSection(an);
+			console.log('panelToLoad: ', an.TARGET_LAYER3[panelToLoad]);
+			an.navigateToSection(an.TARGET_LAYER3[panelToLoad], an);
+
+			e.preventDefault();
 		});
 	},
-	
-	navigateToSection: function(an) {
+
+	navigateToSection: function(panelToLoad, an) {
 		//window.history.pushState(panelToLoad, $('#'+ panelToLoad).find('h2').text(), '#'+ panelToLoad);
 		//window.location.hash = '#'+ panelToLoad;
-		
 		$('#main-nav').find('.active').removeClass('active');
-		$('#main-nav').find('a[href=#'+ an.__.panelToLoad +']').addClass('active');
+		$('#main-nav').find('a[href='+ panelToLoad.url +']').addClass('active');
 
 		// load target panel's content
-		//anti.panelLoading.getPanelData(panelToLoad, an.currentPanel);
+		//anti.panelLoading.getPanelData(panelToLoad, an.currentSection);
 
+		//set now to the section about to be loaded into view
+		an.currentSection = panelToLoad;
 
-		//an.__.newPoints = an.newPoints(__);
+		// sends name of target panel
+		an.moveAll(panelToLoad, an);
+	},
 
-		an.animateEm(an);
-    },
-    calcDistance: function() {
-    	
-		var layer3W = an.PANEL_COORDS.panel1[0] + (an.PANEL_COORDS.panel3[0] + an.__.startPoints._layer3[2]) + 200,
-            contentLayerExtraX = contentLayerW - 760,
-            xPosConstant = layer3coords[0] / contentLayerExtraX;
-    },
-    animateEm: function(layers) {
-        var an = anti.panelNavigation;
+	// method accepts string of target panel for which to apply position translation animations
+	// TODO: BIG TIME - this whole method needs to be done more abstractly and better!!!
+	moveAll: function(panelToLoad, an) {
+	    anti.currentCoords = panelToLoad.coords;
+	    layer3coords = panelToLoad.coords;
+	    
+	    // first calculate the position constants by which to translate other panel positions
+	    var contentLayerW = an.CONTENT_LAYER.width(),
+	        contentLayerExtraX = contentLayerW - (window.innerWidth / 2),
+	        xPosConstant = (layer3coords[0] + 100) / contentLayerExtraX;
 
-        console.log(layers);
-        
-        // check for travel distance to set animation duration based on how far to slide
-        var xDiff = Math.abs((Number(an.LAYER_SET.layer3.el.css('left').split('px')[0]) + 100000) - (layers.layer3[0] + 100000));
-        
-        // calculate the adjusted animation duration
-        var thisDuration = Math.round(xDiff / Number(an.LAYER_SET.layer3.el.width()) * (an.MAX_DURATION - an.BASE_DURATION) + an.BASE_DURATION);
+	    var contentLayerH = an.CONTENT_LAYER.height(),
+	        contentLayerExtraY = contentLayerH - (window.innerHeight / 2),
+	        yPosConstant = layer3coords[1] / contentLayerExtraY;
 
-        // run the animations
+	    var layer1ExtraX = an.LAYER_SET.layer1.el.width() - (window.innerWidth / 2),
+	        layer1x = (layer1ExtraX * xPosConstant * -1 * an.X_ADJUST_1) + (an.LAYER_SET.layer1.coords[0] / 2),
+	        layer1y = window.innerHeight / an.LAYER_SET.layer1.el.height();
 
-        an.LAYER_SET.layer1.el.stop().animate({ left: layers.layer1[0] +'px', bottom: layers.layer1[1] +'px' }, thisDuration, an.EASING_TYPE);
-        an.LAYER_SET.layer4.el.stop().animate({ left: layers.layer4[0] +'px', bottom: layers.layer4[1] +'px' }, thisDuration, an.EASING_TYPE);
-        an.LAYER_SET.layer5.el.stop().animate({ left: layers.layer5[0] +'px', bottom: layers.layer5[1] +'px' }, thisDuration, an.EASING_TYPE);
+	    var layer4ExtraX = an.LAYER_SET.layer4.el.width() - (window.innerWidth / 2),
+	        layer4x = layer4ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+	        layer4y = window.innerHeight / an.LAYER_SET.layer4.el.height();
 
-        an.LAYER_SET.bigClouds.el.stop().animate({ left: layers.bigClouds[0] +'px', top: layers.bigClouds[1] +'px' }, thisDuration, an.EASING_TYPE);
-        an.LAYER_SET.medClouds.el.stop().animate({ left: layers.medClouds[0] +'px', top: layers.medClouds[1] +'px' }, thisDuration, an.EASING_TYPE);
-        an.LAYER_SET.smClouds.el.stop().animate({ left: layers.smClouds[0]   +'px', top: layers.smClouds[1]  +'px' }, thisDuration, an.EASING_TYPE);
-        
-        an.LAYER_SET.layer3.el.stop().animate({ left: layers.layer3[0] +'px', top: layers.layer3[1] +'px' }, thisDuration, an.EASING_TYPE);
-    }
+	    var layer5ExtraX = an.LAYER_SET.layer5.el.width() - (window.innerWidth / 2),
+	        layer5x = layer5ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
+	        layer5y = window.innerHeight / an.LAYER_SET.layer5.el.height();
+
+	    var layer3x = layer3coords[0] * -1 + 100,
+	    	layer3y = layer3coords[1] * -1;
+
+	    //formula for y translation is (layerH/frontH)(frontY)([optional multiplier])
+
+	   var layers = {
+	    	layer1: [layer1x, layer1y],
+	        layer4: [layer4x, layer4y],
+	        layer5: [layer5x, layer5y],
+	     	layer3: [layer3x, layer3y]
+	    };
+
+	    an.animateEm(layers, an);
+	},
+	animateEm: function(layers, an) {
+	    console.log('animateEm', layers);
+	    
+	    // check for travel distance to set animation duration based on how far to slide
+	    var xDiff = Math.abs((Number(an.LAYER_SET.layer3.el.css('left').split('px')[0]) + 100000) - (layers.layer3[0] + 100000));
+	    
+	    // calculate the adjusted animation duration
+	    var thisDuration = Math.round(xDiff / Number(an.LAYER_SET.layer3.el.width()) * (an.MAX_DURATION - an.BASE_DURATION) + an.BASE_DURATION);
+
+	    // run the animations
+
+	    an.LAYER_SET.layer1.el.stop().animate({ left: layers.layer1[0] +'px', bottom: layers.layer1[1] +'px' }, thisDuration, an.EASING_TYPE);
+	    an.LAYER_SET.layer4.el.stop().animate({ left: layers.layer4[0] +'px', bottom: layers.layer4[1] +'px' }, thisDuration, an.EASING_TYPE);
+	    an.LAYER_SET.layer5.el.stop().animate({ left: layers.layer5[0] +'px', bottom: layers.layer5[1] +'px' }, thisDuration, an.EASING_TYPE);
+
+	    an.LAYER_SET.layer3.el.stop().animate({ left: layers.layer3[0] +'px', top: layers.layer3[1] +'px' }, thisDuration, an.EASING_TYPE);
+	}
 };
