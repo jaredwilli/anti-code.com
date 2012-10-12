@@ -1,0 +1,86 @@
+#can { display:block; } /* To remove the scrollbars */
+#panel2 h1 { font-size: 30px; color:#ffff00; }
+#panel2 p { margin: 0 20px; }
+#panel2 a { color: #fff; text-decoration: none; text-shadow:0 1px 0 rgba(0,0,0,.8); }
+#panel2 a:hover { border-bottom: 1px solid rgba(255,255,255,.7); padding-bottom: 3px; }
+#panel2 a.button { 
+	background: #185da8; 
+	border-radius: 5px; 
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	display: block;
+	font-size: 30px;
+	margin: 20px auto;
+	padding: 10px;
+	width: 200px;
+}
+#panel2 a.button:hover {
+	background: #2488f5;
+	border:none;
+	color: #fff;
+	text-decoration: none;
+}
+#panel2 #game {
+	height: 600px;
+	left: 50%;
+	top: 50%;
+	margin: -300px 0 0 -175px;
+	position: relative;
+	width: 350px;
+}
+#panel2 #game2 {
+	height: 600px;
+	left: 50%;
+	top: 50%;
+	margin: -300px 0 0 -400px;
+	position: relative;
+	width: 800px;
+}
+#panel2 #can { background: #001022; }
+#panel2 #game-ui {
+	height: 600px;
+	position: absolute; /* Places UI on top of canvas */
+	width: 348px;
+	margin-left: 2px;
+	z-index: 2;
+}
+#panel2 #game-ui2 {
+	height: 600px;
+	position: absolute; /* Places UI on top of canvas */
+	width: 800px;
+}
+#panel2 #game-intro,
+#panel2 #game-complete {
+	background: rgba(0, 0, 0, .5);
+	margin: 100px 0 0 0;
+	padding: 10px 0 5px;
+	text-align: center;
+}
+#panel2 #game-intro h1 { margin:0 0 10px; }
+#panel2 #game-intro p { font-size: 14px; }
+#panel2 #game-stats {
+	font-size: 14px;
+	margin: 20px 0;
+	position:absolute;
+	top:0;
+	width:100%;
+}
+#panel2 #game-stats p:first-child { float:left; }
+#panel2 #game-stats p:last-child { float: right; }
+	
+#panel2 #can { 
+	background: #000066;
+	cursor: crosshair;
+	border: 1px solid hsla(220,90%,50%,.7);
+	border-radius: 3px; 
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px; 
+	-o-border-radius: 3px;
+	box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7); 
+	-moz-box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7);
+	-webkit-box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7);
+ }
+#panel2 #buttons { top: 20px; left: 20px; position: absolute; }
+#panel2 #buttons button { padding: 5px; }

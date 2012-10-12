@@ -1,0 +1,71 @@
+/* Reset
+----------------------------------------------------*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+:focus { outline: 0; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+small { font-size: 85%; }
+
+/* self clear */
+.clearself:before, .clearself:after { content:" "; display:block; height:0; overflow:hidden; }
+.clearself:after { clear:both; }
+.clearself { zoom:1; } /* IE < 8 */
+
+
+/* Content
+----------------------------------------------------*/
+body { background:#fff; font-family:georgia; color:#444; }
+.content { padding:40px 50px; max-width:1400px; margin:0 auto; }
+figure {
+	margin:40px auto;
+	width:50%;
+	float:right;
+	max-width:800px;
+}
+figure img { max-width:100%; display:block; border:1px solid #444; }
+figure figcaption { text-align:center; padding:10px 0; font-style:italic; color:#666; }
+
+.instructions { width:45%; float:left; }
+.instructions h1 { margin-bottom:30px; font-size:40px; font-weight:normal; }
+.instructions h2 { margin-bottom:10px; font-size:24px; font-weight:normal; font-style:italic; color:#749a9c; }
+.instructions p { margin-bottom:30px; font-size:16px; line-height:140%; color:#666; }
+.instructions ul { margin-left:40px; padding:20px; list-style:square; font-size:16px; padding-left:20px; line-height:140%; color:#666; }
+.instructions ul li { margin-bottom:20px; }
+
+
+
+
+
+/* Media Queries
+----------------------------------------------------*/
+@media only screen and (max-width :1000px) {
+	.content { padding:40px; }
+	.instructions { width:90%; float:none; margin:0 auto; }
+	figure { width:90%; float:none; }
+}
+
+@media only screen and (max-width :480px) {
+	.content { padding:20px;}
+	.instructions { width:100%; float:none; margin:0 auto; }
+	.instructions h1 { font-size:34px; }
+	.instructions ul { margin-left:0px; }
+	.instructions ul li { margin-bottom:10px; }
+	figure { width:100%; float:none; }
+}

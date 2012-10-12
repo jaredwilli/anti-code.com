@@ -1,0 +1,105 @@
+#panel4 #game {
+    text-align: center;
+    margin: 0 auto;
+    width: 80%;
+    position: relative;
+    top: 20px;
+    font-family: arial;
+}
+#panel4 #game p:last-child {
+    text-align: left;
+    margin-top: 10px;
+}
+#panel4 a {
+    font-size: 26px;
+    color: hsl(215, 97%, 53%);
+    text-decoration: none;
+}
+#panel4 a:hover {
+    color: hsl(46, 97%, 53%);
+    border: 0;
+}
+#panel4 ul {
+    display: inline-block;
+    list-style: none;
+}
+#panel4 li {
+    display: inline-block;
+    position: relative;
+    float: left;
+    margin: 0 25px;
+    padding: 0;
+    width: 113px;
+    height: 109px;
+}
+#panel4 li a {
+    padding: 38px 56px;
+    position: absolute;
+    left: 0;
+    text-indent: -99999px;
+}
+
+#panel4 #Rock { background: url('rock.png') no-repeat 0 0; }
+#panel4 #Scissors { background: url('scissors.png') no-repeat 0 0; }
+#panel4 #Paper { background: url('paper.png') no-repeat 0 0; }
+
+#panel4 h1 {
+    font-size: 34px;
+    display: block;
+}
+#panel4 h3 {
+    font-size: 18px;
+    display: block;
+    margin: 20px 0 30px;
+}
+
+#panel4 #results {
+    width: 80%;
+    position: relative;
+    top: 0;
+    margin: 0 auto;
+    display: inline-block;
+}
+#panel4 #results div {
+    text-align: center;
+}
+#panel4 #player, 
+#panel4 #computer, 
+#panel4 #winner {
+    font-size: 30px;
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    float: left;
+    text-align: center;
+    color: blue;
+    padding: 10px 20px;
+}
+#panel4 #computer {
+    float: right;
+}
+#panel4 #winner {
+    display: inline-block;
+    width: 300px;
+    top: 70px;
+    left: 0;
+    text-align: center;
+    height: 50px;
+    padding-top: 20px;
+    color: maroon;
+    font-weight: bold;
+}
+#panel4 h2 {
+    color: #000;
+    font-size: 20px;
+    text-decoration: underline;
+}
+#panel4 header,
+#panel4 footer {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center;
+}
+#panel4 footer span {
+    float: right;
+}

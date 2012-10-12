@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Star Shooter - Canvas Game</title>
+
+<link href="panels/panel2/assets/game.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div id="game">
+	<div id="game-ui">
+		<div id="game-intro">
+			<h1>Star Shooter</h1>
+			<p>...out of this world...</p>
+			<p><a href="" id="game-play" class="button">Play</a></p>
+		</div>
+		<div id="game-stats">
+			<p>Stars: <span id="game-remain"></span></p>
+			<p>Shots: <span class="game-score"></span></p>
+			<p><a href="" class="game-reset">Reset</a></p>
+		</div>
+		<div id="game-complete">
+			<h1>You Win!</h1>
+			<p>Congratulations, it only took you <span class="game-score"></span> tries to shoot all the stars.</p>
+			<p><a href="" class="game-reset button">Play Again</a></p>
+		</div>
+	</div>
+	<canvas id="can" width="350" height="600"><a href="http://i.imgur.com/1XrPp.jpg">Your browser doesnt support canvas.</a></canvas>
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="panels/panel2/assets//requestAnim.js" type="text/javascript"></script>
+<script src="panels/panel2/assets//starshooter.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-22924724-1']);_gaq.push(['_trackPageview']);(function(){var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();</script>
+</body>
+</html>

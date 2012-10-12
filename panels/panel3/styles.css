@@ -1,0 +1,98 @@
+#panel3 .content { padding:40px 50px; max-width:1400px; margin:0 auto; }
+#panel3 figure {
+	margin:40px auto;
+	width:50%;
+	float:right;
+	max-width:800px;
+}
+#panel3 figure img { max-width:100%; display:block; border:1px solid #444; }
+#panel3 figure figcaption { text-align:center; padding:10px 0; font-style:italic; color:#666; }
+
+#panel3 .instructions { width:45%; float:left; }
+#panel3 .instructions h1 { margin-bottom:30px; font-size:40px; font-weight:normal; }
+#panel3 .instructions h2 { margin-bottom:10px; font-size:24px; font-weight:normal; font-style:italic; color:#749a9c; }
+#panel3 .instructions p { margin-bottom:10px; font-size:16px; line-height:140%; color:#666; }
+#panel3 .instructions ul { margin-left:40px; padding:0 20px; list-style:square; font-size:16px; line-height:140%; color:#666; }
+#panel3 .instructions ul li { margin-bottom:20px; }
+
+
+
+/**
+ * BY: Jared Williams
+ *
+ * This is for the section that styles the image thumbnail list and drag hover states
+ */
+
+#panel3 #thumbs {
+	border: 4px solid rgba(115, 153, 156, 0.3);
+	display: inline-block;
+	float: left;
+	width: 425px;
+	position: relative;
+	left: 80px;
+	top: 100px;
+	padding: 1%;
+	text-align: center;
+}
+#panel3 #thumbs li {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: auto;
+	position: relative;
+}
+#panel3 #thumbs img {
+	display: inline-block;
+	padding: 6px;
+	margin: 5px;
+	width: 112px;
+	height: 112px;
+}
+#panel3 #thumbs img:hover {
+	cursor: pointer;
+}
+#panel3 #thumbs img:-webkit-drag {
+	cursor: crosshair;
+	opacity: 0.5;
+}
+#panel3 #thumbs .dragOver {
+	border: 4px dashed maroon;
+	padding: 2px;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#panel3 .anti a {
+	position: absolute;
+	bottom: -20px;
+	right: 5px;
+	text-decoration: none;
+	color: white;
+	font-family: helvetica;
+	text-shadow: 1px 1px 4px rgba(20, 61, 82, 0.5), -1px -1px 3px rgba(68, 68, 88, 0.3);
+	font-weight: bold;
+}
+#panel3 .anti a:hover {
+	color: hsla(200, 100%, 50%, 1);
+	text-shadow: 1px 1px 1px #fff, 0px 1px 5px rgba(200, 61, 82, 1);
+}
+
+
+/** NOTE: I didn't put too much effort into making it responsive, 
+	but have worked on some complex layouts that were fully responsive 
+	It's not really needed here.
+ */
+/* Media Queries
+----------------------------------------------------*/
+@media only screen and (max-width: 1000px) {
+	
+}
+
+@media only screen and (max-width: 480px) {
+	
+}
