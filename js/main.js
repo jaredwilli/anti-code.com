@@ -46,16 +46,20 @@ anti = {
 			url: 'panels/'+ panel +'/index.html'
 		})
 		.done(function(data, status, jqXHR) {
-			console.log('success');
-			$('#'+ panel).html(data);
-			// Set up project image sliders
-			if ($('#'+ panel).find('.slider').length > 0) {
-				anti.projectSlider($('#'+ panel).find('.slider'));
-			}
+			anti.showPanelContent(data, panel);
 		})
 		.error( function(jqXHR, status, error) {
-			console.log('Status: '+status+'"\n"Error: ' + error);
+			console.log('Status: '+ status +'"\n" Error: '+ error);
 		});
+	},
+	showPanelContent: function(content, panel) {
+		$('#'+ panel).html('<div class=".'+ panel +'">'+ content +'</div>');
+
+		var slider = $('#'+ panel +' .slider');
+		console.log(slider);
+
+		// Set up project image sliders
+		anti.projectSlider($('#'+ panel +' .slider'));
 	},
 
 	utils: {
@@ -209,7 +213,7 @@ anti = {
 
 	panelNavigation: {
 		// property to track the current section loaded
-		currentSection: $('#panel5'),
+		currentSection: 'panel5',
 
 		// Constants for nav functionality
 		BASE_DURATION: 	1000,
@@ -260,6 +264,8 @@ anti = {
 			//console.log("setup");
 			var an = anti.panelNavigation;
 
+			//an.moveAll(an.TARGET_LAYER3[an.currentSection], an);
+
 			an.MENU_SET.on('click', function(e) {
 				var panelToLoad = $(this).attr('href').split('#')[1];
 
@@ -277,8 +283,9 @@ anti = {
 			$('#main-nav').find('a[href=#'+ panelToLoad +']').addClass('active');
 
 			// load target panel's content
+			//anti.panelLoading.loadPanel(panelToLoad, an.currentSection);
 			anti.loadPanelContent(panelToLoad);
-		
+			
 			//set now to the section about to be loaded into view
 			an.currentSection = panelToLoad;
 
@@ -294,9 +301,9 @@ anti = {
             // first calculate the position constants by which to translate other panel positions
             //var xPosConstant = layer3coords[0] + 100;
 
-            var contentLayerX = an.CONTENT_LAYER.height(),
+            var contentLayerX = an.CONTENT_LAYER.width(),
                 contentLayerExtraX = contentLayerX - (window.innerWidth / 2),
-                xPosConstant = layer3coords[0] / contentLayerExtraX;
+                xPosConstant = layer3coords[0] - contentLayerExtraX;
 
             var layer1ExtraX = an.LAYER_SET.layer1.width() - (window.innerWidth / 2),
                 layer1x = layer1ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
@@ -310,16 +317,6 @@ anti = {
                 layer5x = layer5ExtraX * xPosConstant * -1 * an.X_ADJUST_1,
                 layer5y = 0; //window.innerHeight / an.LAYER_SET.layer5.height();
             
-            var medCloudsExtraX = an.LAYER_SET.medClouds.width() - (window.innerWidth / 2),
-                medCloudsExtraY = an.LAYER_SET.medClouds.height() - (window.innerHeight / 2),
-                medCloudsX = medCloudsExtraX * xPosConstant * -1 * an.X_ADJUST_2,
-                medCloudsY = 0;//medCloudsExtraY * yPosConstant * -1 * an.y_ADJUST_2;
-
-            var smCloudsExtraX = an.LAYER_SET.smClouds.width() - (window.innerWidth / 2),
-            	smCloudsExtraY = an.LAYER_SET.smClouds.height() - (window.innerHeight / 2),
-                smCloudsX = smCloudsExtraX * xPosConstant * -1 * an.X_ADJUST_2,
-                smCloudsY = 0; //smCloudsExtraY * yPosConstant * -1 * an.y_ADJUST_2;
-
             var layer3x = layer3coords[0] * -1 + 100,
             	layer3y = layer3coords[1] * -1;
 
@@ -329,8 +326,6 @@ anti = {
 	        	layer1: [layer1x, layer1y],
 	            layer4: [layer4x, layer4y],
 	            layer5: [layer5x, layer5y],
-             	medClouds: [medCloudsX, medCloudsY],
-             	smClouds: [smCloudsX, smCloudsY],
              	layer3: [layer3x, layer3y]
 	        };
 
@@ -351,16 +346,13 @@ anti = {
             an.LAYER_SET.layer4.stop().animate({ left: layers.layer4[0] +'px', bottom: layers.layer4[1] +'px' }, thisDuration, an.EASING_TYPE);
             an.LAYER_SET.layer5.stop().animate({ left: layers.layer5[0] +'px', bottom: layers.layer5[1] +'px' }, thisDuration, an.EASING_TYPE);
 
-            an.LAYER_SET.medClouds.stop().animate({ left: layers.medClouds[0] +'px', top: layers.medClouds[1] +'px' }, thisDuration, an.EASING_TYPE);
-            an.LAYER_SET.smClouds.stop().animate({ left: layers.smClouds[0]   +'px', top: layers.smClouds[1]  +'px' }, thisDuration, an.EASING_TYPE);
-            
             an.LAYER_SET.layer3.stop().animate({ left: layers.layer3[0] +'px', top: layers.layer3[1] +'px' }, thisDuration, an.EASING_TYPE);
         }
 	},
 	/* Loading and unloading of the panel content */
     panelLoading: {
     	loadPanel: function(panelToLoad, panelToUnload) {
-    		var an = anti.navigation,
+    		var an = anti.panelNavigation,
     			pl = anti.panelLoading;
 
 /*    		if (!an.TARGET_LAYER3[panelToLoad].el || !an.LAYER_SET.[panelToUnload]) {
@@ -372,35 +364,32 @@ anti = {
 			/**
     		 * Just as an example for now, I'm loading a hardcoded panel until i can come back to redo this
     		 */
-    		 var panelId = panelToLoad.url,
-    		 	panelContainer = $(panelId),
-    		 	filePath = 'panels/'+ $(panelId).split('#')[1] +'/';
+    		 var panelContainer = $('#'+ panelToLoad),
+    		 	file = 'panels/'+ panelToLoad +'/index.html';
 
-    		$.when(pl.getPanelData(filePath), pl.showPanelData())
-    			.then(function(result) {
+    		$.when(pl.getPanelData(file), 
+    			pl.showPanelData(panelToLoad), 
+    			pl.unloadPanel(panelToUnload)).then(function(result) {
 			        console.log('Fires after the getPanelData() AJAX request AND showPanelData() BOTH succeed!');
 			        console.log(result);
 			        // 'result' is the server’s response
 			        panelContainer.append(result).fadeIn('500').parents('.panel').addClass('currentPanel');
-				})
-				.then(function() {
-					pl.unloadPanel(panelToUnload);
 				});
     	},
-   		getPanelData: function(filePath) {
-    		return $.get(filePath).done(function(data) {
+   		getPanelData: function(file) {
+    		return $.get(file).done(function(data) {
     			console.log('Ajax request succeeded. Data:', data);
     			return data;
     		});
     	},
-    	showPanelData: function() {
+    	showPanelData: function(panelToLoad) {
     		var dfd = $.Deferred();
 
     		dfd.done(function() {
     			console.log('Fires after animation succeeds');
+    			$('#'+ panelToLoad).fadeIn(500, dfd.resolve);
     		});
 
-    		$(an.TARGET_LAYER3[panelToLoad].el).fadeIn(500, dfd.resolve);
     		return dfd.promise();
     	},
     	unloadPanel: function(panelToUnload) {
@@ -415,48 +404,49 @@ anti = {
 		if (!slider) {
 			return;
 		}
-		
-		$(slider).anythingSlider({
-			// Appearance
-			theme               : 'default', 	 // Theme name
-			easing              : 'easeOutQuart',   // Anything other than "linear" or "swing" requires the easing plugin or jQuery UI
-			expand              : false,     // If true, the entire slider will expand to fit the parent element
-			resizeContents      : false,      // If true, solitary images/objects in the slide will expand to fit the viewport
+		else {
+			slider.anythingSlider({
+				// Appearance
+				theme               : 'default', 	 // Theme name
+				easing              : 'easeOutQuart',   // Anything other than "linear" or "swing" requires the easing plugin or jQuery UI
+				expand              : false,     // If true, the entire slider will expand to fit the parent element
+				resizeContents      : false,      // If true, solitary images/objects in the slide will expand to fit the viewport
 
-			buildNavigation     : true,      // If true, builds a list of anchor links to link to each panel
-			buildArrows         : false,      // If true, builds the forwards and backwards buttons
-			buildStartStop      : false,      // If true, builds the start/stop button
+				buildNavigation     : true,      // If true, builds a list of anchor links to link to each panel
+				buildArrows         : false,      // If true, builds the forwards and backwards buttons
+				buildStartStop      : false,      // If true, builds the start/stop button
 
-			// Function
-			enableNavigation    : true,      // if false, navigation links will still be visible, but not clickable.
-			enableKeyboard      : true,      // if false, keyboard arrow keys will not work for this slider.
-			enableArrows        : false,      // if false, arrows will be visible, but not clickable.
-			enableStartStop     : false,      // if false, the play/stop button will still be visible, but not clickable. Previously "enablePlay"
+				// Function
+				enableNavigation    : true,      // if false, navigation links will still be visible, but not clickable.
+				enableKeyboard      : true,      // if false, keyboard arrow keys will not work for this slider.
+				enableArrows        : false,      // if false, arrows will be visible, but not clickable.
+				enableStartStop     : false,      // if false, the play/stop button will still be visible, but not clickable. Previously "enablePlay"
 
-			// Navigation
-			hashTags            : false,      // Should links change the hashtag in the URL?
-			navigationFormatter : function(i, slide) { // add thumbnails as navigation links
-				var	sliderId = slide.parents('.panel').attr('id');
-				return '<img src="panels/'+ sliderId +'/thumb-'+ i +'.png" />';
-			},
-			navigationSize      : false,     // Set this to the maximum number of visible navigation tabs; false to disable
+				// Navigation
+				hashTags            : false,      // Should links change the hashtag in the URL?
+				navigationFormatter : function(i, slide) { // add thumbnails as navigation links
+					var	sliderId = slide.parents('.panel').attr('id');
+					return '<img src="panels/'+ sliderId +'/thumb-'+ i +'.png" />';
+				},
+				navigationSize      : false,     // Set this to the maximum number of visible navigation tabs; false to disable
 
-			// Slideshow options
-			autoPlay            : true,     // If true, the slideshow will start running; replaces "startStopped" option
-			playRtl             : false,     // If true, the slideshow will move right-to-left
+				// Slideshow options
+				autoPlay            : true,     // If true, the slideshow will start running; replaces "startStopped" option
+				playRtl             : false,     // If true, the slideshow will move right-to-left
 
-			// Times
-			delay               : 5000,      // How long between slideshow transitions in AutoPlay mode (in milliseconds)
-			resumeDelay         : 10000,     // Resume slideshow after user interaction, only if autoplayLocked is true (in milliseconds).
-			animationTime       : 600,       // How long the slideshow transition takes (in milliseconds)
-			allowRapidChange    : true,           // If true, allow rapid changing of the active pane, instead of ignoring activity during animation
+				// Times
+				delay               : 5000,      // How long between slideshow transitions in AutoPlay mode (in milliseconds)
+				resumeDelay         : 10000,     // Resume slideshow after user interaction, only if autoplayLocked is true (in milliseconds).
+				animationTime       : 600,       // How long the slideshow transition takes (in milliseconds)
+				allowRapidChange    : true,           // If true, allow rapid changing of the active pane, instead of ignoring activity during animation
 
-			// Video
-			resumeOnVideoEnd    : true,      // If true & the slideshow is active & a supported video is playing, it will pause the autoplay until the video is complete
-			resumeOnVisible     : true,      // If true the video will resume playing (if previously paused, except for YouTube iframe - known issue); if false, the video remains paused.
-			addWmodeToObject    : 'opaque',  // If your slider has an embedded object, the script will automatically add a wmode parameter with this setting
-			isVideoPlaying      : function(base) { return false; } // return true if video is playing or false if not - used by video extension
-		});
+				// Video
+				resumeOnVideoEnd    : true,      // If true & the slideshow is active & a supported video is playing, it will pause the autoplay until the video is complete
+				resumeOnVisible     : true,      // If true the video will resume playing (if previously paused, except for YouTube iframe - known issue); if false, the video remains paused.
+				addWmodeToObject    : 'opaque',  // If your slider has an embedded object, the script will automatically add a wmode parameter with this setting
+				isVideoPlaying      : function(base) { return false; } // return true if video is playing or false if not - used by video extension
+			});
+		}
 	}
 };
 

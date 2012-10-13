@@ -79,7 +79,7 @@ function keepInView(item) {
 	}
 
 	if (item.bounds.x - item.bounds.width > bounds.width) {
-		console.log(item.bounds);
+		//console.log(item.bounds);
 
 		item.position.x = 0;
 	}

@@ -1,4 +1,4 @@
-#can { display:block; } /* To remove the scrollbars */
+#panel2 #can { display:block; } /* To remove the scrollbars */
 #panel2 h1 { font-size: 30px; color:#ffff00; }
 #panel2 p { margin: 0 20px; }
 #panel2 a { color: #fff; text-decoration: none; text-shadow:0 1px 0 rgba(0,0,0,.8); }
@@ -24,9 +24,8 @@
 }
 #panel2 #game {
 	height: 600px;
-	left: 50%;
-	top: 50%;
-	margin: -300px 0 0 -175px;
+	top: 100px;
+	margin: 0 auto;
 	position: relative;
 	width: 350px;
 }
@@ -44,7 +43,6 @@
 	position: absolute; /* Places UI on top of canvas */
 	width: 348px;
 	margin-left: 2px;
-	z-index: 2;
 }
 #panel2 #game-ui2 {
 	height: 600px;

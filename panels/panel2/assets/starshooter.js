@@ -249,6 +249,7 @@
 		// Clear
 		con.clearRect(0, 0, cwidth, cheight);
 		
+		drawText();
 		// Draw platform
 		con.fillStyle = 'rgb(20, 20, 20)';
 		con.beginPath();
@@ -406,7 +407,6 @@
 			}
 		}
 		
-		drawText();
 		
 		if( play ) {
 			// Run the animation loop again in 33 milliseconds

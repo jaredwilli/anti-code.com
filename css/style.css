@@ -70,7 +70,7 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
-  /*overflow: hidden;*/
+  overflow: hidden;
 }
 
 header, footer {
@@ -191,27 +191,27 @@ footer p {
   bottom: 0;
   width: 100%;
   height: 450px;
-  display: inline-block;
+  /*display: inline-block;*/
 }
 #layer1 {
   background: url('../imgs/wave-1.png') repeat-x 50% 0;
   width: 10500px;
   left: -7000px;
-  bottom: 120px;
+  bottom: 50px;
   z-index: 4;
 }
 #layer4 {
   background: url('../imgs/wave-4.png') repeat-x 50% 0;
   width: 12000px;
-  left: -4500px;
-  bottom: 75px;
+  left: -10000px;
+  bottom: 30px;
   z-index: 5;
 }
-#layer5 {
+#layer5 { 
   background: url('../imgs/wave-5.png') repeat-x 50% 0;
-  width: 1700px;
-  left: -2000px;
-  bottom: 50px;
+  width: 15000px;
+  left: -12000px;
+  bottom: 0px;
   z-index: 6;
 }
 
@@ -237,22 +237,6 @@ footer p {
   display: inline-block;
 }
 
-#med-clouds {
-  /*background: url('../imgs/clouds-m.png') repeat 0 0;*/
-  width: 18428px;
-  height: 15138px;
-  left: -1700px;
-  top: -12000px;
-  z-index: 1;
-}
-#sm-clouds {
-  /*background: url('../imgs/clouds-s.png') repeat 0 0;*/
-  width: 20428px;
-  height: 17138px;
-  left: -1900px;
-  top: -14000px;
-  z-index: 2;
-}
 
 /* Main Content Layer with the Panels */
 
