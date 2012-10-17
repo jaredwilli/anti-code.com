@@ -81,18 +81,3 @@
 	color: hsla(200, 100%, 50%, 1);
 	text-shadow: 1px 1px 1px #fff, 0px 1px 5px rgba(200, 61, 82, 1);
 }
-
-
-/** NOTE: I didn't put too much effort into making it responsive, 
-	but have worked on some complex layouts that were fully responsive 
-	It's not really needed here.
- */
-/* Media Queries
-----------------------------------------------------*/
-@media only screen and (max-width: 1000px) {
-	
-}
-
-@media only screen and (max-width: 480px) {
-	
-}

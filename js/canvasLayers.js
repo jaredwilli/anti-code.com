@@ -11,14 +11,15 @@ function CloudFactory() {
 	var circle6 = new Path.Circle(new Point(55, 95), 40);
 	var circle7 = new Path.Circle(new Point(3, 115), 35);
 	
-	return new Group([rndRect, circle1, circle2, circle3, circle4, circle5, circle6, circle7]);
+	var group = new Group([rndRect, circle1, circle2, circle3, circle4, circle5, circle6, circle7]);
+	return group;
 }
 
 // Create a symbol, which we will use to place instances of later:
 var path = CloudFactory(); //new Path.Circle(new Point(0, 0), 50);
 
 path.style = {
-	fillColor: 'rgba(255,255,255,0.2)',
+	fillColor: 'rgba(200,200,200,0.05)',
 	strokeColor: 'rgba(200,200,200,0.05)'
 };
 
@@ -79,11 +80,25 @@ function keepInView(item) {
 	}
 
 	if (item.bounds.x - item.bounds.width > bounds.width) {
-		//console.log(item.bounds);
+		console.log(item.bounds);
 
 		item.position.x = 0;
 	}
 	if (item.bounds.y - item.bounds.height > bounds.height) {
 		item.position.y = 0;
 	}
+/*
+	if (itemBounds.left > bounds.width) {
+		position.x = -item.bounds.width;
+	}
+	if (position.x < -itemBounds.width) {
+		position.x = bounds.width + itemBounds.width;
+	}
+	if (itemBounds.top > view.size.height) {
+		position.y = -itemBounds.height;
+	}
+	if (position.y < -itemBounds.height) {
+		position.y = bounds.height  + itemBounds.height / 2;
+	}
+*/
 }
