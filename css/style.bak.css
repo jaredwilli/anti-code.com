@@ -1,7 +1,12 @@
 /*  HTML5 ✰ Boilerplate  */
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
-  margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
 blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
@@ -64,12 +69,10 @@ a:hover { color: #ffff00; }
 */
 
 body {
-  background: hsla(214, 33%, 60%, 0.7);
+  background: hsla(214, 33%, 60%, 0.7)/*url(../imgs/grid-ruler.png) no-repeat -1700px -1190px*/;
   width: 100%;
   height: 100%;
   position: relative;
-  margin: 0;
-  padding: 0;
   overflow: hidden;
 }
 
@@ -143,14 +146,7 @@ footer p {
 
 
 /* Main Navigation */
-#main-nav h4 {
-  display: inline-block;
-  position: absolute;
-  right: 660px;
-  top: 10px;
-  color: white;
-  text-shadow: 1px 1px 2px hsla(0, 0%, 8%, 0.5);
-}
+
 #main-nav ul {
   display: block;
   list-style: none;
@@ -197,74 +193,120 @@ footer p {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 450px;
-  /*display: inline-block;*/
+  height: 100%;
+}
+
+#layer1, #layer4, #layer5 {
+  position: absolute;
+  height: 424px;
 }
 #layer1 {
-  background: url('../imgs/wave-1.png') repeat-x 50% 0;
-  width: 9980px;
+  background: url('../imgs/wave-1.png') repeat-x 50% bottom;
+  width: 10500px;
   left: -7000px;
-  bottom: -60px;
+  bottom: -220px;
   z-index: 4;
 }
 #layer4 {
-  background: url('../imgs/wave-4.png') repeat-x 50% 0;
-  width: 12100px;
-  left: -10000px;
-  bottom: -120px;
+  background: url('../imgs/wave-4.png') repeat-x 50% bottom;
+  height: 500px;
+  width: 12000px;
+  left: -4500px;
+  bottom: -185px;
   z-index: 5;
 }
-#layer5 { 
-  background: url('../imgs/wave-5.png') repeat-x 50% 0;
-  width: 14320px;
-  left: -12000px;
+#layer5 {
+  background: url('../imgs/wave-5.png') repeat-x 50% bottom;
+  width: 14000px;
+  left: -2000px;
   bottom: -170px;
   z-index: 6;
 }
-
-
-/* CLOUDS PARALLAX */
-.cloud {
-  position: absolute;
-}
-#bigCloud {
-  background: url('../imgs/clouds-b.png') repeat 0 0;
-  width: 4000px;
-  height: 16000px;
-  left: -1067px;
-  top: -14000px;
-  z-index: 0;
-}
-#medCloud {
-  background: url('../imgs/clouds-m.png') repeat 0 0;
-  width: 6000px;
-  height: 18000px;
-  left: -2567px;
-  top: -15500px;
-  z-index: 1;
-}
-#smCloud {
-  background: url('../imgs/clouds-s.png') repeat 0 0;
-  width: 8000px;
-  height: 20000px;
-  left: -3067px;
-  top: -17000px;
-  z-index: 2;
-}
-
-
-/* Main Content Layer with the Panels */
 
 #layer3 { /* layer3 - CONTENT LAYER */
   width: 96%;
   height: 88%;
   left: 100px;
-  top: 20px;
-  z-index: 7; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
+  top: 0;
+  z-index: 3; /* change to either 2: correct spot in stack; or 7: on top of stack for dev; */
+}
 
+/* CLOUDS PARALLAX */
+.clouds {
+  position: absolute;
+}
+.clouds img {
+  position: relative;
+  display: inline-block;
+  display: none;
+}
+#big-clouds {
+  background: url('../imgs/clouds-b.png') repeat 0 0;
+  width: 16428px;
+  height: 13138px;
+  left: -1500px;
+  top: -10000px;
+  z-index: 0;
+}
+#med-clouds {
+  background: url('../imgs/clouds-m.png') repeat 0 0;
+  width: 18428px;
+  height: 15138px;
+  left: -1700px;
+  top: -12000px;
+  z-index: 1;
+}
+#sm-clouds {
+  background: url('../imgs/clouds-s.png') repeat 0 0;
+  width: 20428px;
+  height: 17138px;
+  left: -1900px;
+  top: -14000px;
+  z-index: 2;
+}
+
+/* CLOUDS POSITIONING FOR EACH SIZE */
+
+#bcloud1 { left: -1650px; top: -700px; }
+#bcloud2 { left: 19000px; top: -1050px; }
+#bcloud3 { left: 2050px; top: 300px; }
+#bcloud4 { left: -500px; top: 1050px; }
+#bcloud5 { left: 17050px; top: 8000px; }
+#bcloud6 { left: 1070px; top: 200px; }
+
+#mcloud1 { left: 200px; top: -290px; }
+#mcloud2 { left: 1090px; top: 610px; }
+#mcloud3 { left: 150px; top: 550px; }
+#mcloud4 { left: -950px; top: -550px; }
+#mcloud5 { left: 19050px; top: -350px; }
+#mcloud6 { left: -1250px; top: 550px; }
+#mcloud7 { left: 9000px; top: 150px }
+#mcloud8 { left: -1650px; top: 850px; }
+#mcloud9 { left: -450px; top: -850px; }
+
+#scloud1 { left: -100px; top: 200px; }
+#scloud2 { left: 50px; top: 600px; }
+#scloud3 { left: 2150px; top: 400px; }
+#scloud4 { left: 250px; top: -1600px; }
+#scloud5 { left: -50px; top: 2050px; }
+#scloud6 { left: 50px; top: 50px; }
+#scloud7 { left: 50px; top: -200px; }
+#scloud8 { left: -150px; top: 50px; }
+#scloud9 { left: 950px; top: 1250px; }
+#scloud10 { left: 50px; top: -500px; }
+#scloud11 { left: -1460px; top: -210px; }
+#scloud12 { left: 50px; top: -1650px; }
+
+/* Main Content Layer with the Panels */
+
+#layer3 {
   display: inline-block;
   position: absolute;
   margin: 0 auto;
+  /*
+  width: 4659px;
+  height: 3362px;
+  */
 }
 
 /* Ruler for positioning purposes */
@@ -276,49 +318,26 @@ footer p {
   height: 3362px;
 }
 
-/* Panels */
-
-.panel-wrap {
-  display: none;
-}
 #layer3 .panel {
   background: hsla(0, 0%, 98%, 0.6);
   position: absolute;
   display: inline-block;
   margin: 55px 20px;
   padding: 10px;
-  width: 100%;
-  overflow: hidden;
 }
+
+
+/* Panels */
+
 .panel article {
   color: #000;
   font-size: 12px;
   line-height: 18px;
   position: relative;
   display: inline-block;
-  width: 100%;
-  margin: 0;
+  margin: 0 0 0 30px;
   padding: 0 5px;
-}
-/*.panel article img {
-  max-width: 100%;
-  height: 100%;
-}
-.panel article iframe,  
-.panel article object,  
-.panel article embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-*/
-.panel article a {
-  color: hsla(202, 40%, 30%, 1);
-}
-.panel article a:hover {
-  color: hsla(0, 100%, 50%, 1);
+  width: 470px;
 }
 .panel article figure {
   float: left;
@@ -328,28 +347,16 @@ footer p {
   position: relative;
   display: inline-block;
   width: 685px;
-  height: 583px;
+  height: 820px;
   float: left;
   overflow: hidden;
 }
-.panel article .gallery ul {
-  margin: 0;
-}
 .panel article .project-content {
   background: hsla(205, 5%, 98%, 1);
-  display: inline-block;
-  position: relative;
-  width: 30.5666664%;
-  margin-left: 10px;
-  float: right;
-  padding: 5px;
-  max-height: 610px;
-  overflow-x: hidden;
-  overflow-y: scroll; /* TODO: This needs to be made to use custom scrollbars */
 }
 .panel article .project-content h2 {
   display: inline-block;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: normal;
   margin: 5px 0 15px;
 }
@@ -369,30 +376,43 @@ footer p {
   float: none;
 }
 
-/* Rows */
-.row0 {
+
+/* First Row */
+#panel1, #panel2, #panel3 {
   top: -1200px;
 }
-.row1 {
+
+/* Second Row */
+#panel4, #panel5, #panel6 {
   top: 0;
 }
-.row2 {
+
+/* Third Row */
+#panel7, #panel8, #panel9 {
   top: 1200px;
 }
-.row3 {
+
+/* Fourth Row */
+#panel10, #panel11, #panel12 {
   top: 2700px;
 }
 
-/* Cols */
-.col0 {
+
+/* Left Col */
+#panel1, #panel4, #panel7, #panel10 {
   left: -1700px;
 }
-.col1 {
+
+/* Middle Col */
+#panel2, #panel5, #panel8, #panel11 {
   left: 0;
 }
-.col2 {
+
+/* Right Col */
+#panel3, #panel6, #panel9, #panel12 {
   left: 1700px;
 }
+
 
 /*
   Colors:
@@ -414,19 +434,19 @@ footer p {
   padding: 2px 0;
 }
 .anythingSlider-default.activeSlider .anythingControls ul {
-  margin: 5px;
+  margin: 15px;
   padding: 0;
   position: relative;
   width: 655px;
-  left: 0;
-  top: 0;
+  left: 7px;
+  top: 15px;
   display: inline-block;
   float: none;
 }
 
 .anythingSlider-default.activeSlider .anythingControls a {
   background: none;
-  border: 1px solid hsla(200, 20%, 40%, 1);
+  border: 3px dashed #fff;
   display: inline-block;
   height: 90px;
   padding: 2px;
@@ -435,7 +455,7 @@ footer p {
 .anythingSlider-default.activeSlider .anythingControls a.cur,
 .anythingSlider-default.activeSlider .anythingControls a:hover {
   background: none;
-  border: hsla(0, 100%, 50%, 1);
+  border: 3px dashed rgba(237, 38, 36, 0.6);
 }
 .anythingSlider-default .anythingControls a.cur {
   background: none;
@@ -461,7 +481,6 @@ footer p {
   position: relative;
   width: auto;
 }
-
 
 
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }

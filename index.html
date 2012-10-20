@@ -58,8 +58,6 @@
 
 </header>
 
-<section id="layer5" class="waves layer"></section>
-<section id="layer4" class="waves layer"></section>
 <section id="layer3" class="content layer">
 	<!-- <img src="imgs/grid-ruler.png" alt="ruler" id="ruler" /> -->
 
@@ -185,10 +183,15 @@
 
 </section>
 
+<section id="layer5" class="waves layer"></section>
+<section id="layer4" class="waves layer"></section>
 <section id="layer1" class="waves layer"></section>
-<!-- <section id="sm-clouds" class="clouds layer"></section>
-<section id="med-clouds" class="clouds layer"></section> -->
-<canvas id="big-clouds" class="clouds"></canvas>
+
+<section id="smCloud" class="cloud layer"></section>
+<section id="medCloud" class="cloud layer"></section>
+<section id="bigCloud" class="cloud layer"></section>
+
+<canvas id="big-clouds" class="cloud">You need to a newer browser to see this awesomeness!</canvas>
 
 <footer>
 	<span class="copyright">
@@ -197,13 +200,11 @@
 	</span>
 </footer>
 
-
 <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-<script src="js/libs/raphael.2.1.0.min.js"></script>
+<script src="js/libs/requestAnim.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
-
 
 <script>
 var _gaq=[['_setAccount','UA-22924724-1'],['_trackPageview']];

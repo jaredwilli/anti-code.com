@@ -41,7 +41,7 @@ var addEvent = (function() {
 =========================== --*/
 
 
-var DND = {
+(DND = {
 	init: function() {
 		// Would you rather have this img array dynamically generated on the fly?
 		// Is that not how this would be done in a real-world app?
@@ -111,5 +111,4 @@ var DND = {
 			/* IE9 seems to need a clearData to reset whats moving where but semi-works */
 		});
 	}
-};
-DND.init();
+})().init();

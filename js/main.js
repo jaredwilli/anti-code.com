@@ -43,13 +43,13 @@ anti = {
 			var layerId = $(l[j]).attr('id');
 
 			anti.layers[layerId] = {};
-			anti.layers[layerId].data = [];
-			anti.layers[layerId].data.push(
+			anti.layers[layerId].pos = [];
+			anti.layers[layerId].pos.push(
 				Number($('#'+ layerId).css('left').split('px')[0]),
 				Number($('#'+ layerId).css('top').split('px')[0]),
 				Number($('#'+ layerId).css('width').split('px')[0]),
 				Number($('#'+ layerId).css('height').split('px')[0])
-			);			
+			);
 		}
 		// Setup paperjs canvas
 		//anti.paper.setUp();
@@ -77,8 +77,8 @@ anti = {
 				height: dim.h + 'px'
 			});
 			$('.panel').css({
-				width: dim.w - (3 * $('#layer3').css('left').split('px')[0]) + 'px',
-				height: dim.h - 160 + 'px'
+				//width: dim.w - (3 * $('#layer3').css('left').split('px')[0]) + 'px',
+				height: dim.h - (dim.h * 0.179) + 'px'
 			});
 
 			// get offsetDistance - http://jsfiddle.net/jaredwilli/cydhM/
@@ -130,7 +130,7 @@ anti = {
 		// Constants for nav functionality
 		BASE_DURATION: 1000,
 		MAX_DURATION: 4000,
-		EASING_TYPE: 'swing', // easeOutQuart',
+		EASING_TYPE: 'easeOutQuart', // easeOutQuart',
 		MENU_SET: $('#main-nav').find('a'),
 
 		// sets up handlers on nav elements and maps handlers, with target params
@@ -170,6 +170,8 @@ anti = {
 			//console.log('moveAll called!!');
 
 			//console.log(anti.panels, anti.layers, panelToLoad);
+			var winW = window.innerWidth,
+				winH = window.innerHeight;
 
 			var layer3pos = anti.panels[panelToLoad].pos,
 				layer3x = layer3pos[0] * -1 + 100,
@@ -180,25 +182,63 @@ anti = {
 			// Slope difference of layer3
 			//var slope = ((an.layerPos.layer3[1] - layer3y) / (an.layerPos.layer3[0] - layer3x));
 
-			anti.layers.layer3.data[2] = anti.panels.panel1.pos[0] - (anti.panels.panel3.pos[0] + window.innerWidth);
-			anti.layers.layer3.data[3] = anti.panels.panel1.pos[1] - (anti.panels.panel3.pos[0] + window.innerHeight);
+			anti.layers.layer3.pos[2] = anti.panels.panel1.pos[0] - (anti.panels.panel3.pos[0] + winW);
+			anti.layers.layer3.pos[3] = anti.panels.panel1.pos[1] - (anti.panels.panel3.pos[0] + winH);
 			
-			var xConst = (anti.panels[panelToLoad].pos[0] - anti.layers.layer3.data[2]) * 0.0001;
+			/**
+			 * layer - anti.layer[layer].pos = [x, y, w, h]
+			 *
+			 * xConst/yConst = (panelToLoad.pos[x, y] - layer3[Width/Height]) * 0.0001; // times 10,000th
+			 * layer1,4,5 x  = (layer1,4,5 Width / windowWidth) * ((panel.pos[x] - layer3width) * 0.0001) * 1000 * -1
+			 * layers = anti.layer [x, y] - layer[x,y]
+			 */
+			var xConst = (anti.panels[panelToLoad].pos[0] - anti.layers.layer3.pos[2]) * 0.0001;
+			var yConst = (anti.panels[panelToLoad].pos[1] - anti.layers.layer3.pos[3]) * 0.0001;
 
-			console.log(anti.layers.layer3.data[2], anti.layers.layer3.data[3], xConst);
+			//console.log(anti.layers.layer3.pos[2], anti.layers.layer3.pos[3], xConst);
 
-			var layer1x = (Number(anti.layers.layer1.data[2]) / window.innerWidth) * xConst * 1000 * -1;
-			var layer4x = (Number(anti.layers.layer4.data[2]) / window.innerWidth) * xConst * 1000 * -1;
-			var layer5x = (Number(anti.layers.layer5.data[2]) / window.innerWidth) * xConst * 1000 * -1;
+			var layer1x = (anti.layers.layer1.pos[2]) / winW * xConst * 1000 * -1;
+			var layer4x = (anti.layers.layer4.pos[2] / winW) * xConst * 1000 * -1;
+			var layer5x = (anti.layers.layer5.pos[2] / winW) * xConst * 1000 * -1;
+
+			var bCloudx = (Number(anti.layers.bigCloud.pos[2]) / winW) * xConst * 1000 * -1,
+				bCloudy = (Number(anti.layers.bigCloud.pos[3]) / winH) * yConst * 1000 * -1;
+			
+			var mCloudx = (Number(anti.layers.medCloud.pos[2]) / winW) * xConst * 1000 * -1,
+				mCloudy = (Number(anti.layers.medCloud.pos[3]) / winH) * yConst * 1000 * -1;
+			
+			var sCloudx = (Number(anti.layers.smCloud.pos[2]) / winW) * xConst * 1000 * -1,
+				sCloudy = (Number(anti.layers.smCloud.pos[3]) / winH) * yConst * 1000 * -1;
 
 			var layers = {
-				layer1: [anti.layers.layer1.data[0] - layer1x, Number($('#layer1').css('bottom').split('px')[0])],
-				layer4: [anti.layers.layer4.data[0] - layer4x, Number($('#layer4').css('bottom').split('px')[0])],
-				layer5: [anti.layers.layer5.data[0] - layer5x, Number($('#layer5').css('bottom').split('px')[0])],
-				layer3: [layer3x, layer3y]
+				layer3: [layer3x, layer3y],
+				layer1: [
+					anti.layers.layer1.pos[0] - layer1x, 
+					Number($('#layer1').css('bottom').split('px')[0])
+				],
+				layer4: [
+					anti.layers.layer4.pos[0] - layer4x, 
+					Number($('#layer4').css('bottom').split('px')[0])
+				],
+				layer5: [
+					anti.layers.layer5.pos[0] - layer5x,
+					Number($('#layer5').css('bottom').split('px')[0])
+				],
+				bigCloud: [
+					anti.layers.bigCloud.pos[0] - bCloudx,
+					anti.layers.bigCloud.pos[1] - bCloudy
+				],
+				medCloud: [
+					anti.layers.medCloud.pos[0] - mCloudx,
+					anti.layers.medCloud.pos[1] - mCloudy
+				],
+				smCloud: [
+					anti.layers.smCloud.pos[0] - sCloudx,
+					anti.layers.smCloud.pos[1] - sCloudy
+				]
 			};
 
-			//console.log(layers);
+			console.log(layers);
 
 			anti.panelNavigation.animateEm(layers);
 		},
@@ -206,21 +246,38 @@ anti = {
 			//console.log('animateEm called');
 
 			// check for travel distance to set animation duration based on how far to slide
-			var xDiff = Math.abs( (anti.layers.layer3.data[2] + 100000) - (layers.layer3[0] + 100000) );
+			var xDiff = Math.abs((anti.layers.layer3.pos[2] + 100000) - (layers.layer3[0] + 100000));
             // calculate the adjusted animation duration
-            var thisDuration = (xDiff / (anti.layers.layer3.data[2] * (anti.panelNavigation.MAX_DURATION - anti.panelNavigation.BASE_DURATION))) + anti.panelNavigation.BASE_DURATION;
+            var thisDuration = (xDiff / (anti.layers.layer3.pos[2] * (anti.panelNavigation.MAX_DURATION - anti.panelNavigation.BASE_DURATION))) + anti.panelNavigation.BASE_DURATION;
 
 			//console.log(xDiff, xDiff/ (anti.layers.layer3.data[2] * (anti.panelNavigation.MAX_DURATION - anti.panelNavigation.BASE_DURATION))  + anti.panelNavigation.BASE_DURATION);
 			
 			// run the animations
-			$('#layer1').stop().animate({ left: layers.layer1[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
-			$('#layer4').stop().animate({ left: layers.layer4[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
-			$('#layer5').stop().animate({ left: layers.layer5[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
-
 			$('#layer3').stop().animate({
 				left: layers.layer3[0] + 'px', 
 				top: layers.layer3[1] + 'px'
 			}, thisDuration, anti.EASING_TYPE);
+
+			$('#layer1').stop().animate({ left: layers.layer1[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
+			$('#layer4').stop().animate({ left: layers.layer4[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
+			$('#layer5').stop().animate({ left: layers.layer5[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
+
+			$('#bigCloud').stop().animate({
+				left: layers.bigCloud[0] + 'px', 
+				top: layers.bigCloud[1] + 'px'
+			}, thisDuration, anti.EASING_TYPE);
+
+			$('#medCloud').stop().animate({
+				left: layers.medCloud[0] + 'px', 
+				top: layers.medCloud[1] + 'px'
+			}, thisDuration, anti.EASING_TYPE);
+		
+			$('#smCloud').stop().animate({
+				left: layers.smCloud[0] + 'px', 
+				top: layers.smCloud[1] + 'px'
+			}, thisDuration, anti.EASING_TYPE);
+
+			//anti.canvas.init();
 		}
 	},
 	panelContent: {
@@ -230,7 +287,8 @@ anti = {
 			$('.panel').find('.panel-wrap').fadeOut(500);
 
 			// Cache the files loaded for each panel and enable event firing afterDOMready for each
-/*			var afterDOMReady = anti.utils.createCache(function(defer, delay) {
+			/*
+			var afterDOMReady = anti.utils.createCache(function(defer, delay) {
 			    delay = delay || 0;
 			    $(function() {
 			        var delta = readyTime + delay - $.now();
@@ -240,21 +298,13 @@ anti = {
 			            setTimeout(defer.resolve, delta);
 			        }
 			    });
-			});*/
+			});
+			*/
 
 			// If the panel is already loaded then show the hidden panel-wrap
 			if (isLoaded) {
 				anti.panelContent.showPanelContent(panelTo);
 			} else {
-
-
-				/*$.afterDOMReady(5000, function() {
-				    $('#message').hide().text('ZOOOM!').fadeIn();
-				});
-
-				anti.utils.createCache(function(dfd, panelTo) {
-				    .then(dfd.resolve, dfd.reject);
-				});*/
 				anti.panelContent.loadPanelContent(panelTo);
 			}
 		},
@@ -273,8 +323,11 @@ anti = {
 				//console.log('slider YES!', $('#'+ panelToLoad).find('.slider').length);
 
 				anti.panels.panelsLoaded.push(panelToLoad);
-				
-				//anti.panels.hasSlider(panelToLoad)
+				/*
+				if (anti.panelContent.hasSlider($('#'+ panelToLoad))) {
+					anti.panelContent.makeSlider($('#'+ panelToLoad));
+				}
+				*/
 			})
 			.fail(function(jqXHR, status, error) {
 				console.log('Status: '+ status +'"\n" Error: '+ error);
@@ -283,14 +336,14 @@ anti = {
 				$('#'+ panelToLoad).find('.panel-wrap').delay(300).fadeIn(500);
 			});
 		},
-		hasSlider: function(panelToLoad) {
-			return panelToLoad.find('.slider').length ? panelToLoad : $.Deferred().reject('slider not found');
+		hasSlider: function(panelEl) {
+			return panelEl.find('.slider').length ? true : $.Deferred().reject('slider not found');
 		},
 		makeSlider: function(panel) {
-			$('.slider').anythingSlider({
+			panel.find('.slider').anythingSlider({
 				easing: 'swing',
 				navigationFormatter: function(i, slide) { // add thumbnails as navigation links
-					return '<img src="panels/'+ panel +'/thumb-'+ i +'.png" />';
+					return '<img src="panels/'+ panel.attr('id') +'/thumb-'+ i +'.png" />';
 				},
 				addWmodeToObject: 'opaque',
 				isVideoPlaying: function(base) {
@@ -300,15 +353,59 @@ anti = {
 		}
 	},
 	canvas: {
+		clouds: [],
 		init: function() {
 			var canvas = document.getElementById('big-clouds'),
 				ctx = canvas.getContext('2d'),
-				numClouds = 20;
+				numClouds = 20,
+				aLeft = 37,
+				aUp	= 38,
+				aRight = 39,
+				aDown = 40;
 
+			// Create the ballz
+	        for ( var i = 0; i < numClouds; i++ ) {
+	            var x = 20 + ( Math.random() * (canvasWidth - 40) ),
+	                y = 20 + ( Math.random() * (canvasHeight - 40) ),
+	                radius = 15 + Math.random() * 25,
+	                mass = radius / 2;
+	                vX = Math.random() * 4 - 2,
+	                vY = Math.random() * 4 - 2, // random number between -2 and 2
+	                aX = Math.random() * 0.2 - 0.1,
+	                aY = Math.random() * 0.2 - 0.1;
+	            
+	            anti.canvas.clouds.push(new anti.canvas.Ball(x, y, radius, mass, vX, vY, aX, aY));
+	        }
 
+	        for ( var i = 0; i < numClouds; i++ ) {
+            	var a = clouds[i];
 
+	    		ctx.beginPath();
+            		ctx.arc(a.x, a.y, a.radius, 0, Math.PI * 2, false);
+	            ctx.closePath();
+    	        ctx.fill();
+    	    }
 		},
-		cloudMaker: function(ctx) {
+		animate: function() {
+			
+			setTimeout(anti.canvas.animate, 1000 / 33);
+		},
+		// the ball constructor
+	    Ball: function(x, y, radius, mass, vX, vY, aX, aY) {
+	        // position, size, mass
+	        this.x = x;
+	        this.y = y;
+	        this.radius = radius;
+	        this.maxRadius = radius * .02;
+	        this.mass = mass;
+	        // velocity
+	        this.vX = vX;
+	        this.vY = vY;
+	        // accelleration
+	        this.aX = aX;
+	        this.aY = aY;
+	    },
+    	cloudMaker: function(ctx) {
 			ctx.arc(-25, 85, 0, 10, Math.Pi * 2, true);
 /*			var circle1 = new Path.Circle(new Point(450, 110), 35);
 			var circle2 = new Path.Circle(new Point(370, 70), 65);
