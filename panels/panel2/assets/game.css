@@ -1,20 +1,29 @@
-#panel2 #can { display:block; } /* To remove the scrollbars */
-#panel2 h1 { font-size: 30px; color:#ffff00; }
-#panel2 p { margin: 0 20px; }
-#panel2 a { color: #fff; text-decoration: none; text-shadow:0 1px 0 rgba(0,0,0,.8); }
-#panel2 a:hover { border-bottom: 1px solid rgba(255,255,255,.7); padding-bottom: 3px; }
+#panel2 #can { display: block; } /* To remove the scrollbars */
+#panel2 h1 {
+	font-size: 34px;
+	color:#ffff00;
+}
+#panel2 h2 {
+	text-align: center;
+	font-size: 20px;
+	margin: 0;
+	padding: 0;
+}
+#panel2 a { color: #fff; text-decoration: none; text-shadow: 0 1px 0 rgba(0,0,0,.8); }
+#panel2 a:hover { border-bottom: 1px solid rgba(255,255,255,0.7); padding-bottom: 3px; }
 #panel2 a.button { 
 	background: #185da8; 
-	border-radius: 5px; 
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-o-border-radius: 5px;
-	-khtml-border-radius: 5px;
 	display: block;
 	font-size: 30px;
 	margin: 20px auto;
 	padding: 10px;
 	width: 200px;
+
+	border-radius: 5px; 
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #panel2 a.button:hover {
 	background: #2488f5;
@@ -24,7 +33,7 @@
 }
 #panel2 #game {
 	height: 600px;
-	top: 100px;
+	top: 20px;
 	margin: 0 auto;
 	position: relative;
 	width: 350px;
@@ -39,6 +48,7 @@
 }
 #panel2 #can { background: #001022; }
 #panel2 #game-ui {
+	color: #fff;
 	height: 600px;
 	position: absolute; /* Places UI on top of canvas */
 	width: 348px;
@@ -65,20 +75,51 @@
 	top:0;
 	width:100%;
 }
+#panel2 #game-stats p {
+	margin: 0 10px;
+}
 #panel2 #game-stats p:first-child { float:left; }
 #panel2 #game-stats p:last-child { float: right; }
-	
+#panel2 #game-stats p a {
+	position: absolute;
+	right: 10px;
+	top: 0;
+}
 #panel2 #can { 
 	background: #000066;
 	cursor: crosshair;
-	border: 1px solid hsla(220,90%,50%,.7);
+	border: 1px solid hsla(220,90%,50%,0.7);
 	border-radius: 3px; 
+
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px; 
 	-o-border-radius: 3px;
-	box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7); 
-	-moz-box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7);
-	-webkit-box-shadow: 0 1px 10px hsla(200, 0%, 0%, .7);
+	box-shadow: 0 1px 10px hsla(200, 0%, 0%, 0.7); 
+	-moz-box-shadow: 0 1px 10px hsla(200, 0%, 0%, 0.7);
+	-webkit-box-shadow: 0 1px 10px hsla(200, 0%, 0%, 0.7);
  }
 #panel2 #buttons { top: 20px; left: 20px; position: absolute; }
 #panel2 #buttons button { padding: 5px; }
+
+#panel2 footer#stargame {
+	background: none;
+	border-top: 1px solid hsla(230, 20%, 40%, 1);
+	box-shadow: none;
+	text-shadow: none;
+	color: black;
+	width: 60%;
+	text-align: center;
+	position: relative;
+	top: 40px;margin: 0 auto;
+}
+#panel2 footer#stargame a {
+	color: hsla(202, 40%, 30%, 1);
+	text-shadow: none;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#panel2 footer#stargame a:hover {
+	color: hsla(0, 100%, 50%, 1);
+	border: 0;
+}

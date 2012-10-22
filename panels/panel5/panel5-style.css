@@ -1,0 +1,111 @@
+#panel5 #default-nav {
+	display: inline-block;
+	margin: 0 0.025em;
+}
+#panel5 #default-nav ul {
+  list-style: none;
+}
+#panel5 #default-nav li {
+	background-image: url('sprite-panels.png');
+	background-repeat: no-repeat;
+	border: 1px solid hsla(200, 90%, 80%, 1);
+	display: inline-block;
+	position: relative;
+	float: left;
+	margin: 0.500em;
+	width: 320px;
+	height: 182px;
+
+	-webkit-box-shadow: 0px 0px 5px 0px hsla(228, 0%, 0%, 0.5);
+	box-shadow: 0px 0px 5px 1px hsla(228, 0%, 0%, 0.5);
+}
+#default-nav li:hover {
+	background: hsla(214, 100%, 50%, 0.7);
+	background-position: 0 179px;
+}
+
+#panel5 #default-nav li a {
+  position: absolute;
+  bottom: 0;
+  padding: 2px 0;
+  width: 100%;
+  height: 100%;
+}
+#panel5 #default-nav  li a span {
+  background: hsla(214, 100%, 50%, 0.8);
+  color: hsla(202, 65%, 90%, 1);
+  text-shadow: 1px 1px 2px rgba(20,20,20,0.9);
+  display: block;
+  text-align: center;
+  padding: 6px 0;
+  height: 18px;
+  font-size: 14px;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
+
+#default-nav .panel1 {
+	background-position: 0 0;
+}
+#default-nav .panel2 {
+	background-position: 0 -179px;
+}
+#default-nav .panel3 {
+	background-position: 0 -367px;
+}
+#default-nav .panel4 {
+	background-position: 0 -554px;
+}
+#default-nav .panel5 {
+	background: hsla(214, 100%, 50%, 0.7);
+	background-position: 0 179px;
+	color: hsla(202, 65%, 90%, 1);
+	text-shadow: 1px 1px 2px hsla(0, 0%, 8%, 0.9);
+	text-align: center;
+	font-family: courier new, monospace;
+}
+#default-nav .panel5 h1 {
+	font-size: 22px;
+	position: relative;
+	top: 20px;
+}
+#default-nav .panel5 h2 {
+	font-size: 40px;
+	position: relative;
+	top: 40px;
+}
+#default-nav .panel5 span {
+	display: block;
+	position: relative;
+	bottom: -54px;
+	font-weight: bold;
+}
+#default-nav .panel5 h3 {
+	font-size: 20px;
+	position: relative;
+	top: 60px;
+}
+
+#default-nav .panel6 {
+	background-position: 0 -992px;
+}
+#default-nav .panel7 {
+	background-position: 0 -1116px;
+}
+#default-nav .panel8 {
+	background-position: 0 -1303px;
+}
+#default-nav .panel9 {
+	background-position: 0 -1491px;
+}
+#default-nav .panel10 {
+	background-position: 0 -1678px;
+}
+#default-nav .panel11 {
+	background-position: 0 -1865px;
+}
+#default-nav .panel12 {
+	background-position: 0 -741px;
+}
+

@@ -1,104 +1,196 @@
-// The amount of symbol we want to place;
-var count = 20;
+(anti.canvas = function() {
+	var b2Vec2 = Box2D.Common.Math.b2Vec2,
+		b2AABB = Box2D.Collision.b2AABB,
+		b2BodyDef = Box2D.Dynamics.b2BodyDef,
+		b2Body = Box2D.Dynamics.b2Body,
+		b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+		b2Fixture = Box2D.Dynamics.b2Fixture,
+		b2World = Box2D.Dynamics.b2World,
+		b2MassData = Box2D.Collision.Shapes.b2MassData,
+		b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+		b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+		b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+		b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef;
 
-function CloudFactory() {
-	var rndRect = new Path.RoundRectangle(new Rectangle(-25, 85, 500, 70), new Size(50, 70));
-	var circle1 = new Path.Circle(new Point(450, 110), 35);
-	var circle2 = new Path.Circle(new Point(370, 70), 65);
-	var circle3 = new Path.Circle(new Point(280, 25), 90);
-	var circle4 = new Path.Circle(new Point(205, 90), 65);
-	var circle5 = new Path.Circle(new Point(115, 70), 55);
-	var circle6 = new Path.Circle(new Point(55, 95), 40);
-	var circle7 = new Path.Circle(new Point(3, 115), 35);
-	
-	var group = new Group([rndRect, circle1, circle2, circle3, circle4, circle5, circle6, circle7]);
-	return group;
-}
+	var world = new b2World(
+	new b2Vec2(0, 10), //gravity
+		true //allow sleep
+	);
 
-// Create a symbol, which we will use to place instances of later:
-var path = CloudFactory(); //new Path.Circle(new Point(0, 0), 50);
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
 
-path.style = {
-	fillColor: 'rgba(200,200,200,0.05)',
-	strokeColor: 'rgba(200,200,200,0.05)'
-};
+	var bodyDef = new b2BodyDef;
 
-var symbol = new Symbol(path);
+	//create ground
+	bodyDef.type = b2Body.b2_staticBody;
 
-// Place the instances of the symbol:
-for (var i = 0; i < count; i++) {
-	// The center position is a random point in the view:
-	var center = Point.random() * view.size;
-	var placed = symbol.place(center);
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsBox(20, 2);
 
-	placed.scale(i / count);
-	placed.data = {};
-	placed.data.vector = new Point({
-		angle: Math.random() * 360,
-		length : (i / count) * Math.random() / 5
-	});
-}
+	bodyDef.position.Set(10, 400 / 30 + 1.8);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-var vector = new Point({
-	angle: 45,
-	length: 0
-});
+	bodyDef.position.Set(10, -1.8);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	fixDef.shape.SetAsBox(2, 14);
 
-var mouseVector = vector.clone();
+	bodyDef.position.Set(-1.8, 13);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-function onMouseMove(event) {
-	mouseVector = view.center - event.point;
-}
+	bodyDef.position.Set(21.8, 13);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-// The onFrame function is called up to 60 times a second:
-function onFrame(event) {
-	vector = vector + (mouseVector - vector) / 30;
 
-	// Run through the active layer's children list and change
-	// the position of the placed symbols:
-	for (var i = 0; i < count; i++) {
-		var item = project.activeLayer.children[i];
-		var size = item.bounds.size;
-		var length = vector.length / 100 * size.width / 100;
-
-		item.position += vector.normalize(length) + item.data.vector;
-		keepInView(item);
+	//create some objects
+	/*
+	bodyDef.type = b2Body.b2_dynamicBody;
+	for (var i = 0; i < 10; ++i) {
+	if (Math.random() > 0.5) {
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsBox(
+	Math.random() + 0.1, //half width
+	Math.random() + 0.1  //half height
+	);
+	} else {
+	fixDef.shape = new b2CircleShape(
+	Math.random() + 0.1 //radius
+	);
 	}
-}
+	bodyDef.position.x = Math.random() * 10;
+	bodyDef.position.y = Math.random() * 10;
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	}*/
 
-function keepInView(item) {
-	var bounds = view.bounds;
+	//create some objects
+	bodyDef.type = b2Body.b2_dynamicBody;
 
-	//console.log(item);
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsBox(20, 20);
 
-	// make edges mirror like in asteroids
-	if (item.bounds.x + item.bounds.width < bounds.x) {
-		item.position.x = bounds.width;
-	}
-	if (item.bounds.y + item.bounds.height < bounds.y) {
-		item.position.y = bounds.height;
+	bodyDef.position.x = 2;
+	bodyDef.position.y = 2;
+
+	fixDef.shape = new b2CircleShape(1);
+
+	bodyDef.position.x = 2;
+	bodyDef.position.y = 2;
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+
+	//setup debug draw
+	var debugDraw = new b2DebugDraw();
+	debugDraw.SetSprite(document.getElementById("bgGame").getContext("2d"));
+	debugDraw.SetDrawScale(30.0);
+	debugDraw.SetFillAlpha(0.5);
+	debugDraw.SetLineThickness(1.0);
+	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+	world.SetDebugDraw(debugDraw);
+
+	window.setInterval(update, 1000 / 60);
+
+	//mouse
+	var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
+	var canvasPosition = getElementPosition(document.getElementById("bgGame"));
+
+	document.addEventListener("mousedown", function(e) {
+		isMouseDown = true;
+		handleMouseMove(e);
+		document.addEventListener("mousemove", handleMouseMove, true);
+	}, true);
+
+	document.addEventListener("mouseup", function() {
+		document.removeEventListener("mousemove", handleMouseMove, true);
+		isMouseDown = false;
+		mouseX = undefined;
+		mouseY = undefined;
+	}, true);
+
+	function handleMouseMove(e) {
+		mouseX = (e.clientX - canvasPosition.x) / 30;
+		mouseY = (e.clientY - canvasPosition.y) / 30;
+	};
+
+	function getBodyAtMouse() {
+		mousePVec = new b2Vec2(mouseX, mouseY);
+		
+		var aabb = new b2AABB();
+		aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
+		aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
+
+		// Query the world for overlapping shapes.
+		selectedBody = null;
+		world.QueryAABB(getBodyCB, aabb);
+		return selectedBody;
 	}
 
-	if (item.bounds.x - item.bounds.width > bounds.width) {
-		console.log(item.bounds);
+	function getBodyCB(fixture) {
+		if (fixture.GetBody().GetType() !== b2Body.b2_staticBody) {
+			if (fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec)) {
+				selectedBody = fixture.GetBody();
+				return false;
+			}
+		}
+		return true;
+	}
 
-		item.position.x = 0;
+	//update
+	function update() {
+		if (isMouseDown && (!mouseJoint)) {
+			var body = getBodyAtMouse();
+			
+			if (body) {
+				var md = new b2MouseJointDef();
+				md.bodyA = world.GetGroundBody();
+				md.bodyB = body;
+				md.target.Set(mouseX, mouseY);
+				md.collideConnected = true;
+				md.maxForce = 300.0 * body.GetMass();
+				mouseJoint = world.CreateJoint(md);
+				body.SetAwake(true);
+			}
+		}
+
+		if (mouseJoint) {
+			if (isMouseDown) {
+				mouseJoint.SetTarget(new b2Vec2(mouseX, mouseY));
+			} else {
+				world.DestroyJoint(mouseJoint);
+				mouseJoint = null;
+			}
+		}
+
+		world.Step(1 / 60, 10, 10);
+		world.DrawDebugData();
+		world.ClearForces();
+	};
+
+	//helpers
+	//http://js-tut.aardon.de/js-tut/tutorial/position.html
+
+	function getElementPosition(element) {
+		var elem = element,
+			tagname = "",
+			x = 0,
+			y = 0;
+
+		while ((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
+			y += elem.offsetTop;
+			x += elem.offsetLeft;
+			tagname = elem.tagName.toUpperCase();
+
+			if (tagname == "BODY") elem = 0;
+
+			if (typeof(elem) == "object") {
+				if (typeof(elem.offsetParent) == "object") elem = elem.offsetParent;
+			}
+		}
+
+		return {
+			x: x,
+			y: y
+		};
 	}
-	if (item.bounds.y - item.bounds.height > bounds.height) {
-		item.position.y = 0;
-	}
-/*
-	if (itemBounds.left > bounds.width) {
-		position.x = -item.bounds.width;
-	}
-	if (position.x < -itemBounds.width) {
-		position.x = bounds.width + itemBounds.width;
-	}
-	if (itemBounds.top > view.size.height) {
-		position.y = -itemBounds.height;
-	}
-	if (position.y < -itemBounds.height) {
-		position.y = bounds.height  + itemBounds.height / 2;
-	}
-*/
-}
+})();

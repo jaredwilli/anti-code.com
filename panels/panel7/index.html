@@ -1,23 +1,29 @@
-<article class="info">
-	<div class="gallery">
-		<ul id="portcandle" class="slider">
-			<li><img src="panels/portcandle/slide-1.jpg" alt=""></li>
-			<li><img src="panels/portcandle/slide-2.jpg" alt=""></li>
-			<li><img src="panels/portcandle/slide-3.jpg" alt=""></li>
-		</ul>
-	</div>
+<link rel="stylesheet" type="text/css" href="panels/panel7/style.css">
 
-	<section class="project-content">
-		<h2>The Port Candle Blog &amp; Online Shop</h2>
+<div id="game">
+    <h1>Rock Paper Scissors</h1>
+    <h3>Choose One</h3>
 
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-		</p>
-		<p>
-			Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</p>
+    <ul>
+        <li><a id="Rock" href="#">Rock</a></li>
+        <li><a id="Paper" href="#">Paper</a></li>
+        <li><a id="Scissors" href="#">Scissors</a></li>
+    </ul>
+    
+    <div id="results">
+        <div id="player"></div>
+        <div id="winner"></div>
+        <div id="computer"></div>
+    </div>
 
-		<a href="https://store.portcandle.com" target="_blank">The Port Candle Shop</a> | 
-		<a href="http://portcandle.com" target="_blank">The Port Candle Blog</a>
-	</section>
-</article>
+    <p>
+        I was asked by someone how I would psuedo-code a Rock Paper Scissors game in JavaScript. I thought it would be more fun to just try and make the game myself and decided to try. It was a quick and dirty hack that took me about 2 hours to come up with a functional basic example of a working game.
+    </p>
+    <p>
+        My main goal was to make a basic working example of this childhood classic game while using the least amount of code. I could take this any number of ways. The JavaScript is structured within an object using the module pattern.
+    </p>
+
+    <p><a href="http://anti-code.com/examples/rockpaperscissors/" target="_blank">View original example in new tab...</a></p>
+</div>
+
+<script src="panels/panel7/script.js"></script>

@@ -1,3 +1,189 @@
+/*
+ * Canvas Context2D Wrapper <http://github.com/millermedeiros/CanvasContext2DWrapper>
+ * Released under WTFPL <http://sam.zoy.org/wtfpl/>.
+ * @author Miller Medeiros <http://millermedeiros.com>
+ * @version 1.0 (2010/08/08)
+ */
+(function(d){var e="arc arcTo beginPath bezierCurveTo clearRect clip closePath createImageData createLinearGradient createRadialGradient createPattern drawFocusRing drawImage fill fillRect fillText getImageData isPointInPath lineTo measureText moveTo putImageData quadraticCurveTo rect restore rotate save scale setTransform stroke strokeRect strokeText transform translate".split(" "),b="canvas fillStyle font globalAlpha globalCompositeOperation lineCap lineJoin lineWidth miterLimit shadowOffsetX shadowOffsetY shadowBlur shadowColor strokeStyle textAlign textBaseline".split(" ");function a(h,g,f){return function(){return h.apply(g,arguments)||f}}function c(h,g,f){return function(i){if(typeof i==="undefined"){return g[h]}else{g[h]=i;return f}}}d.Context2DWrapper=function(f){var h=e.length,g;this.context=f;while(h--){g=e[h];this[g]=a(f[g],f,this)}h=b.length;while(h--){g=b[h];this[g]=c(g,f,this)}}}(this));
+
+
+/**
+ * Provides requestAnimationFrame in a cross browser way.
+ * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+ */
+if (!window.requestAnimationFrame) {
+	window.requestAnimationFrame = (function() {
+		return window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+			window.setTimeout( callback, 1000 / 60 );
+		};
+	})();
+}
+/*
+(function animloop(){
+	render();
+	requestAnimFrame(animloop, element);
+})();
+*/
+
+
+// Simple JavaScript Templating
+// John Resig - http://ejohn.org/ - MIT Licensed
+(function(){
+  var cache = {};
+  this.tmpl = function tmpl(str, data){
+    // Figure out if we're getting a template, or if we need to
+    // load the template - and be sure to cache the result.
+    var fn = !/\W/.test(str) ?
+      cache[str] = cache[str] ||
+        tmpl(document.getElementById(str).innerHTML) :
+      
+      // Generate a reusable function that will serve as a template
+      // generator (and which will be cached).
+      new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);};" +
+        
+        // Introduce the data as local variables using with(){}
+        "with(obj){p.push('" +
+        
+        // Convert the template into pure JavaScript
+        str
+          .replace(/[\r\t\n]/g, " ")
+          .split("{{").join("\t")
+          .replace(/((^|}})[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)}}/g, "',$1,'")
+          .split("\t").join("');")
+          .split("}}").join("p.push('")
+          .split("\r").join("\\'")
+      + "');}return p.join('');");
+    
+    // Provide some basic currying to the user
+    return data ? fn( data ) : fn;
+  };
+})();
+
+
+/*
+    W, width management tool for responsive designs
+
+    Version     : 0.1.6
+    Authors     : Aurélien Delogu (dev@dreamysource.fr)
+    Homepage    : https://github.com/pyrsmk/W
+    License     : MIT
+    
+    Some readings
+    
+        http://www.quirksmode.org/mobile/viewports.html
+        http://www.quirksmode.org/mobile/tableViewport.html
+        http://www.alistapart.com/articles/fontresizing/
+    
+    Thanks
+    
+        To Lawrence Carvalho (carvalho@uk.yahoo-inc.com) for his useful TextResizeDetector script :)
+
+if(W(true)>=W(1440)){
+    // some actions for wide screens or shrinked contents
+}
+// Catch events to update contents when needed
+W(function(){
+    // Refresh stylesheets to force contents adaptation (especially for zooming and text size changing)
+    var links=document.getElementsByTagName('link'),
+        i=-1,
+        element;
+    while(element=links[++i]){
+        if(element.rel=='stylesheet'){
+            element.disabled=true;
+            element.disabled=false;
+        }
+    }
+});
+*/
+
+this.W = function(){
+    
+    var win=window,
+        doc=document,
+        html=doc.documentElement,
+        textelement,
+        textheight,
+        style='style',
+        createElement='createElement',
+        appendChild='appendChild',
+        offsetHeight='offsetHeight',
+        offsetWidth='offsetWidth',
+        listeners=[];
+    
+    /*
+    Main function
+    
+    Parameters
+        boolean, number, Function spec: if true, return em-based window width
+                                        if a number, translate it to ems
+                                        if a function, will be called when the user resizes the window, zooms the contents or changes text size
+    
+    Return
+        integer, null
+    */
+    return function(spec){
+        var type=typeof spec,unit,a,b;
+        if(type=='function'){
+            // Catch window resize event
+            if(a=win.addEventListener){
+                a('resize',spec,false);
+            }
+            else{
+                win.attachEvent('onresize',spec);
+            }
+            // Catch text resize event
+            if(!listeners.length){
+                textelement=doc[createElement]('b');
+                textelement[style].position='absolute';
+                textelement[style].top='-99em';
+                textelement.innerHTML='W';
+                html[appendChild](textelement);
+                textheight=textelement[offsetHeight];
+                setInterval(function(a,b){
+                    // Trigger text resize event
+                    if(textheight!=(b=textelement[offsetHeight])){
+                        a=listeners.length;
+                        while(a){
+                            listeners[--a]();
+                        }
+                    }
+                    textheight=b;
+                },250);
+            }
+            listeners.push(spec);
+            return;
+        }
+        // Compute em unit
+        a=doc[createElement]('div');
+        a[style].width='1em';
+        html[appendChild](a);
+        unit=a[offsetWidth];
+        unit=unit?unit:16; // 16px as fallback
+        html.removeChild(a);
+        // Tranlate provided px-based width
+        if(type=='number'){
+            return spec/unit;
+        }
+        else{
+            // Viewport width
+            a=html[offsetWidth];
+            // Window width
+            if(!(b=win.innerWidth)){
+                b=html.clientWidth;
+            }
+            // Guess the correct "window" width
+            a=(b-a)*100/b<5?b:a;
+            return spec?a/unit:a;
+        }
+    };
+}();
+
+
 /*!
 	AnythingSlider v1.8.6\
 */

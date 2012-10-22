@@ -56,7 +56,7 @@
 	opacity: 0.5;
 }
 #panel3 #thumbs .dragOver {
-	border: 4px dashed maroon;
+	border: 4px dashed hsla(0, 100%, 50%, 1);
 	padding: 2px;
 }
 
@@ -80,4 +80,14 @@
 #panel3 .anti a:hover {
 	color: hsla(200, 100%, 50%, 1);
 	text-shadow: 1px 1px 1px #fff, 0px 1px 5px rgba(200, 61, 82, 1);
+}
+
+#panel3 a {
+    color: hsla(202, 40%, 30%, 1);
+    font-size: 18px;
+    text-decoration: none;
+}
+#panel3 a:hover {
+    color: hsla(0, 100%, 50%, 1);
+    border: 0;
 }

@@ -1,25 +1,65 @@
-<article id="samsung" class="info">
-	<div class="gallery">
-		<ul class="slider">
-			<li><img src="panels/panel5/slide-1.jpg" alt=""></li>
-			<li>
-				<iframe width="680" height="400" src="//www.youtube.com/embed/xqjVE_cOlgA" frameborder="0" allowfullscreen></iframe>
+<link rel="stylesheet" type="text/css" href="panels/panel5/panel5-style.css">
+
+<article class="grid-menu">
+	<nav id="default-nav">
+		<ul>
+			<li class="panel1">
+				<a href="#panel1"><span>CSS Off 2011 Entry</span></a>
 			</li>
-			<li>
-				<object width="680" height="400">
-					<param name="allowfullscreen" value="true"></param>
-					<param name="movie" value="//www.facebook.com/v/10100307750402631"></param>
-					<embed src="//www.facebook.com/v/10100307750402631" type="application/x-shockwave-flash" allowfullscreen="1" width="680" height="400"></embed>
-				</object>
+			<li class="panel2">
+				<a href="#panel2"><span>StarShooters Canvas Game</span></a>
 			</li>
-			<li><img src="panels/panel5/slide-2.jpg" alt=""></li>
-			<li><img src="panels/panel5/slide-3.jpg" alt=""></li>
+			<li class="panel3">
+				<a href="#panel3"><span>HTML5 Drag'n Drop</span></a>
+			</li>
+			<li class="panel4">
+				<a href="#panel4"><span>Samsung Olympic Genome Project</span></a>
+			</li>
+			<li class="panel5">
+				<h1>Front-end Development</h1>
+				<h2>Portfolio</h2>
+				<span>of</span>
+				<h3>Jared Williams</h3>
+				<a href="resume.html">
+					<span>Check Out My Resume</span>
+				</a>
+			</li>
+			<li class="panel6">
+				<a href="#panel6"><span>2010 WordPress Honors</span></a>
+			</li>
+			<li class="panel7">
+				<a href="#panel7"><span>Rock Paper Scissors</span></a>
+			</li>
+			<li class="panel8">
+				<a href="#panel8"><span>New2WP.com</span></a>
+			</li>
+			<li class="panel9">
+				<a href="#panel9"><span>JBL.com Recommender</span></a>
+			</li>
+			<li class="panel10">
+				<a href="#panel10"><span>Retire Life</span></a>
+			</li>
+			<li class="panel11">
+				<a href="#panel11"><span>The Port Candle</span></a>
+			</li>
+			<li class="panel12">
+				<a href="#panel12"><span></span></a>
+			</li>
 		</ul>
-	</div>
-
-	<section class="project-content">
-		<h2>Samsung Olympic Genome Project</h2>
-
-		<p>I worked on this project for about 8 months when I was at Isobar and lead the development of the front-end for about 6 of those months after inheriting the lead role. The Olympic Genome Project was a complex Facebook data visualization app and interactive gaming experience built with Canvas and HTML5 to display information within a single animated page the different ways which consumers are connected to Olympic athletes. A community within a social network to incorporate the social graph and users profile data to find matching data from USOC to create different degrees of separation.</p>
-	</section>
+	</nav>
 </article>
+
+<script>
+if (typeof anti.default === 'undefined') {
+	anti.default = {};
+}
+
+anti.default = (function() {
+	$('#default-nav').find('a').on('click', function(e) {
+		var panelToLoad = $(this).attr('href').split('#')[1];
+
+		anti.panelNavigation.navigateToSection(panelToLoad);
+		e.preventDefault();
+	});	
+})();
+</script>
