@@ -25,15 +25,17 @@ anti = {
 			p = $('.panel'),
 			l = $('.layer');
 
-		p.html('<div class="panel-wrap"></div>');
-
 		// load the initial panel's content
-		anti.panelContent.setUp(anti.panels.activePanel);
-
+		anti.panels.panelsLoaded.push(anti.panels.activePanel);
+		anti.panelContent.loadPanel(anti.panels.activePanel);
+		
 		// Set up an obj of each panel and their left/top position
 		for (var i = 0; i < p.length; i++) {
 			var panelId = $(p[i]).attr('id');
 
+			if (i !== 4) {
+				$(p[i]).html('<div class="panel-wrap"></div>');
+			}
 			anti.panels[panelId] = {};
 			anti.panels[panelId].pos = [];
 			anti.panels[panelId].pos.push(
@@ -41,6 +43,7 @@ anti = {
 				Number($('#'+ panelId).css('top').split('px')[0])
 			);
 		}
+		console.log('panels: ', anti.panels);
 
         // Set up an obj of each panel and their left/top position
 		for (var j = 0; j < l.length; j++) {
@@ -55,10 +58,6 @@ anti = {
 				Number($('#'+ layerId).css('height').split('px')[0])
 			);
 		}
-		// Setup paperjs canvas
-		//anti.paper.setUp();
-
-		//Path.history.listen();
 
 		// Setup navigation
 		anti.panelNavigation.setUp();
@@ -67,13 +66,12 @@ anti = {
 		window.addEventListener('resize', anti.utils.resizeToScreen(b, l, p), false);
 		anti.utils.resizeToScreen(b, l, p);
 	},
-    
 	panelNavigation: {
 		// Constants for nav functionality
 		BASE_DURATION: 1000,
 		MAX_DURATION: 4000,
 		EASING_TYPE: 'easeOutQuart', // easeOutQuart',
-		MENU_SET: $('#main-nav').find('a'),	
+		MENU_SET: $('#main-nav, #default-nav').find('a'),	
 
 		// sets up handlers on nav elements and maps handlers, with target params
 		setUp: function() {
@@ -82,9 +80,6 @@ anti = {
 			anti.panelNavigation.MENU_SET.on('click', function(e) {
 				var panelToLoad = $(this).attr('href').split('#')[1];
 				
-				// load target panel's content
-				anti.panelContent.setUp(panelToLoad);
-
 				//console.log('panelToLoad: ', anti.panels[panelToLoad]);
 				anti.panelNavigation.navigateToSection(panelToLoad);
 
@@ -103,13 +98,9 @@ anti = {
 			// set now to the section about to be loaded into view
 			anti.panels.activePanel = panelToLoad;
 
+			// load target panel's content
+			anti.panelContent.loadPanel(panelToLoad);
 
-			/*Path.map(panelToLoad).to(function() {
-    			$('#'+ panelToLoad).find('.panel-wrap');
-			}).enter(anti.panelContent.setUp(panelToLoad));
-
-	        Path.history.pushState({}, '', $(this).attr('href'));
-	        */
 			anti.panelNavigation.moveAll(panelToLoad);
 		},
 
@@ -230,7 +221,7 @@ anti = {
 		}
 	},
 	panelContent: {
-		setUp: function(panelTo) {
+		loadPanel: function(panelTo) {
 			if (panelTo === 'panel12') return;
 
 			var isLoaded = anti.utils.keyExists(panelTo, anti.panels.panelsLoaded);
@@ -274,16 +265,31 @@ anti = {
 				return;
 			}
 
-			var thumbs = $('#'+ panel).find('.gallery-thumbs a'),
+			var thumbs = $('#'+ panel).find('.gallery-thumbs li'),
 				gallery = $('#'+ panel).find('.gallery'),
-				galleryStr = '<ul>';
+				galleryStr = '<ul>',
+				activeSlide = '';
 
+			thumbs.find('a').on('click', function(e) {
+				e.preventDefault();
+			});
 
 			for (var i = 0; i < thumbs.length; i++) {
-				console.log(thumbs[i]);
-				var href = $(thumbs[i]).attr('href').split('#')[1];
+				var para = $(thumbs[i]).find('p').text(),
+					href = $(thumbs[i]).find('a').attr('href').split('#')[1];
 
-				galleryStr += '<li id="'+ href +'"><img src="panels/'+ panel +'/'+ href +'.jpg" alt="'+ panel +' '+ href +'" />';
+				if (i === 0) {
+					activeSlide = 'active';
+				} else {
+					activeSlide = '';
+				}
+
+				galleryStr += '<li id="'+ href +'" class="'+
+					activeSlide +' hidden"><img src="panels/'+
+					panel +'/'+ href +'.jpg" alt="'+ 
+					panel +' '+ href +'" /><p>'+ 
+					para +'</p></li>';
+
 			}
 			galleryStr += '</ul>';
 			gallery.append(galleryStr);

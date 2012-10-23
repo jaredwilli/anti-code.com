@@ -1,4 +1,10 @@
-(function canvasApp() {
+window.addEventListener('load', windowLoaded, false);
+
+function windowLoaded() {
+	canvasApp();
+}
+
+function canvasApp() {
 	var canvas = document.getElementById('bgGame');
 	if (!canvas || !canvas.getContext) {
 		return;
