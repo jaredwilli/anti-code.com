@@ -115,7 +115,7 @@ anti = {
 
 			var layer3pos = anti.panels[panelToLoad].pos,
 				layer3x = layer3pos[0] * -1 + 100,
-				layer3y = layer3pos[1] * -1;
+				layer3y = layer3pos[1] * -1 + 20;
 
 			//	Eqaution: slope = ((y1 - y2) / (x1 - x2))
 
@@ -193,10 +193,7 @@ anti = {
 			//console.log(xDiff, xDiff/ (anti.layers.layer3.data[2] * (anti.panelNavigation.MAX_DURATION - anti.panelNavigation.BASE_DURATION))  + anti.panelNavigation.BASE_DURATION);
 			
 			// run the animations
-			$('#layer3').stop().animate({
-				left: layers.layer3[0] + 'px', 
-				top: layers.layer3[1] + 'px'
-			}, thisDuration, anti.EASING_TYPE);
+			$('#layer3').stop().animate({ left: layers.layer3[0] + 'px', top: layers.layer3[1] + 'px' }, thisDuration, anti.EASING_TYPE);
 
 			$('#layer1').stop().animate({ left: layers.layer1[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
 			$('#layer4').stop().animate({ left: layers.layer4[0] + 'px' }, thisDuration, anti.panelNavigation.EASING_TYPE);
@@ -265,13 +262,23 @@ anti = {
 				return;
 			}
 
-			var thumbs = $('#'+ panel).find('.gallery-thumbs li'),
+			var width = Number($('.panel article .project-content').width()),
+				thumbs = $('#'+ panel).find('.gallery-thumbs li'),
 				gallery = $('#'+ panel).find('.gallery'),
-				galleryStr = '<ul>',
-				activeSlide = '';
+				galleryStr = '<ul style="'+ width * thumbs.length +'px">',
+				visibleSlide = 'hidden';
+
+			$(thumbs[0]).addClass('current');
 
 			thumbs.find('a').on('click', function(e) {
 				e.preventDefault();
+				var slide = $(this).attr('href');
+
+				thumbs.removeClass('current');
+				$(this).stop().addClass('current');
+
+				gallery.find('li').removeClass('active').fadeOut('slow');
+				$(slide).stop().addClass('active').fadeIn('slow');
 			});
 
 			for (var i = 0; i < thumbs.length; i++) {
@@ -279,17 +286,14 @@ anti = {
 					href = $(thumbs[i]).find('a').attr('href').split('#')[1];
 
 				if (i === 0) {
-					activeSlide = 'active';
-				} else {
-					activeSlide = '';
+					visibleSlide = 'active';
 				}
 
 				galleryStr += '<li id="'+ href +'" class="'+
-					activeSlide +' hidden"><img src="panels/'+
+					visibleSlide +'"><img src="panels/'+
 					panel +'/'+ href +'.jpg" alt="'+ 
 					panel +' '+ href +'" /><p>'+ 
 					para +'</p></li>';
-
 			}
 			galleryStr += '</ul>';
 			gallery.append(galleryStr);

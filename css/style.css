@@ -343,6 +343,7 @@ footer p {
 	color: hsla(202, 40%, 30%, 1);
 	font-size: 14px;
 	font-weight: bold;
+	display: inline-block;
 }
 .panel article a:hover {
 	color: hsla(0, 100%, 50%, 1);
@@ -350,6 +351,35 @@ footer p {
 
 .panel article figure {
   float: left;
+}
+
+/* PANEL GALLERY AND THUMBNAILS */
+.panel .gallery-thumbs {
+  position: relative;
+  top: 10px;
+  margin: 0;
+}
+.panel .gallery-thumbs li {
+  display: inline-block;
+  width: auto;
+  margin: 0 6px 0 0;
+}
+.panel .gallery-thumbs a {
+	height: 89px;
+	border: 1px solid hsla(200, 90%, 100%, 0.4);
+
+	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
+	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
+}
+.panel .gallery-thumbs a:hover,
+.panel .gallery-thumbs a.current {
+	border: 1px solid hsla(214, 40%, 90%, 1);
+	
+	-webkit-box-shadow: 0 0 15px 0px hsla(178, 70%, 50%, 0.9);
+	box-shadow: 0 0 15px 0px hsla(178, 70%, 50%, 0.9)
+}
+.panel .gallery-thumbs p {
+  display: none;
 }
 .panel article .gallery {
   /*background: rgba(255, 255, 255, 0.4);*/
@@ -364,24 +394,40 @@ footer p {
   margin: 0;
 }
 .panel article .gallery li {
-  width: 100%;
-  height: 575px;
-  position: relative;
-  overflow: hidden;
-  float: left;
+	width: 100%;
+	height: 575px;
+	position: relative;
+	overflow: hidden;
+	float: left;
+}
+.panel article .gallery li.active {
+	display: inline-block;
 }
 .panel article .gallery p {
-  float: left;
-  display: inline-block;
-  width: 30%;
-  margin-left: 20px;
-  position: relative;
+	background: hsla(205, 5%, 98%, 1);
+	margin-bottom: 10px;
+	padding: 10px;
+	float: left;
+	display: inline-block;
+	width: 30%;
+	margin-left: 20px;
+	position: relative;
+	border: 1px solid hsla(230, 40%, 50%, 0.4);
+	font-size: 14px;
+	font-family: arial;
+
+	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
+	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
 }
 .panel article .gallery img {
-  float: left;
-  display: inline-block;
-  width: 655px;
+	float: left;
+	display: inline-block;
+	width: 655px;
+	
+	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
+	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
 }
+
 .panel article .project-content {
   display: inline-block;
   position: relative;
@@ -389,19 +435,6 @@ footer p {
   height: 775px;
   padding: 0 5px;
   overflow-x: hidden;
-}
-.panel .project-content .gallery-thumbs {
-  position: relative;
-  top: 10px;
-  margin: 0;
-}
-.panel .project-content .gallery-thumbs li {
-  display: inline-block;
-  width: auto;
-  margin: 0 6px 0 0;
-}
-.panel .project-content .gallery-thumbs p {
-  display: none;
 }
 .panel article .project-content h2 {
   display: block;
@@ -415,9 +448,7 @@ footer p {
   text-decoration: none;
 }
 .panel article .project-content p {
-  background: hsla(205, 5%, 98%, 1);
-  margin-bottom: 10px;
-  padding: 10px;
+
 }
 
 /* Rows */
