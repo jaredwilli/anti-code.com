@@ -368,15 +368,15 @@ footer p {
 	height: 89px;
 	border: 1px solid hsla(200, 90%, 100%, 0.4);
 
-	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
-	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
+	-webkit-box-shadow: 0px 0px 5px 0px hsla(228, 0%, 0%, 0.7);
+	box-shadow: 0px 0px 5px 0px hsla(228, 0%, 0%, 0.7);
 }
 .panel .gallery-thumbs a:hover,
 .panel .gallery-thumbs a.current {
 	border: 1px solid hsla(214, 40%, 90%, 1);
 	
-	-webkit-box-shadow: 0 0 15px 0px hsla(178, 70%, 50%, 0.9);
-	box-shadow: 0 0 15px 0px hsla(178, 70%, 50%, 0.9)
+	-webkit-box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 0.7);
+	box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 0.7);
 }
 .panel .gallery-thumbs p {
   display: none;
@@ -399,33 +399,36 @@ footer p {
 	position: relative;
 	overflow: hidden;
 	float: left;
+	padding: 8px;
 }
 .panel article .gallery li.active {
 	display: inline-block;
 }
 .panel article .gallery p {
 	background: hsla(205, 5%, 98%, 1);
+	border: 1px solid hsla(230, 40%, 50%, 0.9);
 	margin-bottom: 10px;
 	padding: 10px;
 	float: left;
 	display: inline-block;
-	width: 30%;
+	width: 29%;
 	margin-left: 20px;
 	position: relative;
-	border: 1px solid hsla(230, 40%, 50%, 0.4);
 	font-size: 14px;
 	font-family: arial;
 
-	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
-	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
+	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.2);
+	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.2);
 }
-.panel article .gallery img {
+.panel article .gallery img,
+.panel article .gallery iframe {
+	border: 1px solid hsla(230, 40%, 50%, 0.9);
 	float: left;
 	display: inline-block;
 	width: 655px;
 	
-	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.5);
-	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.5);
+	-webkit-box-shadow: 0 0 5px 2px hsla(228, 0%, 0%, 0.2);
+	box-shadow: 0 0 15px 0px hsla(228, 0%, 0%, 0.2);
 }
 
 .panel article .project-content {

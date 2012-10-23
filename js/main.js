@@ -268,33 +268,43 @@ anti = {
 				galleryStr = '<ul style="'+ width * thumbs.length +'px">',
 				visibleSlide = 'hidden';
 
-			$(thumbs[0]).addClass('current');
+			$(thumbs[0]).find('a').addClass('current');
 
 			thumbs.find('a').on('click', function(e) {
 				e.preventDefault();
 				var slide = $(this).attr('href');
 
 				thumbs.removeClass('current');
-				$(this).stop().addClass('current');
+				$(this).stop().addClass('current').animate({ opacity: 1 });
 
 				gallery.find('li').removeClass('active').fadeOut('slow');
 				$(slide).stop().addClass('active').fadeIn('slow');
 			});
 
+			// Loop over the thumbnails to generate the slides for each
 			for (var i = 0; i < thumbs.length; i++) {
 				var para = $(thumbs[i]).find('p').text(),
-					href = $(thumbs[i]).find('a').attr('href').split('#')[1];
+					href = $(thumbs[i]).find('a').attr('href').split('#')[1],
+					video = $(thumbs[i]).find('a').attr('data-vid');
 
 				if (i === 0) {
 					visibleSlide = 'active';
 				}
 
-				galleryStr += '<li id="'+ href +'" class="'+
-					visibleSlide +'"><img src="panels/'+
-					panel +'/'+ href +'.jpg" alt="'+ 
-					panel +' '+ href +'" /><p>'+ 
-					para +'</p></li>';
+				galleryStr += '<li id="'+ href +'" class="'+ visibleSlide +'">';
+
+				console.log(video);
+
+				// Is the slide displaying a video or an image
+				if (typeof video !== 'undefined') {
+					galleryStr += '<iframe src="'+ video +'" width="655" height="561" frameborder="0" allowfullscreen></iframe>';
+				} else {
+					galleryStr += '<img src="panels/'+ panel +'/'+ href +'.jpg" alt="'+ panel +' '+ href +'" />';
+				}
+
+				galleryStr += '<p>'+ para +'</p></li>';
 			}
+
 			galleryStr += '</ul>';
 			gallery.append(galleryStr);
 
@@ -350,6 +360,9 @@ anti = {
 		isArray: function(array) {
 			return (array.constructor.toString().indexOf('Array') !== -1);
 		},
+		randomKey: function(array) {
+	        return array[Math.floor(Math.random() * array.length)];
+	    },
 		keyExists: function(key, search) {
 			if (!search || (search.constructor !== Array && search.constructor !== Object)) {
 				return false;

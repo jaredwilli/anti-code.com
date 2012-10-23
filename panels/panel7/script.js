@@ -1,62 +1,42 @@
 var Game = {
+    options : [],
     init : function() {
-        var choices = document.getElementsByTagName('a'),
-            options = [];
-        
+        var items = document.getElementById('options'),
+            choices = items.getElementsByTagName('a');
+
         for (var i = 0; i < choices.length; i++) {
-            var choice = choices[i];
-            options.push(choice.id);
-    
-            choice.onclick = function(e) {
-                Game.pick(this.id, options);
-                e.preventDefault();
-            };
+            if (choices[i] === '') return;
+            Game.options.push(choices[i].id);
+            choices[i].addEventListener('click', Game.pick, false);
         }
+
     },
-    pick : function(player, options) {
-        if (player) {
-            Game.shuffle(options);
-            Game.winner(player, options[0]);   
-        }
+    pick : function(e) {
+        e.preventDefault();
+        
+        //console.log(this.id, Game.options);
+        Game.winner(this.id, Game.randomKey(Game.options));
     },
     winner : function(player, computer) {
-        var win = '',
-            pLow = '<h2>You</h2><img src="panels/panel7/'+ player.toLowerCase() +'.png" />',
-            cLow = '<h2>Computer</h2><img src="panels/panel7/'+ computer.toLowerCase() +'.png" />';
-            
-        //console.log(player);
-        //console.log(computer);
+        //console.log(player, computer);
+        var pLow = '<h2>You</h2><img src="panels/panel7/'+ player.toLowerCase() +'.png" />',
+            cLow = '<h2>Computer</h2><img src="panels/panel7/'+ computer.toLowerCase() +'.png" />',
+            winStr = '';
         
-        if (computer === 'Rock' && player === 'Paper' ||
-            computer === 'Scissors' && player === 'Rock' ||
-            computer === 'Paper' && player === 'Scissors') {
-            
-            win = 'You Win!!';
-        }
-        else if (computer === 'Paper' && player === 'Rock' ||
-                 computer === 'Rock' && player === 'Scissors' ||
-                 computer === 'Scissors' && player === 'Paper') {
-        
-            win = 'You Lose!';
-
-            if (player === computer) {
-                win = 'Tie Play Again';
-            }
+        if (computer === 'Rock' && player === 'Paper' || computer === 'Scissors' && player === 'Rock' || computer === 'Paper' && player === 'Scissors') {
+            winStr = 'You Win!!';
+        } else if (computer === 'Paper' && player === 'Rock' || computer === 'Rock' && player === 'Scissors' || computer === 'Scissors' && player === 'Paper') {
+            winStr = 'You Lose!';
+        } else {
+            winStr = 'Tie Play Again';
         }
         
         document.getElementById('player').innerHTML = pLow;
         document.getElementById('computer').innerHTML = cLow;
-        document.getElementById('winner').innerHTML = win;
+        document.getElementById('winner').innerHTML = winStr;
     },
-    shuffle : function(options) {
-        for (var i = options.length - 1; i > 0; i--) {
-            
-            var rand = Math.floor(Math.random() * (i + 1)),
-                temp = options[i];
-            
-            options[i] = options[rand];
-            options[rand] = temp;
-        }
+    randomKey: function(array) {
+        return array[Math.floor(Math.random() * array.length)];
     }
 };
 Game.init();
