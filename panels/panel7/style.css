@@ -1,4 +1,4 @@
-#panel7 #game {
+#game {
     text-align: center;
     margin: 0 auto;
     width: 80%;
@@ -6,23 +6,23 @@
     top: 20px;
     font-family: arial;
 }
-#panel7 #game p:last-child {
+#game p:last-child {
     margin-top: 10px;
 }
-#panel7 a {
+a {
     color: hsla(202, 40%, 30%, 1);
     font-size: 14px;
     font-weight: bold;
 }
-#panel7 a:hover {
+a:hover {
     color: hsla(0, 100%, 50%, 1);
     border: 0;
 }
-#panel7 ul {
+ul {
     display: inline-block;
     list-style: none;
 }
-#panel7 li {
+li {
     display: inline-block;
     position: relative;
     float: left;
@@ -31,40 +31,40 @@
     width: 113px;
     height: 109px;
 }
-#panel7 li a {
+li a {
     padding: 45px 56px;
     position: absolute;
     left: 0;
     text-indent: -99999px;
 }
 
-#panel7 #Rock { background: url('rock.png') no-repeat 0 0; }
-#panel7 #Scissors { background: url('scissors.png') no-repeat 0 0; }
-#panel7 #Paper { background: url('paper.png') no-repeat 0 0; }
+#Rock { background: url('rock.png') no-repeat 0 0; }
+#Scissors { background: url('scissors.png') no-repeat 0 0; }
+#Paper { background: url('paper.png') no-repeat 0 0; }
 
-#panel7 h1 {
+h1 {
     font-size: 34px;
     display: block;
 }
-#panel7 h3 {
+h3 {
     font-size: 18px;
     display: block;
     margin: 20px 0 30px;
 }
 
-#panel7 #results {
+#results {
     width: 80%;
     position: relative;
     top: 0;
     margin: 0 auto;
     display: inline-block;
 }
-#panel7 #results div {
+#results div {
     text-align: center;
 }
-#panel7 #player, 
-#panel7 #computer, 
-#panel7 #winner {
+#player, 
+#computer, 
+#winner {
     font-size: 30px;
     display: inline-block;
     position: relative;
@@ -74,10 +74,10 @@
     color: blue;
     padding: 10px 20px;
 }
-#panel7 #computer {
+#computer {
     float: right;
 }
-#panel7 #winner {
+#winner {
     display: inline-block;
     width: 300px;
     top: 70px;
@@ -88,17 +88,17 @@
     color: maroon;
     font-weight: bold;
 }
-#panel7 h2 {
+h2 {
     color: #000;
     font-size: 20px;
     text-decoration: underline;
 }
-#panel7 header,
-#panel7 footer {
+header,
+footer {
     width: 70%;
     margin: 0 auto;
     text-align: center;
 }
-#panel7 footer span {
+footer span {
     float: right;
 }

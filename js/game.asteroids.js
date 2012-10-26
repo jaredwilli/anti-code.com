@@ -1,3 +1,4 @@
+window.attachEvent('onload', windowLoaded);
 window.addEventListener('load', windowLoaded, false);
 
 function windowLoaded() {
@@ -1117,4 +1118,4 @@ function canvasApp() {
 			this.frameCtr = 0;
 		}
 	};
-})();
+}

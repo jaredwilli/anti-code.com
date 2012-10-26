@@ -6,6 +6,9 @@ anti = {
 	common: {
 		init: function() {
 			console.log('This site is still being developed. Every example is loaded in the panels using ajax onclick of each nav link. Some of the projects which use JavaScript are still a little buggy but they work individually. Eventually they will be interactive and "playable" demo examples loaded into this page.');
+			
+			// ie9 - Need to set cors to true for loading each projects assets
+			$.support.cors = true;
 			anti.init();
 		}
 	},
@@ -61,11 +64,16 @@ anti = {
 
 		// Setup navigation
 		anti.panelNavigation.setUp();
-
+		
 		// Make everything fill the browser viewport
-		window.addEventListener('resize', anti.utils.resizeToScreen(b, l, p), false);
-		anti.utils.resizeToScreen(b, l, p);
+		if (window.attachEvent/* && window.addEventListener !== 'undefined'*/) {
+			window.attachEvent('onresize', anti.utils.resizeToScreen);
+		} else {
+			window.addEventListener('resize', anti.utils.resizeToScreen, false);
+		}
+		anti.utils.resizeToScreen();
 	},
+	
 	panelNavigation: {
 		// Constants for nav functionality
 		BASE_DURATION: 1000,
@@ -234,7 +242,18 @@ anti = {
 			}
 		},
 		showPanelContent: function(panelToShow) {
-			$('#'+ panelToShow).find('.panel-wrap').delay(300).fadeIn(500);
+			$('#'+ panelToShow).find('.panel-wrap').delay(1000).fadeIn(500);
+			
+			if ($('.gallery-thumbs a').length > 0) {
+				$('#default-nav li a').css({ opacity: 0.7 });
+				$('#default-nav li a').hover(function() {
+					$(this).stop().css({ opacity: 1 });
+				}, function() {
+					$(this).stop().css({ opacity: 0.7 });
+				});
+				
+				//$('.gallery').find
+			}
 		},
 		loadPanelContent: function(panelToLoad) {
 			return $.ajax({
@@ -261,39 +280,41 @@ anti = {
 			if ($('#'+ panel).find('.gallery-thumbs').length < 1) {
 				return;
 			}
-
+			
 			var width = Number($('.panel article .project-content').width()),
 				thumbs = $('#'+ panel).find('.gallery-thumbs li'),
 				gallery = $('#'+ panel).find('.gallery'),
 				galleryStr = '<ul style="'+ width * thumbs.length +'px">',
 				visibleSlide = 'hidden';
 
+			// Add current class to first thumbnail image
 			$(thumbs[0]).find('a').addClass('current');
-
+			
+			// Create click handler for thumbnails so they show larger versions correctly
 			thumbs.find('a').on('click', function(e) {
 				e.preventDefault();
+				
 				var slide = $(this).attr('href');
-
-				thumbs.removeClass('current');
-				$(this).stop().addClass('current').animate({ opacity: 1 });
+				
+				// swap the states of the current thumbnail with clicked thumbnail 
+				thumbs.parents('ul').find('li a').removeClass('current').animate({ opacity: 0.7 }, 200);
+				$(this).addClass('current').animate({ opacity: 1 }, 200);
 
 				gallery.find('li').removeClass('active').fadeOut('slow');
 				$(slide).stop().addClass('active').fadeIn('slow');
 			});
-
 			// Loop over the thumbnails to generate the slides for each
 			for (var i = 0; i < thumbs.length; i++) {
 				var para = $(thumbs[i]).find('p').text(),
 					href = $(thumbs[i]).find('a').attr('href').split('#')[1],
 					video = $(thumbs[i]).find('a').attr('data-vid');
+				//console.log(video);
 
 				if (i === 0) {
 					visibleSlide = 'active';
 				}
 
 				galleryStr += '<li id="'+ href +'" class="'+ visibleSlide +'">';
-
-				console.log(video);
 
 				// Is the slide displaying a video or an image
 				if (typeof video !== 'undefined') {
@@ -304,7 +325,6 @@ anti = {
 
 				galleryStr += '<p>'+ para +'</p></li>';
 			}
-
 			galleryStr += '</ul>';
 			gallery.append(galleryStr);
 
@@ -320,24 +340,34 @@ anti = {
 		}
 	},
 	utils: {
-		resizeToScreen: function(b, l, p) {
-			var dim = {
-				w: window.innerWidth,
-				h: window.innerHeight
-			};
-
+		resizeToScreen: function() {
+			anti.layers.layer3.pos[2] = window.innerWidth -(window.innerWidth * 0.20);
+			
+			var thum = (anti.layers.layer3.pos[2] / 3.2) - 0.6 * 3 + 4;
+			
+			console.log(anti.layers, thum);
+			
 			$('body').css({
-				height: dim.h
+				height: window.innerHeight
 			});
 			$('#layer3').css({
-				width: dim.w - (dim.w * 0.20) + 'px',
-				height: dim.h + 'px'
+				width: window.innerWidth - (window.innerWidth * 0.20) + 'px',
+				height: window.innerHeight + 'px'
 			});
 			$('.panel').css({
-				//width: dim.w - (3 * $('#layer3').css('left').split('px')[0]) + 'px',
-				height: dim.h - (dim.h * 0.179) + 'px'
+				//width: window.innerWidth - (3 * $('#layer3').css('left').split('px')[0]) + 'px',
+				height: window.innerHeight - (window.innerHeight * 0.179) + 'px'
 			});
 
+			// For the panels content like the defaults thumbnails, 
+			// resize the LI's to make bgImage size according to layer3 width
+			if ($('#default-nav li').length > 0) {
+				//console.log($('.panel').css('width'));
+				$('#default-nav li').css({
+				//	width: thum + 4 +'px'
+				});
+			}
+			
 			// get offsetDistance - http://jsfiddle.net/jaredwilli/cydhM/
 		},
 		extend: function(d, e, c) {

@@ -54,12 +54,19 @@ if (typeof anti.default === 'undefined') {
 	anti.default = {};
 }
 
-anti.default = (function() {
+anti.default = (function($) {
+
+	$('#default-nav li a').hover(function() {
+		$(this).find('span').stop().animate({ top: 20 }, 200);
+	}, function() {
+		$(this).find('span').stop().animate({ top: 0 }, 200);
+	});
+	
 	$('#default-nav').find('a').on('click', function(e) {
 		var panelToLoad = $(this).attr('href').split('#')[1];
-
+				
 		anti.panelNavigation.navigateToSection(panelToLoad);
 		e.preventDefault();
-	});	
-})();
+	});
+})(jQuery);
 </script>
