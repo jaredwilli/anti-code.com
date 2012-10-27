@@ -57,7 +57,7 @@ if (typeof anti.default === 'undefined') {
 anti.default = (function($) {
 
 	$('#default-nav li a').hover(function() {
-		$(this).find('span').stop().animate({ top: 20 }, 200);
+		$(this).find('span').stop().animate({ top: 20 +'px'}, 200);
 	}, function() {
 		$(this).find('span').stop().animate({ top: 0 }, 200);
 	});

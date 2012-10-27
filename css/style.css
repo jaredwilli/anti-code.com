@@ -120,8 +120,9 @@ header h1 a {
   text-shadow: 1px 1px 2px rgba(20, 20, 20, 0.9), -1px -1px 3px rgba(20, 20, 20, 0.6);
 }
 header h1 a:hover {
-  color: #000;
+  color: #fff;
   text-shadow: 1px 1px 2px rgba(200, 200, 200, 0.9), -1px -1px 3px hsla(69, 83%, 67%, 0.9); 
+  text-decoration: underline;
 }
 
 /* FOOTER */
@@ -134,6 +135,7 @@ footer {
 }
 footer a:hover {
   color: hsla(200, 100%, 100%, 1);
+  text-decoration: underline;
 }
 footer .copyright {
   text-align: center;
@@ -236,25 +238,25 @@ footer p {
 }
 #bigCloud {
   background: url('../imgs/clouds-b.png') repeat 0 0;
-  width: 4000px;
+  width: 6000px;
   height: 16000px;
-  left: -1067px;
+  left: -4000px;
   top: -14000px;
   z-index: 0;
 }
 #medCloud {
   background: url('../imgs/clouds-m.png') repeat 0 0;
-  width: 6000px;
+  width: 8000px;
   height: 18000px;
-  left: -2567px;
+  left: -6000px;
   top: -15500px;
   z-index: 1;
 }
 #smCloud {
   background: url('../imgs/clouds-s.png') repeat 0 0;
-  width: 8000px;
+  width: 10000px;
   height: 20000px;
-  left: -3067px;
+  left: -8000px;
   top: -17000px;
   z-index: 2;
 }
@@ -288,9 +290,10 @@ footer p {
   display: none;
 }
 #layer3 .panel {
-  background: hsla(0, 0%, 98%, 0.6);
+  background: hsla(0, 0%, 98%, 0.7);
   border: 1px solid hsla(200, 70%, 60%, 0.8);
   display: inline-block;
+ 
   margin: 55px auto;
   padding: 1.000em;
   width: 100%;
@@ -349,10 +352,36 @@ footer p {
 	float: right;
 	top: 10px;
 	right: 10px;
+	margin: 0 5px;
 }
 
 .panel article figure {
   float: left;
+}
+.panel article .project-content {
+  display: inline-block;
+  position: relative;
+  width: 98%;
+  height: 775px;
+  padding: 0 5px;
+  overflow-x: hidden;
+}
+.panel article .project-content h2 {
+  display: inline-block;
+  font-size: 22px;
+  font-weight: normal;
+  margin: 5px 0 15px 5px;
+}
+.panel article .project-content h2 a {
+  font-size: 26px;
+  font-weight: normal;
+  text-decoration: none;
+}
+.panel article .project-content > p {
+	width: 95%;
+	display: inline-block;
+	position: relative;
+	left: 5px;
 }
 
 /* PANEL GALLERY AND THUMBNAILS */
@@ -360,6 +389,7 @@ footer p {
 .panel .gallery-thumbs {
   position: relative;
   top: 10px;
+  left: 10px;
   margin: 0;
 }
 .panel .gallery-thumbs li {
@@ -376,10 +406,10 @@ footer p {
 }
 .panel .gallery-thumbs a:hover,
 .panel .gallery-thumbs a.current {
-	border: 1px solid hsla(214, 40%, 90%, 1);
+	border: 1px solid hsla(215, 40%, 90%, 1);
 	
-	-webkit-box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 0.7);
-	box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 0.7);
+	-webkit-box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 1);
+	box-shadow: 0 0 5px 0 hsla(330, 100%, 50%, 1);
 }
 .panel .gallery-thumbs p {
   display: none;
@@ -389,7 +419,7 @@ footer p {
   position: relative;
   top: 20px;
   display: inline-block;
-  height: 570px;
+  height: 580px;
   width: 100%;
   overflow: hidden;
 }
@@ -434,29 +464,6 @@ footer p {
 	box-shadow: 0 0 15px 0 hsla(228, 0%, 0%, 0.2);
 }
 
-.panel article .project-content {
-  display: inline-block;
-  position: relative;
-  width: 98%;
-  height: 775px;
-  padding: 0 5px;
-  overflow-x: hidden;
-}
-.panel article .project-content h2 {
-  display: block;
-  font-size: 22px;
-  font-weight: normal;
-  margin: 5px 0 15px;
-}
-.panel article .project-content h2 a {
-  font-size: 26px;
-  font-weight: normal;
-  text-decoration: none;
-}
-.panel article .project-content p {
-
-}
-
 /* Rows */
 .row0 {
   top: -1200px;
@@ -487,7 +494,7 @@ footer p {
 
 #panel5 #default-nav {
   /*display: inline-block;*/
-  margin: 0 auto 025em;
+  margin: 0 auto;
   width: 1010px;
   position: relative; 
 }
@@ -504,9 +511,9 @@ footer p {
   display: inline-block;
   position: relative;
   float: left;
-  margin: 0.500em;
+  margin: 0.600em;
   width: 320px;
-  height: 182px;
+  height: 178px;
   
   -webkit-box-shadow: 0 0 5px 1px hsla(228, 0%, 0%, 0.5);
   box-shadow: 0 0 5px 1px hsla(228, 0%, 0%, 0.5);
