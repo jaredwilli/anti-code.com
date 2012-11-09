@@ -52,7 +52,7 @@ if (!window.requestAnimationFrame) {
         str
           .replace(/[\r\t\n]/g, " ")
           .split("{{").join("\t")
-          .replace(/((^|}})[^\t]*)'/g, "$1\r")
+		  .replace(/((^|}})[^\t]*)'/g, "$1\r")
           .replace(/\t=(.*?)}}/g, "',$1,'")
           .split("\t").join("');")
           .split("}}").join("p.push('")
