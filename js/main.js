@@ -68,7 +68,7 @@ anti = {
 		// Setup navigation
 		anti.panelNavigation.setUp();
 
-		$('#default-nav').find('a').on('click', function(e) {
+		/*$('#default-nav').find('a').on('click', function(e) {
 			e.preventDefault();
 			$('#main-nav').animate({ right: 0 }, 200);
 		});
@@ -80,7 +80,7 @@ anti = {
 			} else {
 				return;
 			}
-		});
+		});*/
 
 		// Make everything fill the browser viewport
 		if (window.attachEvent/* && window.addEventListener !== 'undefined'*/) {
