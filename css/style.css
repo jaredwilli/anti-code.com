@@ -107,6 +107,7 @@ footer {
 }
 
 header h1 {
+  display: inline-block;
   font-size: 22px;
   position: relative;
   left: 15px;
@@ -149,16 +150,37 @@ footer p {
   margin: 5px;
 }
 
+/* Alt Navigation */
+
+#alt-nav {
+  border-left: 1px solid hsla(202, 65%, 86%, 1);
+  display: inline-block;
+  font-size: 14px;
+  position: relative;
+  left: 30px;
+  top: 4px;
+}
+
+#alt-nav a {
+  color: hsla(202, 65%, 86%, 1);
+  text-shadow: 1px 1px 2px rgba(20, 20, 20, 0.6), -1px -1px 3px rgba(20, 20, 20, 0.4);
+  display: inline-block;
+  position: relative;
+  padding: 2px 15px;
+}
+#alt-nav a:hover {
+  color: hsla(200, 100%, 100%, 1);
+}
 
 /* Main Navigation */
 
 #main-nav {
 	display: inline-block;
 	position: absolute;
-	top: 0;
-	height: auto;
-	width: auto;
-	right: 0;
+  top: 2px;
+	right: 10px;
+  height: auto;
+  width: auto;
 }
 #main-nav h4 {
   color: #fff;
@@ -182,7 +204,7 @@ footer p {
 #main-nav li a {
   color: hsla(202, 65%, 90%, 1);
   text-shadow: 1px 1px 2px rgba(20, 20, 20, 0.9);
-  padding: 5px 8px;
+  padding: 2px 8px;
   margin: 0;
   font-size: 14px;
   text-decoration: none;
