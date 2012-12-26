@@ -1,3 +1,5 @@
+bmi_SafeAddOnload = null;
+
 if (typeof anti !== 'object') {
 	anti = {};
 }
@@ -248,7 +250,8 @@ anti = {
 	},
 	panelContent: {
 		loadPanel: function(panelTo) {
-			if (panelTo === 'panel12') return;
+			// If the panelTo is a panel that has no content at this time, return now
+			if (panelTo === 'panel14' || panelTo === 'panel15') return;
 
 			var isLoaded = anti.utils.keyExists(panelTo, anti.panels.panelsLoaded);
 

@@ -115,7 +115,7 @@
 
 	function getBodyAtMouse() {
 		mousePVec = new b2Vec2(mouseX, mouseY);
-		
+
 		var aabb = new b2AABB();
 		aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
 		aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
@@ -140,7 +140,7 @@
 	function update() {
 		if (isMouseDown && (!mouseJoint)) {
 			var body = getBodyAtMouse();
-			
+
 			if (body) {
 				var md = new b2MouseJointDef();
 				md.bodyA = world.GetGroundBody();

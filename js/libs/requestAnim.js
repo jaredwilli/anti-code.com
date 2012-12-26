@@ -12,12 +12,12 @@ var originalWebkitMethod,
     index = 0,
     self = this;
 
-// Wordaround for Chrome 10 bug where Chrome does 
+// Wordaround for Chrome 10 bug where Chrome does
 // not pass the time to the animation function
 
 if (window.webkitRequestAnimationFrame) {
     // Define the wrapper
-    
+
     wrapp = function(time) {
         if (time === undefined) {
             time = +new Date();
@@ -26,26 +26,26 @@ if (window.webkitRequestAnimationFrame) {
     };
 
     // Make the switch
-    
+
     originalWebkitMethod = window.webkitRequestAnimationFrame;
 
     window.webkitRequestAnimationFrame = function(callback, element) {
         self.callback = callback;
 
         // Browser calls wrapper; wrapper calls callback
-        
+
         originalWebkitMethod(wrapper, element);
     }
 }
 
-// Workaround for Gecko 2.0, which has a bug in 
+// Workaround for Gecko 2.0, which has a bug in
 // mozRequestAnimationFrame() that restricts animations
 // to 30-40 fps.
 
 if (window.mozRequestAnimationFrame) {
     // Check the Gecho version. Gecko is used by browsers other than
     // Firefox. Gecko 2.0 corresponds to Firefox 4.0
-    
+
     index = userAgent.indexOf('rv:');
 
     if (userAgent.indexOf('Gecko') != -1) {
@@ -53,7 +53,7 @@ if (window.mozRequestAnimationFrame) {
 
         if (geckoVersion === '2.0') {
             // Forces the return statement to fall through to the setTimeout() function
-        
+
             window.mozRequestAnimationFrame = undefined;
         }
     }
@@ -75,11 +75,11 @@ return window.requestAnimationFrame     ||
             finish = +new Date();
 
             self.timeout = 1000 / 60 - (finish - start);
-        
+
         }, self.timeout);
     };
 })();
 
 /**
  * use: window.requestNextAnimationFrame(animate);
- */​
+ */

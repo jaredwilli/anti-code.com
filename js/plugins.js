@@ -28,6 +28,67 @@ if (!window.requestAnimationFrame) {
 	requestAnimFrame(animloop, element);
 })();
 */
+/*
+ * jquery.requestAnimationFrame
+ * https://github.com/gnarf37/jquery-requestAnimationFrame
+ * Requires jQuery 1.8+
+ *
+ * Copyright (c) 2012 Corey Frang
+ * Licensed under the MIT license.
+ */
+
+(function($) {
+	// requestAnimationFrame polyfill adapted from Erik Möller
+	// fixes from Paul Irish and Tino Zijdel
+	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+	// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+	var animating,
+		lastTime = 0,
+		vendors = ['ms', 'moz', 'webkit', 'o'],
+		requestAnimationFrame = window.requestAnimationFrame,
+		cancelAnimationFrame = window.cancelAnimationFrame;
+	for(; lastTime < vendors.length && !requestAnimationFrame; lastTime++) {
+		requestAnimationFrame = window[ vendors[lastTime] + "RequestAnimationFrame" ];
+		cancelAnimationFrame = cancelAnimationFrame ||
+			window[ vendors[lastTime] + "CancelAnimationFrame" ] ||
+			window[ vendors[lastTime] + "CancelRequestAnimationFrame" ];
+	}
+	function raf() {
+		if ( animating ) {
+			requestAnimationFrame( raf );
+			jQuery.fx.tick();
+		}
+	}
+	if ( requestAnimationFrame ) {
+		// use rAF
+		window.requestAnimationFrame = requestAnimationFrame;
+		window.cancelAnimationFrame = cancelAnimationFrame;
+		jQuery.fx.timer = function( timer ) {
+			if ( timer() && jQuery.timers.push( timer ) && !animating ) {
+				animating = true;
+				raf();
+			}
+		};
+		jQuery.fx.stop = function() {
+			animating = false;
+		};
+	} else {
+		// polyfill
+		window.requestAnimationFrame = function( callback, element ) {
+			var currTime = new Date().getTime(),
+				timeToCall = Math.max( 0, 16 - ( currTime - lastTime ) ),
+				id = window.setTimeout( function() {
+					callback( currTime + timeToCall );
+				}, timeToCall );
+			lastTime = currTime + timeToCall;
+			return id;
+		};
+		window.cancelAnimationFrame = function(id) {
+			clearTimeout(id);
+		};
+	}
+}(jQuery));
+
 
 
 // Simple JavaScript Templating
@@ -40,14 +101,14 @@ if (!window.requestAnimationFrame) {
     var fn = !/\W/.test(str) ?
       cache[str] = cache[str] ||
         tmpl(document.getElementById(str).innerHTML) :
-      
+
       // Generate a reusable function that will serve as a template
       // generator (and which will be cached).
       new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);};" +
-        
+
         // Introduce the data as local variables using with(){}
         "with(obj){p.push('" +
-        
+
         // Convert the template into pure JavaScript
         str
           .replace(/[\r\t\n]/g, " ")
@@ -58,7 +119,7 @@ if (!window.requestAnimationFrame) {
           .split("}}").join("p.push('")
           .split("\r").join("\\'")
       + "');}return p.join('');");
-    
+
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
@@ -72,15 +133,15 @@ if (!window.requestAnimationFrame) {
     Authors     : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/W
     License     : MIT
-    
+
     Some readings
-    
+
         http://www.quirksmode.org/mobile/viewports.html
         http://www.quirksmode.org/mobile/tableViewport.html
         http://www.alistapart.com/articles/fontresizing/
-    
+
     Thanks
-    
+
         To Lawrence Carvalho (carvalho@uk.yahoo-inc.com) for his useful TextResizeDetector script :)
 
 if(W(true)>=W(1440)){
@@ -102,7 +163,6 @@ W(function(){
 */
 
 this.W = function(){
-    
     var win=window,
         doc=document,
         html=doc.documentElement,
@@ -114,15 +174,15 @@ this.W = function(){
         offsetHeight='offsetHeight',
         offsetWidth='offsetWidth',
         listeners=[];
-    
+
     /*
     Main function
-    
+
     Parameters
         boolean, number, Function spec: if true, return em-based window width
                                         if a number, translate it to ems
                                         if a function, will be called when the user resizes the window, zooms the contents or changes text size
-    
+
     Return
         integer, null
     */
@@ -189,28 +249,22 @@ this.W = function(){
 */
 ;(function($) {
 	$.anythingSlider = function(el, options) {
-
 		var base = this, o, t;
-
 		// Wraps the ul in the necessary divs and then gives Access to jQuery element
 		base.el = el;
 		base.$el = $(el).addClass('anythingBase').wrap('<div class="anythingSlider"><div class="anythingWindow" /></div>');
-
 		// Add a reverse reference to the DOM object
 		base.$el.data("AnythingSlider", base);
 
 		base.init = function(){
-
 			// Added "o" to be used in the code instead of "base.options" which doesn't get modifed by the compiler - reduces size by ~1k
 			base.options = o = $.extend({}, $.anythingSlider.defaults, options);
-
 			base.initialized = false;
 			if ($.isFunction(o.onBeforeInitialize)) { base.$el.bind('before_initialize', o.onBeforeInitialize); }
 			base.$el.trigger('before_initialize', base);
 
 			// Add "as-oldie" class to body for css purposes
 			$('<!--[if lte IE 8]><script>jQuery("body").addClass("as-oldie");</script><![endif]-->').appendTo('body').remove();
-
 			// Cache existing DOM elements for later
 			// base.$el = original ul
 			// for wrap - get parent() then closest in case the ul has "anythingSlider" class
@@ -218,11 +272,9 @@ this.W = function(){
 			base.$window = base.$el.closest('div.anythingWindow');
 			base.win = window;
 			base.$win = $(base.win);
-
 			base.$controls = $('<div class="anythingControls"></div>');
 			base.$nav = $('<ul class="thumbNav"><li><a><span></span></a></li></ul>');
 			base.$startStop = $('<a href="#" class="start-stop"></a>');
-			
 			if (o.buildStartStop || o.buildNavigation) {
 				base.$controls.appendTo( (o.appendControlsTo && $(o.appendControlsTo).length) ? $(o.appendControlsTo) : base.$wrapper);
 			}
@@ -232,12 +284,10 @@ this.W = function(){
 			if (o.buildStartStop) {
 				base.$startStop.appendTo( (o.appendStartStopTo && $(o.appendStartStopTo).length) ? $(o.appendStartStopTo) : base.$controls );
 			}
-
 			// Figure out how many sliders are on the page for indexing
 			base.runTimes = $('.anythingBase').length;
 			base.regex = new RegExp('slide' + base.runTimes + '-(\\d+)', 'i'); // hash tag regex
 			if (base.runTimes === 1) { base.makeActive(); } // make the first slider on the page active
-
 			// Set up a few defaults & get details
 			base.flag    = false; // event flag to prevent multiple calls (used in control click/focusin)
 			base.playing = o.autoPlay; // slideshow state; removed "startStopped" option
@@ -246,7 +296,6 @@ this.W = function(){
 			base.slideSize = [];  // will contain dimensions and left position of each slide
 			base.currentPage = base.targetPage = o.startSlide = parseInt(o.startSlide,10) || 1; // make sure this isn't a string
 			o.changeBy = parseInt(o.changeBy,10) || 1;
-
 			// set slider type, but keep backward compatibility with the vertical option
 			t = (o.mode || 'h').toLowerCase().match(/(h|v|f)/);
 			t = o.vertical ? 'v' : (t || ['h'])[0];
@@ -255,37 +304,28 @@ this.W = function(){
 				o.showMultiple = 1; // all slides are stacked in fade mode
 				o.infiniteSlides = false; // no cloned slides
 			}
-
 			base.adj = (o.infiniteSlides) ? 0 : 1; // adjust page limits for infinite or limited modes
 			base.adjustMultiple = 0;
 			base.width = base.$el.width();
 			base.height = base.$el.height();
 			base.outerPad = [ base.$wrapper.innerWidth() - base.$wrapper.width(), base.$wrapper.innerHeight() - base.$wrapper.height() ];
 			if (o.playRtl) { base.$wrapper.addClass('rtl'); }
-
 			// Expand slider to fit parent
 			if (o.expand) {
 				base.$outer = base.$wrapper.parent();
 				base.$window.css({ width: '100%', height: '100%' }); // needed for Opera
 				base.checkResize();
 			}
-
 			// Build start/stop button
 			if (o.buildStartStop) { base.buildAutoPlay(); }
-
 			// Build forwards/backwards buttons
 			if (o.buildArrows) { base.buildNextBackButtons(); }
-
 			// can't lock autoplay it if it's not enabled
 			if (!o.autoPlay) { o.autoPlayLocked = false; }
-
 			base.$lastPage = base.$targetPage = base.$currentPage;
-
 			base.updateSlider();
-
 			// Make sure easing function exists.
 			if (!$.isFunction($.easing[o.easing])) { o.easing = "swing"; }
-
 			// If pauseOnHover then add hover effects
 			if (o.pauseOnHover) {
 				base.$wrapper.hover(function() {
@@ -300,7 +340,6 @@ this.W = function(){
 					}
 				});
 			}
-
 			// Hide/Show navigation & play/stop controls
 			base.slideControls(false);
 			base.$wrapper.bind('mouseenter mouseleave', function(e){
@@ -309,7 +348,6 @@ this.W = function(){
 				base.hovered = (e.type === 'mouseenter') ? true : false;
 				base.slideControls(base.hovered);
 			});
-
 			// Add keyboard navigation
 			$(document).keyup(function(e){
 				// Stop arrow keys from working when focused on form items
@@ -325,11 +363,9 @@ this.W = function(){
 					}
 				}
 			});
-
 			// If a hash can not be used to trigger the plugin, then go to start slide
 			base.currentPage = base.gotoHash() || o.startSlide || 1;
 			base.gotoPage(base.currentPage, false, null, -1);
-
 			// Binds events
 			var triggers = "slideshow_paused slideshow_unpaused slide_init slide_begin slideshow_stop slideshow_start initialized swf_completed".split(" ");
 			$.each("onShowPause onShowUnpause onSlideInit onSlideBegin onShowStop onShowStart onInitialized onSWFComplete".split(" "), function(i,f){
@@ -346,12 +382,9 @@ this.W = function(){
 			}
 			base.initialized = true;
 			base.$el.trigger('initialized', base);
-
 			// trigger the slideshow
 			base.startStop(o.autoPlay);
-
 		};
-
 		// called during initialization & to update the slider if a slide is added or deleted
 		base.updateSlider = function(){
 			// needed for updating the slider
@@ -360,13 +393,11 @@ this.W = function(){
 			base.$nav.empty();
 			// set currentPage to 1 in case it was zero - occurs when adding slides after removing them all
 			base.currentPage = base.currentPage || 1;
-
 			base.$items = base.$el.children();
 			base.pages = base.$items.length;
 			base.dir = (o.mode === 'vertical') ? 'top' : 'left';
 			o.showMultiple = (o.mode === 'vertical') ? 1 : parseInt(o.showMultiple,10) || 1; // only integers allowed
 			o.navigationSize = (o.navigationSize === false) ? 0 : parseInt(o.navigationSize,10) || 0;
-
 			// Fix tabbing through the page, but don't change the view if the link is in view (showMultiple = true)
 			base.$items.find('a').unbind('focus.AnythingSlider').bind('focus.AnythingSlider', function(e){
 				var slide = $(this).closest('.slide'),
@@ -383,7 +414,6 @@ this.W = function(){
 				if (o.showMultiple > base.pages) { o.showMultiple = base.pages; }
 				base.adjustMultiple = (o.infiniteSlides && base.pages > 1) ? 0 : o.showMultiple - 1;
 			}
-
 			// Hide navigation & player if there is only one page
 			base.$controls
 				.add(base.$nav)
@@ -394,7 +424,6 @@ this.W = function(){
 				// Build/update navigation tabs
 				base.buildNavigation();
 			}
-
 			// Top and tail the list with 'visible' number of items, top has the last section, and tail has the first
 			// This supports the "infinite" scrolling, also ensures any cloned elements don't duplicate an ID
 			// Moved removeAttr before addClass otherwise IE7 ignores the addClass: http://bugs.jquery.com/ticket/9871
@@ -412,11 +441,9 @@ this.W = function(){
 					$(this).find('[id]').andSelf().removeAttr('id');
 				});
 			}
-
 			// We just added two items, time to re-cache the list, then get the dimensions of each slide
 			base.$items = base.$el.addClass(o.mode).children().addClass('slide');
 			base.setDimensions();
-
 			// Set the dimensions of each slide
 			if (o.resizeContents) {
 				base.$items.css('width', base.width);
@@ -433,13 +460,11 @@ this.W = function(){
 					base.setCurrentPage(base.currentPage, false);
 				});
 			}
-
 			if (base.currentPage > base.pages) {
 				base.currentPage = base.pages;
 			}
 			base.setCurrentPage(base.currentPage, false);
 			base.$nav.find('a').eq(base.currentPage - 1).addClass('cur'); // update current selection
-
 			if (o.mode === 'fade') {
 				var t = base.$items.eq(base.currentPage-1);
 				if (o.resumeOnVisible) {
@@ -451,9 +476,7 @@ this.W = function(){
 					t.fadeIn(0).siblings().fadeOut(0);
 				}
 			}
-
 		};
-
 		// Creates the numbered navigation links
 		base.buildNavigation = function() {
 			if (o.buildNavigation && (base.pages > 1)) {
@@ -511,12 +534,11 @@ this.W = function(){
 								base.navWindow( base.navLeft + o.navigationSize * ( $(this).is('.prev') ? -1 : 1 ) );
 							}
 							e.preventDefault();
-						});
+						}
+					);
 				}
-
 			}
 		};
-
 		base.navWidth = function(x,y){
 			var i, s = Math.min(x,y),
 				e = Math.max(x,y),
@@ -526,7 +548,6 @@ this.W = function(){
 			}
 			return w;
 		};
-
 		base.navWindow = function(n){
 			if (!!o.navigationSize && o.navigationSize < base.pages && base.navWidths) {
 				var p = base.pages - o.navigationSize + 1;
@@ -539,7 +560,6 @@ this.W = function(){
 				}
 			}
 		};
-
 		// Creates the Forward/Backward buttons
 		base.buildNextBackButtons = function() {
 			base.$forward = $('<span class="arrow forward"><a href="#"><span>' + o.forwardText + '</span></a></span>');
@@ -705,7 +725,7 @@ this.W = function(){
 					page = o.stopAtEnd ? 1 : ( o.infiniteSlides ? base.pages + page : ( o.showMultiple > 1 - page ? 1 : adj ) );
 				}
 				if (page > base.pages) {
-					// 
+					//
 					page = o.stopAtEnd ? base.pages : ( o.showMultiple > 1 - page ? 1 : page -= adj );
 				} else if (page >= adj) {
 					// show multiple adjustments
@@ -983,7 +1003,7 @@ this.W = function(){
 		buildNavigation     : true,       // If true, builds a list of anchor links to link to each slide
 		buildArrows         : false,      // If true, builds the forwards and backwards buttons
 		buildStartStop      : false,      // ** If true, builds the start/stop button
-		
+
 /*
 		// commented out as this will reduce the size of the minified version
 		appendForwardTo     : null,      // Append forward arrow to a HTML element (jQuery Object, selector or HTMLNode), if not null
