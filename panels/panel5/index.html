@@ -43,9 +43,15 @@
 				<a href="#panel11"><span>The Port Candle</span></a>
 			</li>
 			<li class="panel12">
-				<a href="#panel12"><span></span></a>
+				<a href="#panel12"><span>Devtools Cheatsheet</span></a>
 			</li>
 			<li class="panel13">
+				<a href="#panel13"><span>Google Tour</span></a>
+			</li>
+			<li class="panel14">
+				<a href="#panel12"><span></span></a>
+			</li>
+			<li class="panel15">
 				<a href="#panel13"><span></span></a>
 			</li>
 		</ul>
@@ -64,10 +70,10 @@ anti.default = (function($) {
 	}, function() {
 		$(this).find('span').stop().animate({ top: 0 }, 200);
 	});
-	
+
 	$('#default-nav').find('a').on('click', function(e) {
 		var panelToLoad = $(this).attr('href').split('#')[1];
-				
+
 		anti.panelNavigation.navigateToSection(panelToLoad);
 		e.preventDefault();
 	});
