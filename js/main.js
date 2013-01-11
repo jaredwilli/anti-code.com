@@ -369,20 +369,27 @@ anti = {
 	time: function() {
 		// Change background depending on user's time
 		var d = new Date(),
-			n = d.getHours();
+			t = d.getHours();
 
-		if (n > 19) {
-			// If time is 7PM or later apply night theme to body
+		// If time is between 5am - 6am or 4pm - 5pm make dusk or dawn - steel blue
+		if (t < 6 && t > 5 || t < 17 && t > 16) {
+			$('body').addClass('morning').css({ background: 'hsla(215, 33%, 60%, 0.7)' });
+		}
+		// If time is between 9am and noon make it morning blue - bright skyblue
+		else if (t > 12 && t > 9) {
+			$('body').addClass('morning').css({ background: 'hsla(185, 100%, 51%, 0.7)' });
+		}
+		// If time is 7pm or later make it night - dark bg
+		else if (t > 19) {
 			$('body').addClass('night').css({ background: 'rgba(1, 1, 2, 0.7)' });
-
 		}
-		else if (n > 16 && n < 19) {
-			// If time is between 4PM – 7PM sunset theme to body
-			$('body').addClass('sunset').css ({ background: 'rgba(208, 58, 236, 0.7)' });
+		// If time is between 6am - 7am or 6pm – 7pm sunset - red orange bg
+		else if (t > 6 && t < 7 || t > 17 && t < 19) {
+			$('body').addClass('sunset').css({ background: 'rgba(208, 58, 236, 0.7)' });
 		}
+		// Otherwise default to norma day blue - deep blue
 		else {
-			// Otherwise use day theme
-			$('body').addClass('day');
+			$('body').addClass('day').css({ background: 'hsla(223, 100%, 80%, 0.7)' });
 		}
 	},
 
