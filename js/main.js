@@ -40,54 +40,44 @@ anti = {
 
 	init: function() {
 		var b = document.body,
-			m = $('.main-nav'),
 			p = $('.panel'),
-			l = $('.layer'),
-			str = '';
+			l = $('.layer');
 
-		// Create the top-right nav menu from the panel IDs
-		for (var s = 0; s < p.length; s++) {
-			var id = $(p[s]).attr('id'),
-				activeClass = (id === this.panels.activePanel) ? ' class="active"' : '';
-
-			str += '<li><a href="#'+ id +'"'+ activeClass +'>'+ i +'</a></li>';
-		}
-		m.find('ul').append(str);
 
 		// load the initial panel's content
 		anti.panels.panelsLoaded.push(anti.panels.activePanel);
-		anti.panelContent.loadPanel(anti.panels.activePanel);
+		//anti.panelContent.loadPanel(anti.panels.activePanel);
 
-		// Set up an obj of each panel and their left/top position
-		for (var i = 0; i < p.length; i++) {
-			var panelId = $(p[i]).attr('id');
+		// Set up an obj of each PANEL and their left/top position
+		// for (var i = 0; i < p.length; i++) {
+		// 	var panelId = $(p[i]).attr('id');
 
-			// Skip the loading of panel5
-			if (i !== 4) {
-				$(p[i]).html('<div class="panel-wrap"></div>');
-			}
-			anti.panels[panelId] = {};
-			anti.panels[panelId].pos = [];
-			anti.panels[panelId].pos.push(
-				Number($('#'+ panelId).css('left').split('px')[0]),
-				Number($('#'+ panelId).css('top').split('px')[0])
-			);
-		}
+		// 	// Skip the loading of panel5
+		// 	if (i !== 4) {
+		// 		$(p[i]).html('<div class="panel-wrap"></div>');
+		// 	}
+		// 	anti.panels[panelId] = {};
+		// 	anti.panels[panelId].pos = [];
+		// 	anti.panels[panelId].pos.push(
+		// 		Number($('#'+ panelId).css('left').split('px')[0]),
+		// 		Number($('#'+ panelId).css('top').split('px')[0])
+		// 	);
+		// }
 		//console.log('panels: ', anti.panels);
 
-        // Set up an obj of each panel and their left/top position
-		for (var j = 0; j < l.length; j++) {
-			var layerId = $(l[j]).attr('id');
+        // Set up an obj of each LAYER and their left/top position
+		// for (var j = 0; j < l.length; j++) {
+		// 	var layerId = $(l[j]).attr('id');
 
-			anti.layers[layerId] = {};
-			anti.layers[layerId].pos = [];
-			anti.layers[layerId].pos.push(
-				Number($('#'+ layerId).css('left').split('px')[0]),
-				Number($('#'+ layerId).css('top').split('px')[0]),
-				Number($('#'+ layerId).css('width').split('px')[0]),
-				Number($('#'+ layerId).css('height').split('px')[0])
-			);
-		}
+		// 	anti.layers[layerId] = {};
+		// 	anti.layers[layerId].pos = [];
+		// 	anti.layers[layerId].pos.push(
+		// 		Number($('#'+ layerId).css('left').split('px')[0]),
+		// 		Number($('#'+ layerId).css('top').split('px')[0]),
+		// 		Number($('#'+ layerId).css('width').split('px')[0]),
+		// 		Number($('#'+ layerId).css('height').split('px')[0])
+		// 	);
+		// }
 
 		// Setup navigation
 		anti.panelNavigation.setUp();
@@ -114,6 +104,7 @@ anti = {
 		}
 		anti.utils.resizeToScreen();
 
+		anti.parallax();
 		anti.time();
 		//anti.canvas.init();
 	},
