@@ -1,3 +1,14 @@
+/**
+ * Update (1/12/13) - Not surprisingly since I made this site again Fall of 2012, just 4 months from when I started I now cannot
+ * stand to see the js code I wrote to make it. It is disgusting. And I apologize. It is pretty cool still but ugh!! What the hell
+ * was I thinking 4 months ago... Gonna have to redo it again now soon. Crazy how much you can learn and grow in just a short time.
+
+ * This site is still being developed. Every example is loaded in the panels using ajax onclick of each nav link. All panels have
+ * interactive and even "playable" demo examples loaded into this page. The background game I am working to integrate is still
+ * being developed but my plan is to make it itself a playable game in the background of the page at all times.
+ */
+
+// The bmi.js library should be destroyed in a major way - ignore this half-ass partial hack
 bmi_SafeAddOnload = null;
 
 if (typeof anti !== 'object') {
@@ -8,7 +19,7 @@ anti = {
 	common: {
 		init: function() {
 			if ($('.lt-ie9').length) {
-				console.log('This site is still being developed. Every example is loaded in the panels using ajax onclick of each nav link. Some of the projects which use JavaScript are still a little buggy but they work individually. Eventually they will be interactive and "playable" demo examples loaded into this page.');
+				console.log('Anti-Up!!');
 			}
 
 			// ie9 - Need to set cors to true for loading each projects assets
@@ -29,8 +40,19 @@ anti = {
 
 	init: function() {
 		var b = document.body,
+			m = $('.main-nav'),
 			p = $('.panel'),
-			l = $('.layer');
+			l = $('.layer'),
+			str = '';
+
+		// Create the top-right nav menu from the panel IDs
+		for (var s = 0; s < p.length; s++) {
+			var id = $(p[s]).attr('id'),
+				activeClass = (id === this.panels.activePanel) ? ' class="active"' : '';
+
+			str += '<li><a href="#'+ id +'"'+ activeClass +'>'+ i +'</a></li>';
+		}
+		m.find('ul').append(str);
 
 		// load the initial panel's content
 		anti.panels.panelsLoaded.push(anti.panels.activePanel);
@@ -366,6 +388,88 @@ anti = {
 		}
 	},
 
+	parallax: function() {
+		// shim layer with setTimeout fallback
+		window.requestAnimFrame = (function() {
+		return  window.requestAnimationFrame       ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame    ||
+				window.oRequestAnimationFrame      ||
+				window.msRequestAnimationFrame     ||
+				function( callback ) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
+
+		(function(win, d) {
+			var	w = window.innerWidth,
+				h = d.height;
+
+			var imgs = [ 'wave-1', 'wave-4', 'wave-5', 'clouds-b', 'clouds-m', 'clouds-s' ];
+
+			var canvas = d.getElementById('#bgGame'),
+				ctx = canvas.getContext('2d');
+
+			var ticking = false;
+				lastScrollX = 0,
+				lastScrollY = 0;
+
+			function onResize() {
+				w = win.innerWidth;
+				h = d.height;
+
+				canvas.width = w;
+				canvas.height = h;
+
+				updateElements(win.scrollX, win.scrollY);
+			}
+
+			function onScroll(event) {
+				if (! ticking) {
+					ticking = true;
+
+					requestAnimFrame( updateElements );
+
+					lastScrollX = win.scrollX;
+					lastScrollY = win.scrollY;
+				}
+			}
+
+			function updateElements() {
+				var relativeX = lastScrollX / w,
+					relativeY = lastScrollY / h;
+
+				ctx.fillStyle = 'hsla(223, 100%, 80%, 0.7)';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+				context.drawImage(blob1, 484, pos(254, -4400, relativeY, 0));
+				context.drawImage(blob2, 84, pos(954, -5400, relativeY, 0));
+				context.drawImage(blob3, 584, pos(1054, -3900, relativeY, 0));
+				context.drawImage(blob4, 44, pos(1400, -6900, relativeY, 0));
+				context.drawImage(blob5, -40, pos(1730, -5900, relativeY, 0));
+				context.drawImage(blob6, 325, pos(2860, -7900, relativeY, 0));
+				context.drawImage(blob7, 725, pos(2550, -4900, relativeY, 0));
+				context.drawImage(blob8, 570, pos(2300, -3700, relativeY, 0));
+				context.drawImage(blob9, 640, pos(3700, -9000, relativeY, 0));
+
+				ticking = false;
+			}
+
+			function pos(base, range, relY, offset) {
+				return base + limit(0, 1, relY - offset) * range;
+			}
+
+			function limit(min, max, value) {
+				return Math.max(min, Math.min(max, value));
+			}
+
+			win.addEventListener('load', onResize, false);
+			win.addEventListener('resize', onResize, false);
+			win.addEventListener('scroll', onScroll, false);
+
+		})(window, document);
+	},
+
 	time: function() {
 		// Change background depending on user's time
 		var d = new Date(),
@@ -424,7 +528,15 @@ anti = {
 	},
 
 	utils: {
+		prefix: function(obj, prop, value) {
+			var prefs = ['webkit', 'moz', 'o', 'ms'];
+			for (var pref in prefs) {
+				obj[prefs[pref] + prop] = value;
+			}
+		},
 		resizeToScreen: function() {
+			// TODO: This is horrible. clean it up bigtime
+
 			anti.layers.layer3.pos[2] = window.innerWidth -(window.innerWidth * 0.20);
 
 			var thum = (anti.layers.layer3.pos[2] / 3.2) - 0.6 * 3 + 4;
@@ -470,6 +582,22 @@ anti = {
 				});
 			}
 		},
+		isArray: function(array) {
+			return (array.constructor.toString().indexOf('Array') !== -1);
+		},
+		makeArray: function(obj) {
+			return Array.prototype.slice.call(obj);
+		},
+		randomKey: function(array) {
+			return array[Math.floor(Math.random() * array.length)];
+		},
+		keyExists: function(key, search) {
+			if (!search || (search.constructor !== Array && search.constructor !== Object)) { return false; }
+			for (var i = 0; i < search.length; i++) {
+				if (search[i] === key) { return true; }
+			}
+			return key in search;
+		},
 		extend: function(d, e, c) {
 			var b = function() {}, a;
 			b.prototype = e.prototype;
@@ -486,19 +614,6 @@ anti = {
 					}
 				}
 			}
-		},
-		isArray: function(array) {
-			return (array.constructor.toString().indexOf('Array') !== -1);
-		},
-		randomKey: function(array) {
-			return array[Math.floor(Math.random() * array.length)];
-		},
-		keyExists: function(key, search) {
-			if (!search || (search.constructor !== Array && search.constructor !== Object)) { return false; }
-			for (var i = 0; i < search.length; i++) {
-				if (search[i] === key) { return true; }
-			}
-			return key in search;
 		},
 		createCache: function(requestFunction) {
 			var cache = {};
