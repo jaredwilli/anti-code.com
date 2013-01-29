@@ -1,16 +1,3 @@
-/**
- * Update (1/12/13) - Not surprisingly since I made this site again Fall of 2012, just 4 months from when I started I now cannot
- * stand to see the js code I wrote to make it. It is disgusting. And I apologize. It is pretty cool still but ugh!! What the hell
- * was I thinking 4 months ago... Gonna have to redo it again now soon. Crazy how much you can learn and grow in just a short time.
-
- * This site is still being developed. Every example is loaded in the panels using ajax onclick of each nav link. All panels have
- * interactive and even "playable" demo examples loaded into this page. The background game I am working to integrate is still
- * being developed but my plan is to make it itself a playable game in the background of the page at all times.
- */
-
-// The bmi.js library should be destroyed in a major way - ignore this half-ass partial hack
-bmi_SafeAddOnload = null;
-
 if (typeof anti !== 'object') {
 	anti = {};
 }
@@ -19,7 +6,7 @@ anti = {
 	common: {
 		init: function() {
 			if ($('.lt-ie9').length) {
-				console.log('Anti-Up!!');
+				console.log('This site is still being developed. Every example is loaded in the panels using ajax onclick of each nav link. Some of the projects which use JavaScript are still a little buggy but they work individually. Eventually they will be interactive and "playable" demo examples loaded into this page.');
 			}
 
 			// ie9 - Need to set cors to true for loading each projects assets
@@ -43,41 +30,40 @@ anti = {
 			p = $('.panel'),
 			l = $('.layer');
 
-
 		// load the initial panel's content
 		anti.panels.panelsLoaded.push(anti.panels.activePanel);
-		//anti.panelContent.loadPanel(anti.panels.activePanel);
+		anti.panelContent.loadPanel(anti.panels.activePanel);
 
-		// Set up an obj of each PANEL and their left/top position
-		// for (var i = 0; i < p.length; i++) {
-		// 	var panelId = $(p[i]).attr('id');
+		// Set up an obj of each panel and their left/top position
+		for (var i = 0; i < p.length; i++) {
+			var panelId = $(p[i]).attr('id');
 
-		// 	// Skip the loading of panel5
-		// 	if (i !== 4) {
-		// 		$(p[i]).html('<div class="panel-wrap"></div>');
-		// 	}
-		// 	anti.panels[panelId] = {};
-		// 	anti.panels[panelId].pos = [];
-		// 	anti.panels[panelId].pos.push(
-		// 		Number($('#'+ panelId).css('left').split('px')[0]),
-		// 		Number($('#'+ panelId).css('top').split('px')[0])
-		// 	);
-		// }
+			// Skip the loading of panel5
+			if (i !== 4) {
+				$(p[i]).html('<div class="panel-wrap"></div>');
+			}
+			anti.panels[panelId] = {};
+			anti.panels[panelId].pos = [];
+			anti.panels[panelId].pos.push(
+				Number($('#'+ panelId).css('left').split('px')[0]),
+				Number($('#'+ panelId).css('top').split('px')[0])
+			);
+		}
 		//console.log('panels: ', anti.panels);
 
-        // Set up an obj of each LAYER and their left/top position
-		// for (var j = 0; j < l.length; j++) {
-		// 	var layerId = $(l[j]).attr('id');
+        // Set up an obj of each panel and their left/top position
+		for (var j = 0; j < l.length; j++) {
+			var layerId = $(l[j]).attr('id');
 
-		// 	anti.layers[layerId] = {};
-		// 	anti.layers[layerId].pos = [];
-		// 	anti.layers[layerId].pos.push(
-		// 		Number($('#'+ layerId).css('left').split('px')[0]),
-		// 		Number($('#'+ layerId).css('top').split('px')[0]),
-		// 		Number($('#'+ layerId).css('width').split('px')[0]),
-		// 		Number($('#'+ layerId).css('height').split('px')[0])
-		// 	);
-		// }
+			anti.layers[layerId] = {};
+			anti.layers[layerId].pos = [];
+			anti.layers[layerId].pos.push(
+				Number($('#'+ layerId).css('left').split('px')[0]),
+				Number($('#'+ layerId).css('top').split('px')[0]),
+				Number($('#'+ layerId).css('width').split('px')[0]),
+				Number($('#'+ layerId).css('height').split('px')[0])
+			);
+		}
 
 		// Setup navigation
 		anti.panelNavigation.setUp();
@@ -103,10 +89,6 @@ anti = {
 			window.addEventListener('resize', anti.utils.resizeToScreen, false);
 		}
 		anti.utils.resizeToScreen();
-
-		anti.parallax();
-		anti.time();
-		//anti.canvas.init();
 	},
 
 	panelNavigation: {
@@ -160,10 +142,10 @@ anti = {
 			var winW = window.innerWidth,
 				winH = window.innerHeight,
 				leftPos = 100,
-				topPos = 20;
+				topPos = 6;
 
-			// For screens that are smaller than 1280
-			if (winW < 1280) {
+			// For screens that are smaller than 1030
+			if (winW < 1030) {
 				leftPos = 10;
 				topPos = 0;
 			}
@@ -266,8 +248,7 @@ anti = {
 	},
 	panelContent: {
 		loadPanel: function(panelTo) {
-			// If the panelTo is a panel that has no content at this time, return now
-			if (panelTo === 'panel14' || panelTo === 'panel15') return;
+			if (panelTo === 'panel12') return;
 
 			var isLoaded = anti.utils.keyExists(panelTo, anti.panels.panelsLoaded);
 
@@ -322,7 +303,7 @@ anti = {
 			//$(thumbs[0]).find('a').addClass('current');
 
 			// Loop over the thumbnails to generate the slides for each
-			for (var i = 1; i < thumbs.length; i++) {
+			for (var i = 0; i < thumbs.length; i++) {
 				//if (i === 0) return;
 
 				var para = $(thumbs[i]).find('p'),
@@ -378,172 +359,118 @@ anti = {
 			});
 		}
 	},
-
-	parallax: function() {
-		// shim layer with setTimeout fallback
-		window.requestAnimFrame = (function() {
-		return  window.requestAnimationFrame       ||
-				window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame    ||
-				window.oRequestAnimationFrame      ||
-				window.msRequestAnimationFrame     ||
-				function( callback ) {
-				window.setTimeout(callback, 1000 / 60);
-			};
-		})();
-
-		(function(win, d) {
-			var	w = window.innerWidth,
-				h = d.height;
-
-			var imgs = [ 'wave-1', 'wave-4', 'wave-5', 'clouds-b', 'clouds-m', 'clouds-s' ];
-
-			var canvas = d.getElementById('#bgGame'),
-				ctx = canvas.getContext('2d');
-
-			var ticking = false;
-				lastScrollX = 0,
-				lastScrollY = 0;
-
-			function onResize() {
-				w = win.innerWidth;
-				h = d.height;
-
-				canvas.width = w;
-				canvas.height = h;
-
-				updateElements(win.scrollX, win.scrollY);
-			}
-
-			function onScroll(event) {
-				if (! ticking) {
-					ticking = true;
-
-					requestAnimFrame( updateElements );
-
-					lastScrollX = win.scrollX;
-					lastScrollY = win.scrollY;
-				}
-			}
-
-			function updateElements() {
-				var relativeX = lastScrollX / w,
-					relativeY = lastScrollY / h;
-
-				ctx.fillStyle = 'hsla(223, 100%, 80%, 0.7)';
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-				context.drawImage(blob1, 484, pos(254, -4400, relativeY, 0));
-				context.drawImage(blob2, 84, pos(954, -5400, relativeY, 0));
-				context.drawImage(blob3, 584, pos(1054, -3900, relativeY, 0));
-				context.drawImage(blob4, 44, pos(1400, -6900, relativeY, 0));
-				context.drawImage(blob5, -40, pos(1730, -5900, relativeY, 0));
-				context.drawImage(blob6, 325, pos(2860, -7900, relativeY, 0));
-				context.drawImage(blob7, 725, pos(2550, -4900, relativeY, 0));
-				context.drawImage(blob8, 570, pos(2300, -3700, relativeY, 0));
-				context.drawImage(blob9, 640, pos(3700, -9000, relativeY, 0));
-
-				ticking = false;
-			}
-
-			function pos(base, range, relY, offset) {
-				return base + limit(0, 1, relY - offset) * range;
-			}
-
-			function limit(min, max, value) {
-				return Math.max(min, Math.min(max, value));
-			}
-
-			win.addEventListener('load', onResize, false);
-			win.addEventListener('resize', onResize, false);
-			win.addEventListener('scroll', onScroll, false);
-
-		})(window, document);
-	},
-
-	time: function() {
-		// Change background depending on user's time
-		var d = new Date(),
-			t = d.getHours();
-
-		// If time is between 5am - 6am or 4pm - 5pm make dusk or dawn - steel blue
-		if (t < 6 && t > 5 || t < 17 && t > 16) {
-			$('body').addClass('morning').css({ background: 'hsla(215, 33%, 60%, 0.7)' });
-		}
-		// If time is between 9am and noon make it morning blue - bright skyblue
-		else if (t > 12 && t > 9) {
-			$('body').addClass('morning').css({ background: 'hsla(185, 100%, 51%, 0.7)' });
-		}
-		// If time is 7pm or later make it night - dark bg
-		else if (t > 19) {
-			$('body').addClass('night').css({ background: 'rgba(1, 1, 2, 0.7)' });
-		}
-		// If time is between 6am - 7am or 6pm – 7pm sunset - red orange bg
-		else if (t > 6 && t < 7 || t > 17 && t < 19) {
-			$('body').addClass('sunset').css({ background: 'rgba(208, 58, 236, 0.7)' });
-		}
-		// Otherwise default to norma day blue - deep blue
-		else {
-			$('body').addClass('day').css({ background: 'hsla(223, 100%, 80%, 0.7)' });
-		}
-	},
-
-	canvas: {
-		canvas: null,
-		ctx: null,
-
-		init: function() {
-			console.log('Canvas init');
-
-			this.canvas = document.getElementById('bgGame');
-			this.ctx = this.canvas.getContext('2d');
-			var winWidth = window.innerWidth,
-				winHeight = window.innerHeight;
-
-			this.canvas.width = winWidth;
-			this.canvas.height = winHeight;
-
-			this.draw();
-		},
-		draw: function() {
-			console.log(this);
-
-			this.ctx.beginPath();
-				this.ctx.fill();
-
-		},
-		update: function() {
-			console.log(this);
-
-		}
-	},
-
 	utils: {
-		prefix: function(obj, prop, value) {
-			var prefs = ['webkit', 'moz', 'o', 'ms'];
-			for (var pref in prefs) {
-				obj[prefs[pref] + prop] = value;
-			}
+		clientRect: function(el) {
+			if (! el) return;
+
+			return el.getBoundingClientRect();
 		},
 		resizeToScreen: function() {
-			// TODO: This is horrible. clean it up bigtime
+			var body = document.body;
 
-			anti.layers.layer3.pos[2] = window.innerWidth -(window.innerWidth * 0.20);
+			var w = {
+				width: window.innerWidth,
+				height: window.innerHeight
+			};
 
-			var thum = (anti.layers.layer3.pos[2] / 3.2) - 0.6 * 3 + 4;
+			$(body).css({
+				width: w.width,
+				height: w.height
+			});
 
-			//console.log(anti.layers, thum);
+			var	defaultNav = document.getElementById('default-nav'),
+				navUl = defaultNav.getElementsByTagName('ul')[0],
+				layer3 = document.getElementById('layer3'),
+				section = layer3.getElementsByTagName('section'),
+				navLi = defaultNav.getElementsByTagName('li');
+
+			var b = {
+				width: w.width,
+				height: w.height
+			},
+			lyr3 = {
+				width: b.width - (b.width * 0.15555), //anti.utils.clientRect(layer3).width,
+				height: b.height - (b.height * 0.1555), //anti.utils.clientRect(layer3).height
+				left: (b.width - anti.utils.clientRect(layer3).width) / 2, //anti.utils.clientRect(layer3).left
+				top: 0 //anti.utils.clientRect(layer3).top
+			},
+			sect = {
+				width: anti.utils.clientRect(section[0]).width,
+				height: b.height - (b.height * 0.179) //anti.utils.clientRect(section[0]).height
+			};
+
+
+			/**
+			 * Viewport size:
+			 */
+			if (w.width > 1030) {
+				console.log('wider than 1030px');
+				b.width = w.width;
+
+				lyr3.width = b.width - (b.width * 0.15555);
+				lyr3.left = (b.width - lyr3.width) / 2;
+			}
+			if (w.height > 930) {
+				console.log('greater than 930pm height');
+
+				b.height = w.height;
+				sect.height = b.height - (b.height * 0.179);
+			}
+
+			if (w.width < 1030) {
+				console.log('less than 1030px wide');
+
+				lyr3.width = b.width - 20;
+				lyr3.left = 10;
+				//anti.utils.clientRect(layer3).left
+			}
+			if (w.height < 900) {
+				console.log('less than 900px height');
+
+				sect.height = b.height - (b.height * 0.179);
+
+			}
+
+			if (w.width < 481) {
+				console.log(b.width);
+			}
+
+			if (b.width < 320) {
+				console.log(b.width);
+			}
 
 			$('body').css({
-				height: window.innerHeight
+				width: b.width,
+				height: b.height
 			});
-			$('#layer3').css({
-				width: window.innerWidth - (window.innerWidth * 0.20) + 'px',
-				height: window.innerHeight + 'px'
+			$(layer3).css({
+				width:  lyr3.width +'px',
+				height: lyr3.height +'px',
+				left:  lyr3.left +'px',
+				top: lyr3.top +'px'
+			});
+			$('img, iframe', '.gallery').css({
+				width: (b.height - (b.height * 0.05)) * 0.20 +'px'
 			});
 			$('.panel').css({
-				//width: window.innerWidth - (3 * $('#layer3').css('left').split('px')[0]) + 'px',
-				height: window.innerHeight - (window.innerHeight * 0.179) + 'px'
+				paddingLeft: 0.500 +'em',
+			});
+			$(section, defaultNav).css({
+				height: sect.height +'px'
+			});
+
+			// Resize the panel heights based on the body height * 0.179
+			$(section, defaultNav).css({
+				height: b.height - (b.height * 0.1556) + 'px'
+				//height: window.innerHeight - (window.innerHeight * 0.179) + 'px'
+			});
+
+			//anti.layers.layer3.pos[2] = window.innerWidth -(window.innerWidth * 0.20);
+			//var thum = (anti.layers.layer3.pos[2] / 3.2) - 0.6 * 3 + 4;
+
+			$('#layer3').css({
+				//width: window.innerWidth - (window.innerWidth * 0.20) + 'px',
+				//height: window.innerHeight + 'px'
 			});
 
 			// For the panels content like the defaults thumbnails,
@@ -556,38 +483,6 @@ anti = {
 				});
 			}
 
-			// If the window width has a smaller size then scale panel width up
-			if (window.innerWidth < 1280) {
-				$('#layer3').css({
-					left: '10px',
-					top: 0,
-					width: window.innerWidth - (window.innerWidth * 0.05) + 'px',
-					height: window.innerHeight - (window.innerHeight * 0.025) + 'px'
-				});
-				$('.panel .gallery img, .panel .gallery iframe').css({
-					width: (window.innerWidth - (window.innerWidth * 0.05)) * 0.20 +'px'
-				});
-				$('.panel').css({
-					paddingLeft: 0.500 +'em'
-					//height: window.innerHeight - (window.innerHeight * 0.05) + 'px'
-				});
-			}
-		},
-		isArray: function(array) {
-			return (array.constructor.toString().indexOf('Array') !== -1);
-		},
-		makeArray: function(obj) {
-			return Array.prototype.slice.call(obj);
-		},
-		randomKey: function(array) {
-			return array[Math.floor(Math.random() * array.length)];
-		},
-		keyExists: function(key, search) {
-			if (!search || (search.constructor !== Array && search.constructor !== Object)) { return false; }
-			for (var i = 0; i < search.length; i++) {
-				if (search[i] === key) { return true; }
-			}
-			return key in search;
 		},
 		extend: function(d, e, c) {
 			var b = function() {}, a;
@@ -605,6 +500,19 @@ anti = {
 					}
 				}
 			}
+		},
+		isArray: function(array) {
+			return (array.constructor.toString().indexOf('Array') !== -1);
+		},
+		randomKey: function(array) {
+			return array[Math.floor(Math.random() * array.length)];
+		},
+		keyExists: function(key, search) {
+			if (!search || (search.constructor !== Array && search.constructor !== Object)) { return false; }
+			for (var i = 0; i < search.length; i++) {
+				if (search[i] === key) { return true; }
+			}
+			return key in search;
 		},
 		createCache: function(requestFunction) {
 			var cache = {};
@@ -646,172 +554,3 @@ UTIL = {
 };
 //kick it all off here
 $(document).ready(UTIL.loadEvents);
-
-
-
-// /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// 	var reqAnimFrame = window.requestAnimationFrame 	  ||
-// 					   window.webkitRequestAnimationFrame ||
-// 					   window.mozRequestAnimationFrame 	  ||
-// 					   function(func) { setTimeout(func, 17); };
-
-// 	var html = document.documentElement;
-
-// 	function Flake() {
-// 		this.reset(maxX);
-// 	}
-
-// 	Flake.prototype = {
-// 		tick: function() {
-// 			var sidePhase = this.sidePhase = this.sideVel;
-// 			this.x += this.sideVel;
-// 			this.y += this.vel;
-// 		},
-// 		reset: function(maxX) {
-// 			var rand = Math.random(),
-// 				chanceOfLargeFlake = 0.15;
-
-// 			this.size = 2 + rand * 5;
-// 			this.vel = 3 + rand * 3;
-// 			this.alpha = 0.5 + rand * 0.8;
-
-// 			// random x position
-// 			this.x = rand * maxX;
-// 			this.y = -this.size;
-
-// 			// side to side movement
-// 			this.sideVel = (0.5 - rand) * this.vel;
-
-// 			return this;
-// 		}
-// 	};
-
-
-
-//   (function() {
-//     var canvas = document.createElement('canvas');
-//     var context = canvas.getContext('2d');
-//     var settleCanvas = document.createElement('canvas');
-//     var settleContext = context && settleCanvas.getContext('2d');
-//     var canvasStyle = canvas.style;
-//     var settleCanvasStyle = settleCanvas.style;
-//     var windowResized;
-//     var activeFlakes = [];
-//     var snowflakesPerPixelPerSecond = 0.05;
-//     var PIx2 = Math.PI*2;
-//     var assumedFps = 60;
-//     var settlePoint;
-//     var snowflakePool = [];
-
-//     function resizeCanvas() {
-//       settlePoint = Array(html.clientWidth);
-//       settleCanvas.width = canvas.width = html.clientWidth;
-//       settleCanvas.height = canvas.height = html.clientHeight;
-//     }
-
-//     function updateSettlePoints(flake) {
-//       var size = flake.size * 0.8; // reduce coral effect
-//       var xStart = Math.floor(flake.x - size);
-//       var range = size * 2;
-//       var newY;
-
-//       if (xStart < 0) {
-//         range += xStart;
-//         xStart = 0;
-//       }
-//       if (xStart + range > settlePoint.length) {
-//         range -= xStart + range - settlePoint.length;
-//       }
-
-//       for (var i = 0; i < range; i++) {
-//         newY = flake.y - (size * Math.cos( (i/range) * Math.PI - (Math.PI/2) ));
-//         settlePoint[i + xStart] = Math.min(settlePoint[i + xStart] || Infinity, newY);
-//       }
-//     }
-
-//     var flakesToCreate = 0;
-//     function frame() {
-//       flakesToCreate += (snowflakesPerPixelPerSecond / assumedFps) * canvas.width;
-//       var flakesThisFrame = Math.floor(flakesToCreate);
-//       flakesToCreate -= flakesThisFrame;
-
-//       // clear canvas
-//       if (windowResized) {
-//         resizeCanvas();
-//         windowResized = false;
-//       }
-//       else {
-//         context.clearRect(0, 0, canvas.width, canvas.height);
-//       }
-
-//       // add new flake?
-//       while ( flakesThisFrame-- ) {
-//         if (snowflakePool.length) {
-//           activeFlakes.push( snowflakePool.pop().reset(canvas.width) );
-//         }
-//         else {
-//           activeFlakes.push( new Snowflake(canvas.width) );
-//         }
-//       }
-
-//       var i = activeFlakes.length;
-//       var flake;
-
-//       // for each flake...
-//       while (i--) {
-//         flake = activeFlakes[i];
-//         flake.tick();
-
-//         // splice flake if it's now out of rendering zone
-//         if (flake.y >= canvas.height || flake.y >= settlePoint[Math.floor(flake.x)]) {
-//           snowflakePool.push.apply(snowflakePool, activeFlakes.splice(i, 1));
-//           // this flake effects our settle points
-//           if (flake.alpha > 0.8) {
-//             updateSettlePoints(flake);
-//           }
-//           settleContext.fillStyle='rgba(255, 255, 255, ' + flake.alpha + ')';
-//           settleContext.beginPath();
-//           settleContext.arc(flake.x, flake.y, flake.size, 0, PIx2, true);
-//           settleContext.closePath();
-//           settleContext.fill();
-//           continue;
-//         }
-
-//         // render to canvas
-//         context.fillStyle='rgba(255, 255, 255, ' + flake.alpha + ')';
-//         context.beginPath();
-//         context.arc(flake.x, flake.y, flake.size, 0, PIx2, true);
-//         context.closePath();
-//         context.fill();
-//       }
-//       requestAnimationFrame(frame);
-//     }
-
-//     if (context) {
-//       resizeCanvas();
-
-//       // style the canvas
-//       canvasStyle.position = 'fixed';
-//       canvasStyle.top = 0;
-//       canvasStyle.left = 0;
-//       canvasStyle.zIndex = 1138;
-//       canvasStyle['pointerEvents'] = 'none';
-
-//       settleCanvasStyle.cssText = canvasStyle.cssText;
-
-//       // watch out for resizes
-//       window.addEventListener('resize', function() {
-//         windowResized = true;
-//       }, false);
-
-//       // add it to the page & start animating
-//       document.body.appendChild(canvas);
-//       document.body.appendChild(settleCanvas);
-//       requestAnimationFrame(frame);
-//     }
-//   })();
-
-// })();
