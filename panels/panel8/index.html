@@ -1,28 +1,25 @@
 <article class="info">
-	<section id="retirelife" class="project-content">
-		<h2>Retire Life Blog</h2>
-		
-		<a href="http://www.retirelife.net/blog" target="_blank" class="project-link">View Site</a>
-		
-		<p>This is a WordPress 3.0 custom built theme for a blog that made use of the new custom post type feature which was added in WordPress 3.0, before WordPress 3.0 was even released yet.</p>
-		
+	<section id="webernote" class="project-content">
+		<h2>Webernote App</h2>
+
+		<a href="http://anti-code.com/webernote/" target="_blank" class="project-link">View App</a>
+
+		<p>This app is the result of a coding test I was asked to complete for an interview where I needed to build Evernote's desktop app as a web page, specifically using CSS to design it. I took it a step further than that.</p>
+
 		<ul class="gallery-thumbs">
 			<li>
-				<p>The site included the use of custom taxonomies, another newly added feature built into WordPress 3.0.</p>
-						
+				<p>I originally created for the interview test a functional note storing application, which mimics Evernote's UI. I used localStorage to store the data but decided that wasn't very scalable if I was going to actually make this thing worthwhile for me to make and function completely.</p>
+
+				<p>I then rebuilt the JavaScript code from the ground up using a different style of coding. I decided to go with <a href="http://firebase.com" target="_blank">Firebase</a> for storing the data and abstract away the backend coding so I could focus on the front-end. I modularized the JavaScript code and integrated user accounts via Twitter so others can use it and added the ability to add tags and notebooks to the notes, which will be used for filtering as well.</p>
+
+				<p>This entire app works and functions like a desktop app would and maybe even better since some things just work more how you would like them to than you would expect, but you don't notice it since it just works. When you type in a note, it's saving and displaying that content in center column on keyUp. When you click a note, you can then edit it. When you add or remove tags, it updates the left nav menu. It communicates in 4 different directions using the Firebase API and some trickery on my part too.</p>
+
 				<a href="#slide-1" class="current">
 					<img src="panels/panel11/thumb-1.png" alt="">
 				</a>
 			</li>
-			<li>
-				<p>The design included a mega dropdown menu which was for displaying the custom taxonomies that were tied together with the custom post type for the blog.</p>
-				
-				<a href="#slide-2">
-					<img src="panels/panel11/thumb-2.png" alt="">
-				</a>
-			</li>
 		</ul>
-	
+
 		<div class="gallery"></div>
 	</secton>
 </article>

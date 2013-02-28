@@ -20,7 +20,7 @@ anti = {
 	 */
 	panels: {
 		activePanel: 'panel5',
-		panelsLoaded: ['panel4', 'panel5'],
+		panelsLoaded: ['panel5'],
 		panelSliders: []
 	},
 	layers: {},
@@ -39,7 +39,7 @@ anti = {
 			var panelId = $(p[i]).attr('id');
 
 			// Skip the loading of panel5
-			if (i !== 3 && i !== 4) {
+			if (i !== 4) {
 				$(p[i]).html('<div class="panel-wrap"></div>');
 			}
 			anti.panels[panelId] = {};
@@ -75,6 +75,8 @@ anti = {
 			window.addEventListener('resize', anti.utils.resizeToScreen, false);
 		}
 		anti.utils.resizeToScreen();
+
+		//anti.lazyLoader(p);
 	},
 
 	lazyLoader: function(p) {
@@ -82,18 +84,17 @@ anti = {
 		for (var i = 0; i < p.length; i++) {
 			pid = p[i];
 
-			if (anti.utils.keyExists(pid.attr('id'), anti.panels.panelsLoaded)) {
-				clearTimeout(pid)
-				continue;
-			} else {
+			if (! anti.utils.keyExists(pid.attr('id'), anti.panels.panelsLoaded)) {
 				setTimeout(function(pid) {
 					anti.panelContent.loadPanel(pid.attr('id'));
 					anti.panels.panelsLoaded.push(pid.attr('id'));
 					anti.lazyLoader(pid);
 				}, 3000)
+			} else {
+				clearTimeout(pid)
+				continue;
 			}
 		}
-
 	},
 	panelNavigation: {
 		// Constants for nav functionality
@@ -252,7 +253,7 @@ anti = {
 	},
 	panelContent: {
 		loadPanel: function(panelTo) {
-			if (panelTo === 'panel12') return;
+			if (panelTo === 'panel14' || panelTo === 'panel15') return;
 
 			var isLoaded = anti.utils.keyExists(panelTo, anti.panels.panelsLoaded);
 
@@ -434,23 +435,6 @@ anti = {
 				});
 			}
 		},
-		extend: function(d, e, c) {
-			var b = function() {}, a;
-			b.prototype = e.prototype;
-			d.prototype = new b();
-			d.prototype.constructor = d;
-			d.superclass = e.prototype;
-			if (e.prototype.constructor == Object.prototype.constructor) {
-				e.prototype.constructor = e;
-			}
-			if (c) {
-				for (a in c) {
-					if (c.hasOwnPropterty(a)) {
-						d.prototype[a] = c[a];
-					}
-				}
-			}
-		},
 		isArray: function(array) {
 			return (array.constructor.toString().indexOf('Array') !== -1);
 		},
@@ -463,17 +447,6 @@ anti = {
 				if (search[i] === key) { return true; }
 			}
 			return key in search;
-		},
-		createCache: function(requestFunction) {
-			var cache = {};
-			return function(key, callback) {
-				if (!cache[key]) {
-					cache[key] = $.Deferred(function(defer) {
-						requestFunction(defer, key);
-					}).promise();
-				}
-				return cache[key].done(callback);
-			};
 		}
 	}
 };
