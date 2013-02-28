@@ -1,33 +1,132 @@
-<article class="info">
-	<section id="portcandle" class="project-content">
-		<h2>The Port Candle</h2>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Beach Body Coding Test - By Jared Williams (http://anti-code.com)</title>
+<meta name="description" content="An interview test for a Front-end Developer job for the company BeachBody that I created using HTML5, CSS3, JavaScript and jQuery library.">
+<meta name="viewport" content="width=device-width">
 
-		<a href="https://store.portcandle.com" target="_blank" class="project-link">View Shop</a>
-		<a href="http://portcandle.com" target="_blank" class="project-link">View Blog</a>
+<link rel="stylesheet" href="css/normalize.min.css">
+<link rel="stylesheet" href="css/main.css">
 
-		<p>For The Port Candle, I developed websites for the company's blog and also an eCommerce site for selling their products online. I also designed and created the company's entire brand and online presence.</p>
+<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
 
-		<ul class="gallery-thumbs">
-			<li>
-				<p>The shopping cart web site was developed with WordPress and a shop plugin. There is a custom post type for the products, and also one for special promotions that are offered occassionally.</p>
-				<a href="#slide-1" class="current">
-					<img src="panels/panel12/thumb-1.png" alt="">
-				</a>
-			</li>
-			<li>
-				<p>The products are displayed in two different ways, you can change the view to see both a grid view and list view.</p>
-				<a href="#slide-2">
-					<img src="panels/panel12/thumb-2.png" alt="">
-				</a>
-			</li>
-			<li>
-				<p>The blog has a custom post slider for teasing products, news or other announcements.</p>
-				<a href="#slide-3">
-					<img src="panels/panel12/thumb-3.png" alt="">
-				</a>
-			</li>
-		</ul>
+<header class="full-width">
+    <h1>Slideshow Test</h1>
 
-		<div class="gallery"></div>
-	</secton>
-</article>
+    <p>
+        This is built using HTML5, CSS3 and JavaScript, along with jQuery as the only library. There are CSS3 transitions for fading from image to image.
+    </p>
+</header>
+
+<div id="slider">
+    <div id="accordion">
+        <section id="eyes">
+            <h1><span class="expand">+</span> Eyes</h1>
+
+            <ul class="thumbs">
+                <li id="group-0" class="firstSlide"><a href="#eye1"><img src="assets/eye1t.jpg"></a></li>
+                <li><a href="#eye2"><img src="assets/eye2t.jpg"></a></li>
+                <li><a href="#eye3"><img src="assets/eye3t.jpg"></a></li>
+                <li id="group-1"><a href="#eye4"><img src="assets/eye4t.jpg"></a></li>
+                <li><a href="#eye5"><img src="assets/eye5t.jpg"></a></li>
+                <li><a href="#eye6"><img src="assets/eye6t.jpg"></a></li>
+                <li id="group-2"><a href="#eye7"><img src="assets/eye7t.jpg"></a></li>
+                <li><a href="#eye8"><img src="assets/eye8t.jpg"></a></li>
+                <li><a href="#eye9"><img src="assets/eye9t.jpg"></a></li>
+            </ul>
+
+            <ul class="bullets">
+                <li><a href="#group-0"></a></li>
+                <li><a href="#group-1"></a></li>
+                <li><a href="#group-2"></a></li>
+            </ul>
+        </section>
+
+        <section id="forehead">
+            <h1><span class="expand">+</span> Forehead</h1>
+
+            <ul class="thumbs">
+                <li><a href="#head10"><img src="assets/head10t.jpg"></a></li>
+                <li><a href="#head11"><img src="assets/head11t.jpg"></a></li>
+            </ul>
+        </section>
+
+        <section id="lips">
+            <h1><span class="expand">+</span> Lip Area</h1>
+
+            <ul class="thumbs">
+                <li class="lastSlide"><a href="#lip12"><img src="assets/lip12t.jpg"></a></li>
+            </ul>
+        </section>
+    </div>
+
+    <article id="slides">
+        <span class="arrows">
+            <a id="prev" href="#"><span>«</span></a>
+            <a id="next" href="#"><span>»</span></a>
+        </span>
+
+        <ul class="images">
+            <li id="eye1" class="first"><a href="#"><img src="assets/eye1.jpg"></a></li>
+            <li id="eye2"><a href="#"><img src="assets/eye2.jpg"></a></li>
+            <li id="eye3"><a href="#"><img src="assets/eye3.jpg"></a></li>
+            <li id="eye4"><a href="#"><img src="assets/eye4.jpg"></a></li>
+            <li id="eye5"><a href="#"><img src="assets/eye5.jpg"></a></li>
+            <li id="eye6"><a href="#"><img src="assets/eye6.jpg"></a></li>
+            <li id="eye7"><a href="#"><img src="assets/eye7.jpg"></a></li>
+            <li id="eye8"><a href="#"><img src="assets/eye8.jpg"></a></li>
+            <li id="eye9"><a href="#"><img src="assets/eye9.jpg"></a></li>
+            <li id="head10"><a href="#"><img src="assets/head10.jpg"></a></li>
+            <li id="head11"><a href="#"><img src="assets/head11.jpg"></a></li>
+            <li id="lip12" class="last"><a href="#"><img src="assets/lip12.jpg"></a></li>
+        </ul>
+    </article>
+</div>
+
+<aside class="full-width">
+    <h3>Action areas:</h3>
+
+    <ol>
+        <li>When any of the headers are pressed, that section is opened and the other sections will collapse.</li>
+        <li>The back and next arrow buttons will cycle through all the images (total of 12).
+            <ul>
+                <li>
+                    When at the first image of the Eyes section, pressing [&lt;] will bring you to the last image of the Lips section, and automatically close the Eyes section and open the Lips section.
+                </li>
+                <li>
+                    When at the last image of a section and the [&gt;] button is pressed, the first image of the next section is chosen and that new section opens and the old one closes.
+                </li>
+                <li>
+                    If [&gt;] is pressed while on the 3rd or 6th Eyes thumb, the next "page" of thumbs in the Eyes section will become visible with the next image highlighted. Same with [&lt;] for the 4th and 7th thumbmails going to the previous page.
+                </li>
+            </ul>
+        </li>
+        <li>
+            When a thumbmail is selected, it will be highlighted and the respective image will be shown on the right hand side. The thumbnail will also be highlighted upon hover.
+        </li>
+        <li>
+            The dots are indicators of which page you're on among the 3 pages of thumbnails. When pressed, it'll take you to the associated page.
+        </li>
+    </ol>
+</aside>
+
+<footer>
+    <p>&copy; 2012 - Created by Jared Williams. <a href="">View it on Github</a></p>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
